@@ -1,0 +1,26 @@
+[Desktop Entry]
+Actions=PDF;
+Icon=convertimages
+MimeType=application/postscript;
+Name[fr]=Service-Menu PDF
+Name[it]=Service-Menu converti PDF
+Name=convert PDF service menu
+Name[es]=Menú de pdf2djvu
+Name[ru]=Меню pdf в djvu
+ServiceTypes=KonqPopupMenu/Plugin
+Type=Service
+X-KDE-Submenu[fr]=Convertir en
+X-KDE-Submenu=Convert to
+X-KDE-Submenu[es]=Convertir a
+X-KDE-Submenu[it]=Converti in
+X-KDE-Submenu[ru]=&Преобразовать в
+
+
+[Desktop Action PDF]
+Name=PDF
+Icon=application-pdf
+Exec=doallwithpdf_servicemenu -la en convert_pdf %F
+Exec[fr]=doallwithpdf_servicemenu -la fr convert_pdf %F
+Exec[it]=doallwithpdf_servicemenu -la it convert_pdf %F
+Exec[de]=doallwithpdf_servicemenu -la de convert_pdf %F
+Exec[ru]=doallwithpdf_servicemenu -la ru convert_pdf %F

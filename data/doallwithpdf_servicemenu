@@ -1,0 +1,3944 @@
+#!/bin/bash
+#
+# 	Part of DoAllWithPDF_servicemenu version 1.2.0
+# 	Copyright (C) 2015 Mathieu PICOT <picotmathieu@gmail.com>
+#
+# 	This program is free software: you can redistribute it and/or modify
+# 	it under the terms of the GNU General Public License as published by
+# 	the Free Software Foundation, either version 3 of the License, or
+# 	(at your option) any later version.
+#
+# 	This program is distributed in the hope that it will be useful,
+# 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+# 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# 	GNU General Public License for more details.
+#
+# 	You should have received a copy of the GNU General Public License
+# 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+
+
+#### languages strings messages #################
+# Syntax for strings name is: msg_[$action]_$window_[$section]
+load_language(){
+#$1:$lang (2 letters)
+case "$1" in
+    en )
+        #dependencies
+        msg_depend_pdftk_poppler="pdftk & poppler-utils are needed. Please install these 2 packages"
+        msg_depend_pdfjam="pdfjam is missing. Please install pdfjam !"
+        msg_depend_qpdf="qpdf is missing. Please install qpdf !"
+        msg_depend_pdf2djvu="pdf2djvu is missing. Please install pdf2djvu !"
+        msg_depend_gs="gs is missing. Please install ghostscript !"
+        
+        #For Output file name
+        msg_dir_for_a_lot="PDFs"
+        msg_file_page="page"
+        msg_file_pages="pages"
+        msg_file_join="join of"
+        msg_file_odd="odd pages"
+        msg_file_even="even pages"
+        msg_file_burst="burst"
+        msg_file_left="left rotated"
+        msg_file_right="right rotated"
+        msg_file_overturn="overturned"
+        msg_file_restore="restored"
+        msg_file_repair="repaired"
+        msg_file_watermark="watermarked"
+        msg_file_stamp="stamped"
+        msg_file_locked="locked"
+        msg_file_unlocked="unlocked"
+        msg_file_uncompressed="uncompressed"
+        msg_file_compressed="compressed"
+        msg_file_attach="with attachment"
+        msg_file_unattach="attachments"
+        msg_file_book="in book"
+        msg_file_optimized="optimized"
+        
+        #Terminal Name and first echo
+        msg_term_title_PPM="Uncompressed image conversion"
+        msg_first_echo_PPM="Uncompressed image conversion of :"
+        msg_term_title_PNG="PNG image conversion" 
+        msg_first_echo_PNG="PNG image conversion of :"
+        msg_term_title_JPEG="JPEG image conversion" 
+        msg_first_echo_JPEG="JPEG image conversion of :"
+        msg_term_title_image_quality="Reduce PDF Image Quality"
+        msg_first_echo_image_quality="Reduce Image Quality on :"
+        msg_term_title_TIFF="TIFF fax conversion"
+        msg_first_echo_TIFF="TIFF fax conversion of :" 
+        msg_term_title_DjVu="DjVu Conversion"
+        msg_first_echo_DjVu="DjVu Conversion of :"
+        msg_term_title_OCR="Optical Character Recognition"
+        msg_first_echo_OCR="Optical Character Recognition on:"
+        msg_term_title_book="PDF Book"
+        msg_first_echo_book="Making books with :"
+        
+        #Notifications titles are in servicemenu_commons
+        
+        #Progress_Title
+        msg_progress_Add_title="Adding PDF"
+        msg_progress_extract_title="Extracting PDF"
+        msg_progress_rectoverso_title="Odd & Even PDF"
+        msg_progress_burst_title="Burst PDF"
+        msg_progress_rotate_title="Rotate PDF"
+        msg_progress_repair_title="Repair PDF"
+        msg_progress_unlock_title="Unlock PDF"
+        msg_progress_lock_title="Lock PDF"
+        msg_progress_compress_title="Compress PDF"
+        msg_progress_uncompress_title="Uncompress PDF"
+        msg_progress_watermark_title="Watermark PDF"
+        msg_progress_stamp_title="Stamp PDF"
+        msg_progress_attach_title="PDF Attach"
+        msg_progress_unattach_title="PDF Unattach"
+        msg_progress_repaginate_title="Repaginate PDF"
+        msg_progress_book_title="PDF book"
+        msg_progress_optimize_title="Optimize PDF"
+        msg_progress_Djvu_title="PDF > DjVu"
+        msg_progress_html_title="PDF > HTML"
+        msg_progress_ps_title="PDF > PS"
+        msg_progress_ppm_title="PDF > PPM"
+        msg_progress_pgm_title="PDF > PGM"
+        msg_progress_png_title="PDF > PNG"
+        msg_progress_jpeg_title="PDF > JPEG"
+        msg_progress_tiff_title="PDF > TIFF"
+        msg_progress_txt_title="PDF > TXT"
+        msg_progress_extract_images_title="PDF image extract"
+        msg_progress_metadata_title="PDF metadata"
+        msg_progress_OCR_title="OCR PDF"
+        
+        #unlock_it
+        msg_unlockit_enter_pw="Document %s is protected by a password."$'\n'"Enter the Administrator password or the user password:"
+        msg_unlockit_wrong_pw="Incorrect password!"
+        msg_unlockit_title="Crypted Document !"
+        msg_unlockit_badfile_title="PDF bad file"
+        msg_unlockit_badfile="\"%s\" seems to not be a valid PDF file !!!"
+        
+        #join
+        msg_join_other_files="Join an other file"
+        msg_join_order_title="Join Order"
+        msg_join_order="In which order do you want to join these documents?"
+        msg_join_toomuch_to_order1="Join maximum 3 files to choose join order !"
+        msg_join_toomuch_to_order2="Documents will be joined in that order :"
+        msg_join_oneFileOnly="Can't join one file only. <br>Please select not less than two files."
+        msg_join_oneFileOnly_title="Join an other file"
+        msg_join_shuffle="shuffle"
+        msg_join_shuffle_of="shuffle of"
+
+        #add
+        msg_add_openFile="Choose the document to add to selected document"
+        msg_add_openFile_forOne="Choose the document to add to \"%s\""
+        msg_Add_Before_After_forOne(){
+            echo "Do you want to add $1 <br>before or after $2 ?"
+        }
+        msg_Add_Before_After="Do you want to add %s <br>before or after selected documents ?"
+        msg_Add_Before_After_title="Before or after ?"
+        msg_Add_before="Before"
+        msg_Add_after="After"
+        
+        #extract
+        msg_extract_toomanypages="Document only contains %i pages, repeat !"
+        msg__extract_toomanypages_title="Page problem"
+        msg_extract_title="Extract range"
+        msg_extract_info1="To specify a page range, enter the number of the first and the last page of this range separated by a \"-\"."
+        msg_extract_info2="to specify a single page, enter the number of this page separated by a space."
+        msg_extract_info3="To specify only one page, just enter its number."
+        msg_extract_info4="Keyword \"end\" can be use to specify last page."
+        msg_extract_examples="Examples :"
+        msg_extract_ex_from4tolast="from page 4 to last page"
+        msg_extract_ex_2afrom4to7="page 2, and from page 4 to page 7"
+        msg_extract_ex_page3="only page 3"
+        msg_extract_ex_reverse="all pages in reverse order"
+        msg_extract_top(){
+            echo "Document $1 contains $2 pages."
+        }
+        msg_extract_bottom="Enter the pages to extract from %s :"
+
+        
+        #rotate
+        msg_rotate_choose_title="Rotate"
+        msg_rotate_choose="Which rotation do you want to do ?"
+        
+        #lock_unlock
+        msg_lock_or_unlock_title="Lock or unlock"
+        msg_lock_or_unlock="You selected encrypted documents and other unencrypted !"
+        msg_lock_files="Encrypt all documents"
+        msg_unlock_files="Decrypt all documents"
+        msg_lock_permissions_title="Select permissions"
+        msg_lock_permissions_text="Select permissions for selected documents"
+        msg_lock_permissions_printing_top="Top Quality Printing"
+        msg_lock_permissions_printing_degradedPrinting="Lower Quality Printing"
+        msg_lock_permissions_printing_modifyContents="Modify"
+        msg_lock_permissions_printing_CopyContents="Copy contents"
+        msg_lock_permissions_printing_ModifyAnnotations="Modify annotations"
+        
+        msg_lock_insertPasswd_title="Insert password"
+        msg_lock_insertPassword_own1="Master password is needed to set permissions."
+        msg_lock_insertPassword_own2="Please define master password for selected files:"
+        msg_lock_insertPassword_usr1="Set user password if you want to allow only trusted people to read this file."
+        msg_lock_insertPassword_usr2="The master password and the user password must be different." 
+        msg_lock_insertPassword_usr3="If you don't want this feature, <br>leave text field empty."
+        
+        #attach_unattach
+        msg_attach_or_extract_title="Manage attachments"
+        msg_attach_or_extract="Some files contains attachments. <br>What do you want to do ?"
+        msg_attach_extract="Extract attachments"
+        msg_attach_add="Add attachments"
+        msg_attach_openFile_title="Select files to attach to selected documents"
+        
+        #info ; fonts
+        msg_infofonts="You are about to launch %i windows, are you sure ?"
+        msg_infofonts_title="Many Windows !"
+        msg_fonts_title="Fonts of the document"
+        msg_info_title="Document information"
+        msg_fonts_no_fonts="\"%s\" doesn't contains any font !"
+        
+        #repaginate
+        msg_repaginate_choose1="How do you want to repaginate documents ?"
+        msg_repaginate_choose2="More options in <strong>custom</strong> :"
+        msg_repaginate_choose3="This tool brings together the pages of a document on a page, <br>for example to use less paper for printing."
+        msg_repaginate_option1="Number of columns and rows"
+        msg_repaginate_option2="Scale (size) of pages"
+        msg_repaginate_option3="frames between pages"
+        msg_repaginate_option4="Orientation Portrait/Landscape"
+        msg_repaginate_choose_title="Pagination"
+        msg_repaginate_2p="2 pages per sheet"
+        msg_repaginate_4p="4 pages per sheet"
+        msg_repaginate_8p="8 pages per sheet"
+        msg_repaginate_9p="9 pages per sheet"
+        msg_repaginate_custom="custom"
+        msg_repaginate_customwin_title="Custom \"N-upped\""
+        msg_repaginate_customwin="Set new proportions (columns X row):"
+        msg_repaginate_scale_title="Scale"
+        msg_repaginate_scale1="Which scale do you want to give to pages ?"
+        msg_repaginate_scale2="Default: 100%"
+        msg_repaginate_frames_title="Frames preference"
+        msg_repaginate_frames="Do you want frames for every pages ?"
+        msg_repaginate_frames_no="No"
+        msg_repaginate_frames_yes="Yes"
+        msg_repaginate_flatten_forms="Repagination flattens forms! <br>Do you want to continue ?"
+        msg_repaginate_flatten_forms_title="Flattening forms"
+        msg_repaginate_prelandscape_one="Do you want the output document is placed in portrait or landscape. <br>The most preferred mode is preselected."
+        msg_repaginate_prelandscape_many="Do you want the output documents are in portrait or landscape. <br>Automatic mode will select the most advantageous for each file."
+        msg_repaginate_landscape="Landscape"
+        msg_repaginate_portrait="Portrait"
+        msg_repaginate_prelandscape_title="Landscape or portrait"
+        msg_repaginate_automatic="automatic"
+        msg_repaginate_multiply_pages="Do you want to multiply pages from input file <br>in order to fill the output document ?"
+        msg_repaginate_multiply_pages_title="Multiplication pages"
+        
+        #margin
+        msg_margin_a4="output documents will be A4 (21x29,7) !"
+        
+        #book
+        msg_book_window_title="PDF book"
+        msg_book_window_text="Putting PDF documents in book"
+        msg_book_number_of_pages_combo="Number of pages per sheet<br>(2sides)"
+        msg_book_folding_combo_list=("Folding" "On the left" "On the right" "At top")
+        msg_book_papersize_combo_list=("PaperSize" "Multiply" "Same as document")
+        msg_book_gutter="Gutter :"
+        msg_book_gutter_tooltip="When the pages of the booklet are folded inside pages will slightly exceed of external pages.<br>
+Once the cut is exceeded, the inside pages will therefore have a greater margin.<br>
+The gutter shifts inside pages a little outwards.<br>
+Count 0.50 mm for standard paper 80g/m²"
+        msg_book_reverse_odd="Put down odd pages of the book"
+        
+        msg_book_top_last_title="Last page orientation"
+        msg_book_top_last_text="<p>You have chosen to build a booklet that folds from above<br>(like a notebook).</p><p>In what direction should face the last page?</p><br>"
+        msg_book_top_last_logic="in the continuity of the reading (logical)"
+        msg_book_top_last_aesthetic="In the direction of the first page (aesthetic)"
+        
+
+        msg_book_missing_emptyfile="Can not find the file empty.pdf"
+        msg_book_missing_emptyfile_title="Missing File !"
+        msg_book_wherewhite_one(){
+        echo "Document \"$1\" contains $2 pages. 
+So, the book must contains $3 pages. 
+At which position do you want to place the white page?"
+        }
+        msg_book_wherewhite_many(){
+        echo "Document \"$1\" contains $2 pages. 
+So, the book must contains $4 pages. 
+At which position do you want to place the $3 white pages ?"
+        }
+        
+        msg_book_placing_blank="placing blank pages"
+        msg_book_add_margin_odd="adding margin, odd pages:"
+        msg_book_add_margin_even="adding margin, even pages:"
+        msg_book_add_margin_last="adding margin, last page:"
+        msg_book_rebuild_document="re-build document"
+        msg_book_burst_document="burst document"
+        msg_book_manage_gutters="managing gutters"
+        msg_book_make_final_doc="making final document"
+        msg_book_reverse_odd_term="reversing odd pages"
+        
+        #Convert to Djvu
+        msg_djvu_dpi_title="Document resolution"
+        msg_djvu_dpi="Please write DPI resolution for the document. Right range values is from 75 to 6000. Default is 300 DPI."
+        msg_djvu_options_title="Advanced options"
+        msg_djvu_options="Advanced options"
+        msg_djvu_Monochrome="Render as monochrome bitmaps."
+        msg_djvu_noMetadata="Don´t extract the metadata."
+        msg_djvu_noHyperlinks="Don´t extract hyperlinks."
+        
+        #Convert to html
+        msg_html_options_title="Preferences"
+        msg_html_options="Select options for conversion"
+        msg_html_ReplaceLinks="Excange .pdf links with .html"
+        msg_html_NoImages="Ignore images"
+        msg_html_NoFrames="Generate no frames (all in one page)"
+        msg_html_ForceHiddenText="Force hidden text extraction"
+        msg_html_NoMerge="Do not merge paragraphs"
+        msg_html_NoDRM="Override document DRM (Digital Restrictions Management) setting"
+        
+        #Convert to PostScript
+        msg_PS_options_title="Preferences"
+        msg_PS_options="Select options for conversion to PostScript"
+        msg_PS_options_1="Don't embed Type 1 fonts"
+        msg_PS_options_2="Don't embed TrueType fonts"
+        msg_PS_options_3="Don't embed CID PostScript fonts"
+        msg_PS_options_4="Don't embed CID TrueType fonts"
+        msg_PS_options_5="Expand pages smaller than the paper size"
+        msg_PS_options_6="Don't shrink pages larger than the paper size"
+        msg_PS_options_7="Don't center pages smaller than the paper size"
+        msg_PS_options_8="Enable duplex printing"
+
+        msg_PS_level_options_title="Postscript level"
+        msg_PS_level_options="Select PostScript level to generate"
+        msg_PS_level_options_1="Level 1 PostScript"
+        msg_PS_level_options_2="Level 2 PostScript (default)"
+        msg_PS_level_options_3="Level 3 PostScript"
+        msg_PS_level_options_1sep="Level 1 separable PostScript"
+        msg_PS_level_options_2sep="Level 2 separable PostScript"
+        msg_PS_level_options_3sep="Level 3 separable PostScript"
+        
+        #convert_image
+        msg_image_DPI_title="Resolution, in DPI"
+        msg_image_DPI="Set resolution in DPI (default is 150):"
+        msg_image_DPI_custom="Custom resolution"
+        msg_image_DPI_echo_converting="converting to %s"
+        
+        #convert to PPM
+        msg_PPM_options_title="Preferences"
+        msg_PPM_options="Select color options for conversion to PPM"
+        msg_PPM_options_color="generate a color PPM file"
+        msg_PPM_options_gray="generate a grayscale PGM file"
+        msg_PPM_options_mono="generate a monochrome PBM file"
+        
+        #convert to PNG
+        msg_PNG_options_title="Colors & transparency"
+        msg_PNG_options="Choose Colors or transparency options for PNG format"
+        msg_PNG_16M="Full colors"
+        msg_PNG_256="256 colors"
+        msg_PNG_16="16 colors"
+        msg_PNG_Gray="Gray tones"
+        msg_PNG_Mono="mono (black and white)"
+        msg_PNG_alpha="With transparency"
+        
+        #convert to JPEG
+        msg_JPEG_options_title="Colors"
+        msg_JPEG_options="Choose Colors options for JPEG format"
+        
+        #convert to TIFF
+        msg_TIFF_options_title="TIFF Encoding Options"
+        msg_TIFF_options="Choose TIFF encoding: "
+        msg_TIFF_tiffg3="G3 Encoding"
+        msg_TIFF_tiffg32d="G32D Encoding"
+        msg_TIFF_tiffg4="G4 Encoding"
+        
+        #image_quality
+        msg_image_quality_colors_title="Colors"
+        msg_image_quality_colors="Keep colors or convert document to grayscale ?"
+        msg_image_quality_reduction="Image quality reduction"
+        
+        #convert to TEXT
+        msg_TEXT_options_title="Preferences"
+        msg_TEXT_options="Select options for conversion to text"
+        msg_TEXT_layout="Maintain the  original physical layout"
+        msg_TEXT_html="Generate a simple HTML file"
+        msg_TEXT_NoBreaks="Don’t insert page breaks (all in one page)"
+        
+        #extract_images
+        msg_ext_images_no_images_title="Document without image"
+        msg_ext_images_no_images="There is no image in :"
+        
+        #metadata
+        msg_metadata_Asked="Which metadatas do you want to edit ? "
+        msg_metadata_Author="Author"
+        msg_metadata_Creator="Creator"
+        msg_metadata_Producer="Producer"
+        msg_metadata_Subject="Subject"
+        msg_metadata_Keywords="Keywords"
+        msg_metadata_Title="Title"
+        msg_file_metadata="metadatas"
+        msg_metadata_Ask_title="Title for \"%s\" :"
+    ;;
+    fr )
+
+        #dependencies
+        msg_depend_pdftk_poppler="Les programmes pdftk et poppler-utils sont requis."$'\n'"Installez d'abord ces deux paquets"
+        msg_depend_pdfjam="Le programme pdfjam est requis. Installez d'abord pdfjam !"
+        msg_depend_qpdf="Le programme qpdf est requis. Installez d'abord qpdf !"
+        msg_depend_pdf2djvu="Le programme pdf2djvu est requis. Installez d'abord pdf2djvu !"
+        msg_depend_gs="Le programme gs est requis. Installez  ghostscript !"
+        
+        #Pour nommer les fichiers de sortie
+        msg_dir_for_a_lot="PDFs"
+        msg_file_page="page"
+        msg_file_pages="pages"
+        msg_file_join="assemblage de"
+        msg_file_odd="recto"
+        msg_file_even="verso"
+        msg_file_burst="éclaté"
+        msg_file_left="rotation gauche"
+        msg_file_right="rotation droite"
+        msg_file_overturn="renversé"
+        msg_file_restore="rotation originale"
+        msg_file_repair="réparé"
+        msg_file_watermark="filigrané"
+        msg_file_stamp="timbré"
+        msg_file_locked="chiffré"
+        msg_file_unlocked="déchiffré"
+        msg_file_uncompressed="décompressé"
+        msg_file_compressed="compressé"
+        msg_file_attach="+pj"
+        msg_file_unattach="fichiers intégrés"
+        msg_file_book="en livret"
+        msg_file_optimized="optimisé"
+        
+        #Titre de la konsole et premier echo
+        msg_term_title_PPM="Conversion en images non compressées"
+        msg_first_echo_PPM="Conversion en images non compressées de :"
+        msg_term_title_PNG="Conversion en images PNG" 
+        msg_first_echo_PNG="Conversion en images PNG de :"
+        msg_term_title_JPEG="Conversion en images JPEG" 
+        msg_first_echo_JPEG="Conversion en images JPEG de :"
+        msg_term_title_image_quality="Reduire la qualité des images"
+        msg_first_echo_image_quality="Reduire la qualité des images sur :"
+        msg_term_title_TIFF="Conversion en fax TIFF"
+        msg_first_echo_TIFF="Conversion en fax TIFF de :" 
+        msg_term_title_DjVu="Conversion en DjVu"
+        msg_first_echo_DjVu="Conversion en DjVu de :"
+        msg_term_title_OCR="Reconnaissance Optique des Caractères"
+        msg_first_echo_OCR="Reconnaissance Optique des Caractères sur :"
+        msg_term_title_book="PDF en livret"
+        msg_first_echo_book="Fabrication de livrets à partir de :"
+        
+        #Titres des notifications dans servicemenu_commons
+        
+        #Titre des barre de progression
+        msg_progress_Add_title="Ajout PDF"
+        msg_progress_extract_title="Extraction PDF"
+        msg_progress_rectoverso_title="PDF recto verso"
+        msg_progress_burst_title="Éclatement PDF"
+        msg_progress_rotate_title="Rotation PDF"
+        msg_progress_repair_title="Réparation PDF"
+        msg_progress_unlock_title="Déchiffrage PDF"
+        msg_progress_lock_title="Chiffrage PDF"
+        msg_progress_compress_title="Compression PDF"
+        msg_progress_uncompress_title="Décompression PDF"
+        msg_progress_watermark_title="Filigrane PDF"
+        msg_progress_stamp_title="Timbre PDF"
+        msg_progress_attach_title="PDF Intégrer fichiers"
+        msg_progress_unattach_title="PDF Extraire fichiers"
+        msg_progress_repaginate_title="Repaginer PDF"
+        msg_progress_book_title="PDF en livret"
+        msg_progress_optimize_title="Optimiser PDF"
+        msg_progress_Djvu_title="PDF > DjVu"
+        msg_progress_html_title="PDF > HTML"
+        msg_progress_ps_title="PDF > PS"
+        msg_progress_ppm_title="PDF > PPM"
+        msg_progress_pgm_title="PDF > PGM"
+        msg_progress_png_title="PDF > PNG"
+        msg_progress_jpeg_title="PDF > JPEG"
+        msg_progress_tiff_title="PDF > TIFF"
+        msg_progress_txt_title="PDF > TXT"
+        msg_progress_extract_images_title="PDF extraire images"
+        msg_progress_metadata_title="PDF metadonnées"
+        msg_progress_OCR_title="ROC PDF"
+        
+        #unlock_it
+        msg_unlockit_enter_pw="Le document %s est protégé par un mot de passe."$'\n'"Entrez le mot de passe Administrateur ou le mot de passe utilisateur:"
+        msg_unlockit_wrong_pw="Mot de passe incorrect !"
+        msg_unlockit_title="Document Chiffré !"
+        msg_unlockit_badfile_title="Mauvais fichier PDF"
+        msg_unlockit_badfile="\"%s\" semble ne pas être un fichier PDF valide !!!"
+        
+        #join
+        msg_join_order_title="Ordre d'assemblage"
+        msg_join_order="Dans quel ordre voulez-vous assembler ces documents ?"
+        msg_join_toomuch_to_order1="Joignez au maximum 3 fichiers pour choisir l'ordre d'assemblage !"
+        msg_join_toomuch_to_order2="Les documents seront assemblés selon cet ordre :"
+        msg_join_oneFileOnly="Impossible de joindre un seul fichier. <br>Sélectionnez au moins deux fichiers !"
+        msg_join_oneFileOnly_title="Joindre un autre fichier"
+        msg_join_other_files="Joindre un autre fichier"
+        msg_join_shuffle="mélange"
+        msg_join_shuffle_of="mélange de"
+        
+        #add
+        msg_add_openFile="Choisissez le document à ajouter aux documents sélectionnés"
+        msg_add_openFile_forOne="Choisissez le document à ajouter à \"%s\""
+        msg_Add_Before_After_forOne(){
+            echo "Voulez-vous ajouter $1 <br>avant ou après $2 ?"
+        }
+        msg_Add_Before_After="Voulez-vous ajouter %s <br>avant ou après les documents sélectionnés ?"
+        msg_Add_Before_After_title="Avant ou Après ?"
+        msg_Add_before="Avant"
+        msg_Add_after="Après"
+        
+        #extract
+        msg_extract_toomanypages="Le document ne contient que %i pages. recommencez !"
+        msg_extract_toomanypages_title="Problème de pages"
+        msg_extract_title="Sélection de pages"
+        msg_extract_info1="Pour désigner toute une plage de pages, saisissez le numéro de la première et de la dernière page de cette plage séparés par un \"-\"."
+        msg_extract_info2="Pour désigner une page isolée, inscrivez son numéro séparé par un espace."
+        msg_extract_info3="Pour désigner une seule page, entrez seulement le numéro de cette page."
+        msg_extract_info4="Le mot-clé 'end' peut être utilisé pour désigner la dernière page."
+        msg_extract_examples="Exemples :"
+        msg_extract_ex_from4tolast="de la page 4 à la dernière page"
+        msg_extract_ex_2afrom4to7="la page 2 et les pages 4 à 7"
+        msg_extract_ex_page3="seulement la page 3"
+        msg_extract_ex_reverse="toutes les pages dans l'ordre inverse"
+        msg_extract_top(){
+            echo "Le document $1 contient $2 pages."
+        }
+        msg_extract_bottom="Saisissez les pages à extraire de %s :"
+        
+        #rotate
+        msg_rotate_choose_title="Rotation"
+        msg_rotate_choose="Quelle rotation voulez-vous effectuer ?"
+        
+        #lock & unlock
+        msg_lock_or_unlock_title="Chiffrer ou déchiffrer"
+        msg_lock_or_unlock="Vous avez sélectionné des documents chiffrés et d'autres non chiffrés !"
+        msg_lock_files="Chiffrer tous les documents"
+        msg_unlock_files="Déchiffrer tous les documents"
+        msg_lock_permissions_title="Choisissez les permissions"
+        msg_lock_permissions_text="Choisissez les permissions pour les documents sélectionnés :"
+        msg_lock_permissions_printing_top="Impression haute qualité"
+        msg_lock_permissions_printing_degradedPrinting="Impression basse qualité"
+        msg_lock_permissions_printing_modifyContents="Modifier"
+        msg_lock_permissions_printing_CopyContents="contenu de la copie"
+        msg_lock_permissions_printing_ModifyAnnotations="Modifier les annotations"
+        
+        msg_lock_insertPasswd_title="Insérer un mot de passe"
+        msg_lock_insertPassword_own1="Un mot de passe Administrateur est nécessaire pour définir les permissions."
+        msg_lock_insertPassword_own2="Définissez un mot de passe Administrateur pour les documents sélectionnés:"
+        msg_lock_insertPassword_usr1="Définissez un mot de passe utilisateur si vous voulez permettre de lire ce fichier uniquement à des personnes de confiance."
+        msg_lock_insertPassword_usr2="Le mot de passe Administrateur et le mot de passe utilisateur doivent être différents."
+        msg_lock_insertPassword_usr3="Si vous ne voulez pas de cette fonction, <br>laissez le champ de texte vide."
+        
+        #attach & unattach
+        msg_attach_or_extract_title="Fichiers Intégrés"
+        msg_attach_or_extract="Des documents contiennent des fichiers intégrés. <br>Que voulez-vous faire ?"
+        msg_attach_extract="Extraire les fichiers intégrés"
+        msg_attach_add="Ajouter des fichiers intégrés"
+        msg_attach_openFile_title="Selectionnez les fichiers à intégrer aux documents sélectionnés"
+        
+        #info & Fonts
+        msg_infofonts="Vous allez afficher %i fenêtres, êtes vous sûr ?"
+        msg_infofonts_title="Nombreuses fenêtres !"
+        msg_fonts_title="Polices du document"
+        msg_info_title="Informations sur le document"
+        msg_fonts_no_fonts="Le document \"%s\" ne contient aucune police !"
+        
+        #repaginate
+        msg_repaginate_choose1="Comment voulez-vous repaginer les documents ?"
+        msg_repaginate_choose2="Plus d'options dans <strong>pagination personnalisée</strong> :"
+        msg_repaginate_choose3="Cet outil permet de rassembler des pages d'un document sur une page, <br>par exemple pour consommer moins de feuilles à l'impression."
+        msg_repaginate_option1="Nombre de colonnes et de lignes"
+        msg_repaginate_option2="Échelle (taille) des pages"
+        msg_repaginate_option3="bordures entre les pages"
+        msg_repaginate_option4="Orientation Portrait/Paysage"
+        msg_repaginate_choose_title="Pagination"
+        msg_repaginate_2p="2 pages par feuille"
+        msg_repaginate_4p="4 pages par feuille"
+        msg_repaginate_8p="8 pages par feuille"
+        msg_repaginate_9p="9 pages par feuille"
+        msg_repaginate_custom="pagination personalisée"
+        msg_repaginate_customwin_title="Pagination personalisée"
+        msg_repaginate_customwin="Proportions (colonnes X lignes):"
+        msg_repaginate_scale_title="Échelle"
+        msg_repaginate_scale1="Quelle échelle voulez-vous donner aux pages ?" 
+        msg_repaginate_scale2="Valeur par défaut: 100%"
+        msg_repaginate_frames_title="Bordures"
+        msg_repaginate_frames="Voulez-vous imprimer des bordures entre chaque page ?"
+        msg_repaginate_frames_no="Non"
+        msg_repaginate_frames_yes="Oui"
+        msg_repaginate_flatten_forms="La repagination aplatit les formulaires ! <br>Voulez-vous continuer ?"
+        msg_repaginate_flatten_forms_title="Applatissement des formulaires"
+        msg_repaginate_prelandscape_one="Voulez-vous que les documents de sortie soit mis en portrait ou en paysage. <br>Le mode le plus avantageux est préselectionné."
+        msg_prelandscape_many="Voulez-vous que les documents de sortie soient mis en portrait ou en paysage. <br>Le mode automatique sélectionnera le plus avantageux pour chacun des fichiers."
+        msg_repaginate_landscape="Paysage"
+        msg_repaginate_portrait="Portrait"
+        msg_repaginate_prelandscape_title="Paysage ou portrait"
+        msg_repaginate_automatic="automatique"
+        msg_repaginate_multiply_pages="Voulez-vous multiplier les pages du document d'origine <br>pour remplir le document de sortie ?"
+        msg_repaginate_multiply_pages_title="Multiplication des pages"
+        
+        #margin
+        msg_margin_a4="Les documents de sortie seront au format A4 (21x29,7) !"
+        
+        
+        #book
+        msg_book_window_title="PDF en livret"
+        msg_book_window_text="Mise en livret de documents PDF"
+        msg_book_number_of_pages_combo="Nombre de pages par feuille<br>(recto+verso)"
+        msg_book_folding_combo_list=("Pliure" "À gauche" "À droite (arabe, perse ...)" "En haut")
+        msg_book_papersize_combo_list=("Taille du papier" "Multiplié" "Comme le document")
+        msg_book_gutter="Gouttière :"
+        msg_book_gutter_tooltip="Lorsque les pages du livret sont pliées, les pages intérieures vont légèrement dépasser des pages     exterieures. <br>
+Une fois ce dépassement coupé, les pages exterieures auront donc une marge plus importante.<br>
+La gouttière permet de décaler les pages exterieures un peu plus vers l'exterieur.<br>
+Comptez 0.50 mm pour du papier standard 80g/m²"
+        msg_book_reverse_odd="Renverser les pages impaires du livret"
+        
+        
+        msg_book_top_last_title="Sens de la dernière page"
+        msg_book_top_last_text="<p>Vous avez choisi de construire un livret qui se plie par le dessus<br>(comme un calepin).</p><p>Dans quel sens doit être orienté la dernière page ?</p><br>"
+        msg_book_top_last_logic="dans la continuité de la lecture (logique)"
+        msg_book_top_last_aesthetic="Dans le sens de la première page (esthétique)"
+        
+        
+        msg_book_missing_emptyfile="Impossible de trouver le fichier empty.pdf !"
+        msg_book_missing_emptyfile_title="Fichier manquant"
+        msg_book_wherewhite_one(){
+        echo "Le document $1 contient $2 pages.<br>
+Le livret doit donc contenir $3 pages.<br><br>
+À quelle position voulez-vous mettre la page blanche ?"
+        }
+        msg_book_wherewhite_many(){
+        echo "Le document $1 contient $2 pages. <br>
+Le livret doit donc contenir $4 pages. <br>
+À quelles positions voulez-vous mettre les $3 pages blanches ?"
+        }
+        msg_book_wherewhite_title="Position des pages blanches"
+        
+        msg_book_placing_blank="placement des pages blanches"
+        msg_book_add_margin_odd="ajout de marges, pages impaires:"
+        msg_book_add_margin_even="ajout de marges, pages impaires:"
+        msg_book_add_margin_last="ajout de marges, dernière page:"
+        msg_book_rebuild_document="reconstruction du document"
+        msg_book_burst_document="Éclatement du document"
+        msg_book_manage_gutters="gestion des gouttières"
+        msg_book_make_final_doc="fabrication du document final"
+        msg_book_reverse_odd_term="retournement des pages impaires"
+      
+        #convertir en djvu
+        msg_djvu_dpi_title="Résolution du document"
+        msg_djvu_dpi="Saisissez la résolution DPI pour le document. Les valeurs vont de 75 à 6000. La résolution par défaut est de 300 DPI."
+        msg_djvu_options_title="Options avancées"
+        msg_djvu_options="Options avancées"
+        msg_djvu_Monochrome="Rendu bitmaps monochrome"
+        msg_djvu_noMetadata="Ne pas extraire les métadonnées."
+        msg_djvu_noHyperlinks="Ne pas extraire les hyperliens."
+    
+        #convertir en html
+        msg_html_options_title="Préferences"
+        msg_html_options="Choisissez les options de conversion html"
+        msg_html_ReplaceLinks="Changer les liens .pdf en .html"
+        msg_html_NoImages="Ignorer les images"
+        msg_html_NoFrames="Ne pas générer de cadres (tout dans une seule page)"
+        msg_html_ForceHiddenText="Forcer l'extraction de textes cachés"
+        msg_html_NoMerge="Ne pas fusionner les paragraphes"
+        msg_html_NoDRM="Ne pas retranscrire les DRM (Digital Restrictions Management)"
+        
+        #Convert to PostScript
+        msg_PS_options_title="Préferences"
+        msg_PS_options="Sélectionnez les options de conversion en PostScript"
+        msg_PS_options_1="Ne pas incorporer les polices Type 1"
+        msg_PS_options_2="Ne pas incorporer les polices TrueType"
+        msg_PS_options_3="Ne pas incorporer les polices CID PostScript"
+        msg_PS_options_4="Ne pas incorporer les polices CID TrueType"
+        msg_PS_options_5="Développer des pages plus petites que la taille du papier"
+        msg_PS_options_6="Ne pas réduire les pages plus grandes que le format de papier"
+        msg_PS_options_7="Ne pas centrer les pages plus petites que la taille du papier"
+        msg_PS_options_8="Activer l'impression recto verso"
+
+        msg_PS_level_options_title="Niveau du Postscript"
+        msg_PS_level_options="Sélectionnez le niveau du PostScript à générer"
+        msg_PS_level_options_1="PostScript Niveau 1"
+        msg_PS_level_options_2="PostScript Niveau 2 (par défaut)"
+        msg_PS_level_options_3="PostScript Niveau 3"
+        msg_PS_level_options_1sep="PostScript Niveau 1 séparable"
+        msg_PS_level_options_2sep="PostScript Niveau 2 séparable"
+        msg_PS_level_options_3sep="PostScript Niveau 3 séparable"
+        
+        #convert_image
+        msg_image_DPI_title="Résolution, en DPI"
+        msg_image_DPI="Réglez la résolution en DPI (par défaut: 150):"
+        msg_image_DPI_custom="Résolution personnalisée"
+        msg_image_DPI_echo_converting="conversion en %s"
+        
+        #convert to PPM
+        msg_PPM_options_title="Préferences"
+        msg_PPM_options="Sélectionnez les options de conversion en image PPM"
+        msg_PPM_options_color="générer un fichier PPM couleurs"
+        msg_PPM_options_gray="générer un fichier PGM niveaux de gris"
+        msg_PPM_options_mono="générer un fichier PBM noir et blanc"
+        
+        #convert to PNG
+        msg_PNG_options_title="Couleurs et transparence"
+        msg_PNG_options="Choisissez les options de couleurs ou de transparence pour le format PNG"
+        msg_PNG_16M="Toutes les couleurs"
+        msg_PNG_256="256 couleurs"
+        msg_PNG_16="16 couleurs"
+        msg_PNG_Gray="Nuances de gris"
+        msg_PNG_Mono="Noir & Blanc"
+        msg_PNG_alpha="Avec transparence"
+        
+        #convert to JPEG
+        msg_JPEG_options_title="Couleurs"
+        msg_JPEG_options="Choisissez les options de couleur pour le format JPEG"
+        
+        #convert to TIFF
+        msg_TIFF_options_title="Options d'encodage TIFF"
+        msg_TIFF_options="Choisissez l'encodage TIFF: "
+        msg_TIFF_tiffg3="Encodage G3"
+        msg_TIFF_tiffg32d="Encodage G32D"
+        msg_TIFF_tiffg4="Encodage G4"
+        
+        #image_quality
+        msg_image_quality_colors_title="Couleurs"
+        msg_image_quality_colors="Garder les images en couleur ou convertir les documents en niveaux de gris ?"
+        msg_image_quality_reduction="Réduction de la qualité des images"
+        
+        #convert to TEXT
+        msg_TEXT_options_title="Préferences"
+        msg_TEXT_options="Sélectionnez les options de conversion en texte"
+        msg_TEXT_layout="Maintenir la disposition physique d'origine"
+        msg_TEXT_html="Générer un simple fichier HTML"
+        msg_TEXT_NoBreaks="Ne pas insérer des sauts de page (tout dans une seule page)"
+        
+        #extract_images
+        msg_ext_images_no_images_title="Documents sans image"
+        msg_ext_images_no_images="Il n'y a pas d'image dans :"
+        
+        #metadata
+        msg_metadata_Asked="Quelles metadonnées voulez-vous éditer: "
+        msg_metadata_Asked_title="Métadonnées"
+        msg_metadata_Author="Auteur"
+        msg_metadata_Creator="Créateur"
+        msg_metadata_Producer="Producteur"
+        msg_metadata_Subject="Sujet"
+        msg_metadata_Keywords="Mots Clés"
+        msg_metadata_Title="Titre"
+        msg_file_metadata="métadonnées"
+        msg_metadata_Ask_title="Titre pour \"$1\" :"
+        msg_metadata_Ask_title_title="Titre"
+  ;;
+    it )
+        #dependencies
+        msg_depend_pdftk_poppler="Sono necessari pdftk e poppler-utils. Installa questi 2 pacchetti"
+        msg_depend_pdfjam="manca pdfjam. Installa pdfjam !"
+        msg_depend_qpdf="manca qpdf. Installa qpdf !"
+        msg_depend_pdf2djvu="manca pdf2djvu. Installa pdf2djvu !"
+        msg_depend_gs="manca gs. Installa ghostscript !"
+        
+        msg_file_page="pagina"
+        msg_file_pages="pagine"
+        msg_file_join="unione dei documenti"
+        msg_file_odd="pagine dispari"
+        msg_file_even="pagine pari"
+        msg_file_burst="timbra"
+        msg_file_left="ruotato a sinistra"
+        msg_file_right="ruotato a destra"
+        msg_file_overturn="capovolto"
+        msg_file_restore="ripristinato"
+        msg_file_repair="riparato"
+        msg_file_watermark="con filigrana"
+        msg_file_stamp="timbrato"
+        msg_file_locked="protetto"
+        msg_file_unlocked="sprotetto"
+        msg_file_uncompressed="scompattato"
+        msg_file_compressed="compresso"
+        msg_file_attach="con allegato"
+        msg_file_unattach="allegati"
+        msg_file_book="a libro"
+        msg_file_optimized="ottimizzato"
+        
+        #Terminal Name and first echo
+        msg_term_title_PPM="Conversione in immagine non compressa"
+        msg_first_echo_PPM="Conversione in immagine non compressa di :"
+        msg_term_title_PNG="Conversione in immagine PNG" 
+        msg_first_echo_PNG="Conversione in immagine PNG di :"
+        msg_term_title_JPEG="Conversione in immagine JPEG" 
+        msg_first_echo_JPEG="Conversione in immagine JPEG di :"
+        msg_term_title_image_quality="Riduci la qualità dell'immagine PDF"
+        msg_first_echo_image_quality="Riduci la qualità dell'immagine su :"
+        msg_term_title_TIFF="Conversione in fax TIFF"
+        msg_first_echo_TIFF="Conversione in fax TIFF di :" 
+        msg_term_title_DjVu="Conversione DjVu"
+        msg_first_echo_DjVu="Conversione DjVu di :"
+        msg_term_title_OCR="OCR"
+        msg_first_echo_OCR="OCR su :"
+        msg_term_title_book="Libro PDF"
+        msg_first_echo_book="Crea libri con :"
+        
+        #Notification title in servicemenu_commons
+        
+        #Progress_Title
+        msg_progress_Add_title="Unisci PDF"
+        msg_progress_extract_title="Estrai PDF"
+        msg_progress_rectoverso_title="PDF Pari & Dispari"
+        msg_progress_burst_title="Dividi PDF"
+        msg_progress_rotate_title="Ruota PDF"
+        msg_progress_repair_title="Ripara PDF"
+        msg_progress_unlock_title="Sblocca PDF"
+        msg_progress_lock_title="Blocca PDF"
+        msg_progress_compress_title="Comprimi PDF"
+        msg_progress_uncompress_title="Decomprimi PDF"
+        msg_progress_watermark_title="Filigrana PDF"
+        msg_progress_stamp_title="Marca PDF"
+        msg_progress_attach_title="Unisci PDF"
+        msg_progress_unattach_title="Separa PDF"
+        msg_progress_repaginate_title="Reimpagina PDF"
+        msg_progress_book_title="Libro PDF"
+        msg_progress_optimize_title="Ottimizza PDF"
+        msg_progress_Djvu_title="PDF > DjVu"
+        msg_progress_html_title="PDF > HTML"
+        msg_progress_ps_title="PDF > PS"
+        msg_progress_ppm_title="PDF > PPM"
+        msg_progress_pgm_title="PDF > PGM"
+        msg_progress_png_title="PDF > PNG"
+        msg_progress_jpeg_title="PDF > JPEG"
+        msg_progress_tiff_title="PDF > TIFF"
+        msg_progress_txt_title="PDF > TXT"
+        msg_progress_extract_images_title="Estrai immagine PDF"
+        msg_progress_metadata_title="Metadati PDF"
+        msg_progress_OCR_title="OCR PDF"
+        
+        #unlock_it
+        msg_unlockit_enter_pw="Il documento %s è protetto da una password."$'\n'"Inserisci la password dell'Administrator password o dell'utente:"
+        msg_unlockit_wrong_pw="Password errata!"
+        msg_unlockit_title="Documento criptato !"
+        msg_unlockit_badfile_title="File PDF danneggiato"
+        msg_unlockit_badfile="\"%s\" non sembra un file PDF valido !!!"
+        
+        #join
+        msg_join_other_files="Unisci un altro file"
+        msg_join_order_title="Ordine d'unione"
+        msg_join_order="In quale ordine vuoi unire questi documenti?"
+        msg_join_toomuch_to_order1="Unisci massimo 3 files per scegliere l'ordine di unione !"
+        msg_join_toomuch_to_order2="I documenti saranno uniti in questo ordine :"
+        msg_join_oneFileOnly="Non é possibile unire solo un file. <br>Per favore, selezionane almeno due."
+        msg_join_oneFileOnly_title="Unisci un altro file"
+        msg_join_shuffle="mescolata"
+        msg_join_shuffle_of="mescolata di"
+        
+        #add
+        msg_add_openFile="Scegli il documento da aggiungere al documento selezionato"
+        msg_add_openFile_forOne="Scegli il documento da aggiungere a \"%s\""
+        msg_Add_Before_After_forOne(){
+            echo "Vuoi aggiungere $1 <br>prima o dopo $2 ?"
+        }
+        msg_Add_Before_After="Vuoi aggiungere %s <br>prima o dopo i documenti selezionati ?"
+        msg_Add_Before_After_title="Prima o dopo ?"
+        msg_Add_before="Prima"
+        msg_Add_after="Dopo"
+        
+        #extract
+        msg_extract_toomanypages="Il documento contiene solo %i pagine, ripeti !"
+        msg__extract_toomanypages_title="Problema sulle pagine"
+        msg_extract_title="Intervallo di estrazione"
+        msg_extract_info1="Per specificare un intervallo di pagine, inserisci il numero della prima e dell'ultima pagina separati da \"-\"."
+        msg_extract_info2="Per specificare una singola pagina, inserisci il numero di questa pagina separato da uno spazio."
+        msg_extract_info3="Per specificare solo una pagina, inserisci il suo numero."
+        msg_extract_info4="La parola \"end\" può essere utilizzata per indicare l'ultima pagina."
+        msg_extract_examples="Esempi :"
+        msg_extract_ex_from4tolast="da pagina 4 all'ultima pagina"
+        msg_extract_ex_2afrom4to7="pagina 2, e da pagina 4 a pagina 7"
+        msg_extract_ex_page3="solo pagina 3"
+        msg_extract_ex_reverse="tutte le pagine in ordine inverso"
+        msg_extract_top(){
+            echo "Il documento $1 contiene $2 pagine."
+        }
+        msg_extract_bottom="Inserisci le pagine da estrarre da %s :"
+        
+        
+        #rotate
+        msg_rotate_choose_title="Ruota"
+        msg_rotate_choose="Quale rotazione vuoi applicare ?"
+        
+        #lock_unlock
+        msg_lock_or_unlock_title="Blocca o sblocca"
+        msg_lock_or_unlock="Hai selezionato documenti criptati e non criptati !"
+        msg_lock_files="Cripta tutti i documenti"
+        msg_unlock_files="Decripta tutti i documenti"
+        msg_lock_permissions_title="Seleziona permessi"
+        msg_lock_permissions_text="Seleziona permessi per i documenti selezionati"
+        msg_lock_permissions_printing_top="Stampa alla massima qualitá"
+        msg_lock_permissions_printing_degradedPrinting="Stampa a bassa qualitá"
+        msg_lock_permissions_printing_modifyContents="Modifica del contenuto"
+        msg_lock_permissions_printing_CopyContents="Copia contenuto"
+        msg_lock_permissions_printing_ModifyAnnotations="Modifica annotazioni"
+        msg_lock_insertPasswd_title="Inserisci password"
+        msg_lock_insertPassword_own1="Una password Master è necessaria per impostare i permessi." 
+        msg_lock_insertPassword_own2="Definisci la password master per i file selezionati :"
+        msg_lock_insertPassword_usr1="Imposta una password utente se vuoi permettere di leggere questo file solo a persone fidate."
+        msg_lock_insertPassword_usr2="La password master ed utente devono essere diverse." 
+        msg_lock_insertPassword_usr3="Se non vuoi questa funzionalità, <br>lascia il campo vuoto."
+        
+        #attach & unattach
+        msg_attach_or_extract_title="Gestisci gli allegati"
+        msg_attach_or_extract="Alcuni files contengono allegati. <br>Cosa vuoi fare ?"
+        msg_attach_extract="Estrai gli allegati"
+        msg_attach_add="Aggiungi allegati"
+        msg_attach_openFile_title="Seleziona i files da allegare ai documenti selezionati"
+        
+        #info ; fonts
+        msg_infofonts="Stai per lanciare %i finestre, sei sicuro ?"
+        msg_infofonts_title="Molte finestre !"
+        msg_fonts_title="Caratteri del documento"
+        msg_info_title="Informazioni sul documento"
+        msg_fonts_no_fonts="\"%s\" non contiene caratteri !"
+        
+        #repaginate
+        msg_repaginate_choose1="Come vuoi reimpaginare i documenti ?"
+        msg_repaginate_choose2="Più opzioni in <strong>custom</strong> :"
+        msg_repaginate_choose3="Questo strumento unisce le pagine di un documento in una sola, <br>ad esempio per utilizzare meno carta in stampa."
+        msg_repaginate_option1="Numero di colonne e righe"
+        msg_repaginate_option2="Scala (dimensione) delle pagine"
+        msg_repaginate_option3="fotogrammi tra le pagine"
+        msg_repaginate_option4="Orientamento Verticale/Orizzontale"
+        msg_repaginate_choose_title="Impaginazione"
+        msg_repaginate_2p="2 pagine per foglio"
+        msg_repaginate_4p="4 pagine per foglio"
+        msg_repaginate_8p="8 pagine per foglio"
+        msg_repaginate_9p="9 pagine per foglio"
+        msg_repaginate_custom="Reimpaginazione personalizzata"
+        msg_repaginate_customwin_title="Custom \"N-upped\""
+        msg_repaginate_customwin="Imposta le nuove proporzioni (colonne X riga):"
+        msg_repaginate_scale_title="Scala"
+        msg_repaginate_scale1="Quale scala vuoi dare alle pagine ?"
+        msg_repaginate_scale2="Default: 100%"
+        msg_repaginate_frames_title="Preferenza fotogrammi"
+        msg_repaginate_frames="Vuoi fotogrammi per ogni pagina ?"
+        msg_repaginate_frames_no="No"
+        msg_repaginate_frames_yes="Si"
+        msg_repaginate_flatten_forms="La reimpaginazione appiattisce le forme!"$'\n'"Vuoi continuare ?"
+        msg_repaginate_flatten_forms_title="Appiattimento forme"
+        msg_repaginate_prelandscape_one="Vuoi che il documento finale sia in verticale od in orizzontale?"$'\n'"La modalità più utilizzata è preselezionata."
+        msg_repaginate_prelandscape_many="Vuoi che il documento finale sia in verticale od in orizzontale? La modalità automatica selezionerà la più vantaggiosa per ogni file."
+        msg_repaginate_landscape="Orizzontale"
+        msg_repaginate_portrait="Verticale"
+        msg_repaginate_prelandscape_title="Orizzontale o verticale"
+        msg_repaginate_automatic="automatico"
+        msg_repaginate_multiply_pages="Vuoi più pagine dal file d'inizio"$'\n'"al fine di riempire il documento finale ?"
+        msg_repaginate_multiply_pages_title="Pagine di moltiplicazione"
+        
+        #margin
+        msg_margin_a4="il documento finale sarà un A4 (21x29,7) !"
+        
+        #book
+        msg_book_window_title="Libro PDF"
+        msg_book_window_text="Mettere i documenti PDF in un libro"
+        msg_book_number_of_pages_combo="Numero di pagine per foglio<br>(2lati)"
+        msg_book_folding_combo_list=("Pieghevole" "A sinistra" "A destra" "In alto")
+        msg_book_papersize_combo_list=("Misura del foglio" "Moltiplica" "Come il documento")
+        msg_book_gutter="Separatore :"
+        msg_book_gutter_tooltip="Quando le pagine del libretto sono ripiegate all'interno, le pagine saranno leggermente maggiori delle pagine esterne.<br>
+Una volta che il taglio viene effettuato, le pagine interne avranno quindi un margine superiore.<br>
+Il separatore si sposta all'interno delle pagine un po' verso l'esterno.<br>
+Considera 0.50 mm per la carta standard ad 80g/m²"
+        msg_book_reverse_odd="Metti giù le pagine dispari del libro"
+        
+        msg_book_top_last_title="Orientamento dell'ultima pagina"
+        msg_book_top_last_text="<p>Hai scelto di costruire un libretto che si piega dall'alto<br>(come un taccuino).</p><p>In quale direzione deve rivolgersi l'ultima pagina?</p><br>"
+        msg_book_top_last_logic="in continuità di lettura (logico)"
+        msg_book_top_last_aesthetic="Nella direzione della prima pagina (estetico)"
+        msg_book_missing_emptyfile="Impossible trovare il file empty.pdf"
+        msg_book_missing_emptyfile_title="File mancante !"
+        msg_book_wherewhite_one(){
+            echo "Il documento \"$1\" contiene $2 pagine. 
+Quindi il libro deve contenere $3 pagine. 
+In quale posizione vuoi mettere la pagina bianca?"
+        }
+        msg_book_wherewhite_many(){
+            echo "Il documento \"$1\" contiene $2 pagine. 
+Quindi il libro deve contenere $4 pagine. 
+In quale posizione vuoi mettere le $3 pagine bianche ?"
+        }
+        
+        msg_book_placing_blank="mettere pagine vuote"
+        msg_book_add_margin_odd="aggiungere margine, pagine dispari:"
+        msg_book_add_margin_even="aggiungere margine, pagine pari:"
+        msg_book_add_margin_last="aggiungere margine, ultima pagina:"
+        msg_book_rebuild_document="ricostruisci il documento"
+        msg_book_burst_document="dividi il documento"
+        msg_book_manage_gutters="gestire il separatore"
+        msg_book_make_final_doc="crea il documento finale"
+        msg_book_reverse_odd_term="inversione pagine dispari"
+        
+        #convert to djvu
+        msg_djvu_dpi_title="Risoluzione"
+        msg_djvu_dpi="Scrivi la risoluzione voluta per il documento finale. Valori validi sono compresi tra 75 e 6000. 300 DPI è il valore predefinito."
+        msg_djvu_options_title="Impostazioni avanzate"
+        msg_djvu_options="Impostazioni avanzate"
+        msg_djvu_Monochrome="Renderizza come immagini monocromatiche"
+        msg_djvu_noMetadata="Non estrarre i metadati."
+        msg_djvu_noHyperlinks="Non estrarre i collegamenti ipertestuali."
+        
+        #convert to html
+        msg_html_options_title="Preferenze"
+        msg_html_options="Seleziona le impostazioni per la conversione"
+        msg_html_ReplaceLinks="Sostituisci i collegamenti .pdf con .html"
+        msg_html_NoImages="Ignora le immagini"
+        msg_html_NoFrames="Non generare frames (tutto in una pagina)"
+        msg_html_ForceHiddenText="Forza l'estrazione del testo nascosto"
+        msg_html_NoMerge="Non unire i paragrafi"
+        msg_html_NoDRM="Ignora le impostazioni DRM (Digital Restrictions Management)"
+        
+        #Convert to PostScript
+        msg_PS_options_title="Preferenze"
+        msg_PS_options="Seleziona le impostazioni per la conversione a PostScript"
+        msg_PS_options_1="Non incorporare i caratteri Type 1"
+        msg_PS_options_2="Non incorporare i caratteri TrueType"
+        msg_PS_options_3="Non incorporare i caratteri CID PostScript"
+        msg_PS_options_4="Non incorporare i caratteri CID TrueType"
+        msg_PS_options_5="Espandi le pagine piccole"
+        msg_PS_options_6="Non ridurre le pagine grandi"
+        msg_PS_options_7="Non centrare le pagine piccole"
+        msg_PS_options_8="Abilita stampa duplex"
+
+        msg_PS_level_options_title="Livello Postscript"
+        msg_PS_level_options="Seleziona il livello PostScript da generare"
+        msg_PS_level_options_1="PostScript livello 1"
+        msg_PS_level_options_2="PostScript livello 2 (predefinito)"
+        msg_PS_level_options_3="PostScript livello 3"
+        msg_PS_level_options_1sep="PostScript livello 1 separabile"
+        msg_PS_level_options_2sep="PostScript livello 2 separabile"
+        msg_PS_level_options_3sep="PostScript livello 3 separabile"
+        
+        #convert_image
+        msg_image_DPI_title="Risoluzione, in DPI"
+        msg_image_DPI="Imposta la risoluzione in DPI (150 è predefinito):"
+        msg_image_DPI_custom="Risoluzione personalizzata"
+        msg_image_DPI_echo_converting="conversione in %s"
+        
+        #convert to PPM
+        msg_PPM_options_title="Preferenze"
+        msg_PPM_options="Seleziona le impostazioni per la conversione a PPM"
+        msg_PPM_options_color="genera un file immagine PPM a colori"
+        msg_PPM_options_gray="generate un file immagine PGM in scala di grigi"
+        msg_PPM_options_mono="genera un file immagine PBM monocromatico"
+        
+        #convert to PNG
+        msg_PNG_options_title="Colori & trasparenza"
+        msg_PNG_options="Scegli le impostazioni dei Colori o della trasparenza per il formato PNG"
+        msg_PNG_16M="Colori completi"
+        msg_PNG_256="256 colori"
+        msg_PNG_16="16 colori"
+        msg_PNG_Gray="Toni di grigio"
+        msg_PNG_Mono="monocromatico (bianco e nero)"
+        msg_PNG_alpha="Con trasparenza"
+        
+        #convert to JPEG
+        msg_JPEG_options_title="Colori"
+        msg_JPEG_options="Scegli le impostazioni dei Colori per il formato JPEG"
+        
+        #convert to TIFF
+        msg_TIFF_options_title="Impostazioni di codifica TIFF"
+        msg_TIFF_options="Scegli la codifica TIFF: "
+        msg_TIFF_tiffg3="Codifica G3"
+        msg_TIFF_tiffg32d="Codifica G32D"
+        msg_TIFF_tiffg4="Codifica G4"
+        
+        #image_quality
+        msg_image_quality_colors_title="Colori"
+        msg_image_quality_colors="Mantieni i colori o converti in toni di grigio ?"
+        msg_image_quality_reduction="Riduzione qualità dell'immagine"
+        
+        #convert to TEXT
+        msg_TEXT_options_title="Preferenze"
+        msg_TEXT_options="Seleziona impostazioni per la conversione in testo"
+        msg_TEXT_layout="Mantiene aspetto originale"
+        msg_TEXT_html="Genera un file html semplice"
+        msg_TEXT_NoBreaks="Non inserisce interruzioni di pagina (tutto in una pagina)"
+        
+        #extract_images
+        msg_ext_images_no_images_title="Documento senza immagine"
+        msg_ext_images_no_images="Non c'è immagine in :"
+            
+        #metadata
+        msg_metadata_Asked="Quali metadati vuoi modificare ? "
+        msg_metadata_Author="Autore"
+        msg_metadata_Creator="Creatore"
+        msg_metadata_Producer="Produttore"
+        msg_metadata_Subject="Oggetto"
+        msg_metadata_Keywords="Parole chiave"
+        msg_metadata_Title="Titolo"
+        msg_file_metadata="metadati"
+        msg_metadata_Ask_title="Titolo per \"%s\" :"
+        ;;
+    de )
+
+        #dependencies
+        msg_depend_pdftk_poppler="pdftk & poppler-utils are needed. Please install these 2 packages"
+        msg_depend_pdfjam="pdfjam is missing. Please install pdfjam !"
+        msg_depend_qpdf="qpdf is missing. Please install qpdf !"
+        msg_depend_pdf2djvu="pdf2djvu is missing. Please install pdf2djvu !"
+        msg_depend_gs="gs is missing. Please install ghostscript !"
+        
+        msg_dir_for_a_lot="PDFs"
+        msg_file_page="page"
+        msg_file_pages="pages"
+        msg_file_join="Verbindung von"
+        msg_file_odd="ungerade Seiten"
+        msg_file_even="gerade Seiten"
+        msg_file_burst="burst"
+        msg_file_left="links gedreht"
+        msg_file_right="rechts gedreht"
+        msg_file_overturn="umgedreht"
+        msg_file_restore="wiederhergestellt"
+        msg_file_repair="repariert"
+        msg_file_watermark="Wasserzeichen"
+        msg_file_stamp="gestempelt"
+        msg_file_locked="gesperrt"
+        msg_file_unlocked="entsperrt"
+        msg_file_uncompressed="unkomprimiert"
+        msg_file_compressed="komprimiert"
+        msg_file_attach="mit Anhang"
+        msg_file_unattach="attachments"
+        msg_file_book="in book"
+        msg_file_optimized="optimiert"
+        
+        #Terminal Name and first echo
+        msg_term_title_PPM="Uncompressed image conversion"
+        msg_first_echo_PPM="Uncompressed image conversion of :"
+        msg_term_title_PNG="PNG image conversion" 
+        msg_first_echo_PNG="PNG image conversion of :"
+        msg_term_title_JPEG="JPEG image conversion" 
+        msg_first_echo_JPEG="JPEG image conversion of :"
+        msg_term_title_image_quality="Reduce PDF Image Quality"
+        msg_first_echo_image_quality="Reduce Image Quality on :"
+        msg_term_title_TIFF="TIFF fax conversion"
+        msg_first_echo_TIFF="TIFF fax conversion of :" 
+        msg_term_title_DjVu="DjVu Conversion"
+        msg_first_echo_DjVu="DjVu Conversion of :"
+        msg_term_title_OCR="Optical Character Recognition"
+        msg_first_echo_OCR="Optical Character Recognition on:"
+        
+        #Notification title in servicemenu_commons
+        
+        #Progress_Title
+        msg_progress_Add_title="Adding PDF"
+        msg_progress_extract_title="Extracting PDF"
+        msg_progress_rectoverso_title="Odd & Even PDF"
+        msg_progress_burst_title="Burst PDF"
+        msg_progress_rotate_title="Rotate PDF"
+        msg_progress_repair_title="Repair PDF"
+        msg_progress_unlock_title="Unlock PDF"
+        msg_progress_lock_title="Lock PDF"
+        msg_progress_compress_title="Compress PDF"
+        msg_progress_uncompress_title="Uncompress PDF"
+        msg_progress_watermark_title="Watermark PDF"
+        msg_progress_stamp_title="Stamp PDF"
+        msg_progress_attach_title="PDF Attach"
+        msg_progress_unattach_title="PDF Unattach"
+        msg_progress_repaginate_title="Repaginate PDF"
+        msg_progress_book_title="PDF book"
+        msg_progress_optimize_title="Optimize PDF"
+        msg_progress_Djvu_title="PDF > DjVu"
+        msg_progress_html_title="PDF > HTML"
+        msg_progress_ps_title="PDF > PS"
+        msg_progress_ppm_title="PDF > PPM"
+        msg_progress_pgm_title="PDF > PGM"
+        msg_progress_png_title="PDF > PNG"
+        msg_progress_jpeg_title="PDF > JPEG"
+        msg_progress_tiff_title="PDF > TIFF"
+        msg_progress_txt_title="PDF > TXT"
+        msg_progress_extract_images_title="PDF image extract"
+        msg_progress_metadata_title="PDF metadata"
+        msg_progress_OCR_title="OCR PDF"
+        
+        #unlock_it
+        msg_unlockit_enter_pw="Document %s is protected by a password."$'\n'"Enter the Administrator password or the user password:"
+        msg_unlockit_wrong_pw="Incorrect password!"
+        msg_unlockit_title="Crypted Document !"
+        msg_unlockit_badfile_title="PDF bad file"
+        msg_unlockit_badfile="\"%s\" seems to not be a valid PDF file !!!"
+        
+        #join
+        msg_join_other_files="Join an other file"
+        msg_join_order_title="Join Order"
+        msg_join_order="In what order do you want to join these documents?"
+        msg_join_toomuch_to_order1="Join maximum 3 files to choose join order !"
+        msg_join_toomuch_to_order2="Documents will be joined in that order :"
+        msg_join_oneFileOnly="Eine Datei kann nicht verbunden werden. <br>Bitte mindestens zwei Dateien auswählen."
+        msg_join_oneFileOnly_title="Join an other file"
+        msg_join_shuffle="shuffle"
+        msg_join_shuffle_of="shuffle of"
+        
+        #add
+        msg_add_openFile="Choose the document to add to selected document"
+        msg_add_openFile_forOne="Choose the document to add to \"%s\""
+            msg_Add_Before_After_forOne(){
+            echo "Do you want to add $1 <br>before or after $2 ?"
+            }
+        msg_Add_Before_After="Do you want to add %s <br>before or after selected documents ?"
+        msg_Add_Before_After_title="Before or after ?"
+        msg_Add_before="Before"
+        msg_Add_after="After"
+        
+        #extract
+        msg_extract_toomanypages="Document only contains %i pages, repeat !"
+        msg__extract_toomanypages_title="Page problem"
+        msg_extract_title="Seiten für den Auszug"
+        msg_extract_info1="To specify a page range, enter the number of the first and the last page of this range separated by a \"-\"."
+        msg_extract_info2="to specify a single page, enter the number of this page separated by a space."
+        msg_extract_info3="To specify only one page, just enter its number."
+        msg_extract_info4="Keyword \"end\" can be use to specify last page."
+        msg_extract_examples="Examples :"
+        msg_extract_ex_from4tolast="from page 4 to last page"
+        msg_extract_ex_2afrom4to7="page 2, and from page 4 to page 7"
+        msg_extract_ex_page3="only page 3"
+        msg_extract_ex_reverse="all pages in reverse order"
+        msg_extract_top(){
+            echo "Document $1 contains $2 pages."
+        }
+        msg_extract_bottom="Enter the pages to extract from %s :"
+        
+        
+        #rotate
+        msg_rotate_choose_title="Rotate"
+        msg_rotate_choose="Which rotation do you want to do ?"
+        
+        #lock & unlock
+        msg_lock_or_unlock_title="Lock or unlock"
+        msg_lock_or_unlock="You selected encrypted documents and other unencrypted !"
+        msg_lock_files="Encrypt all documents"
+        msg_unlock_files="Decrypt all documents"
+        msg_lock_permissions_title="Berechtigungen auswählen"
+        msg_lock_permissions_text="Select permissions for selected documents"
+        msg_lock_permissions_printing_top="Drucken in hoher Qualität"
+        msg_lock_permissions_printing_degradedPrinting="Drucken in niedriger Qualität"
+        msg_lock_permissions_printing_modifyContents="Ändern"
+        msg_lock_permissions_printing_CopyContents="Inhalte kopieren"
+        msg_lock_permissions_printing_ModifyAnnotations="Anmerkungen ändern"
+        msg_lock_insertPasswd_title="Passwort eingeben"
+        msg_lock_insertPassword_own1="Master password is needed to set permissions."
+        msg_lock_insertPassword_own2="Please define master password for selected files :"
+        msg_lock_insertPassword_usr1="Set user password if you want to allow only trusted people to read this file."
+        msg_lock_insertPassword_usr2="The master password and the user password must be different." 
+        msg_lock_insertPassword_usr3="If you don't want this feature, <br>leave text field empty."
+        
+        #attach & unattach
+        msg_attach_or_extract_title="Manage attachments"
+        msg_attach_or_extract="Some files contains attachments. <br>What do you want to do ?"
+        msg_attach_extract="Extract attachments"
+        msg_attach_add="Add attachments"
+        msg_attach_openFile_title="Select files to attach to selected documents"
+        
+        #info ; fonts
+        msg_infofonts="You are about to launch %i windows, are you sure ?"
+        msg_infofonts_title="Many Windows !"
+        msg_fonts_title="Fonts of the document"
+        msg_info_title="Dokument-Informationen"
+        msg_fonts_no_fonts="\"%s\" doesn't contains any font !"
+        
+        #repaginate
+        msg_repaginate_choose1="How do you want to repaginate documents ?"
+        msg_repaginate_choose2="More options in <strong>custom</strong> :"
+        msg_repaginate_choose3="This tool brings together the pages of a document on a page, <br>for example to use less paper for printing."
+        msg_repaginate_option1="Number of columns and rows"
+        msg_repaginate_option2="Scale (size) of pages"
+        msg_repaginate_option3="frames between pages"
+        msg_repaginate_option4="Orientation Portrait/Landscape"
+        msg_repaginate_choose_title="Pagination"
+        msg_repaginate_2p="2 Seiten pro Blatt"
+        msg_repaginate_4p="4 Seiten pro Blatt"
+        msg_repaginate_8p="8 Seiten pro Blatt"
+        msg_repaginate_9p="9 Seiten pro Blatt"
+        msg_repaginate_custom="Eigene Konstellation"
+        msg_repaginate_customwin_title="Custom \"N-upped\""
+        msg_repaginate_customwin="Set new proportions (columns X row):"
+        msg_repaginate_scale_title="Scale"
+        msg_repaginate_scale1="Which scale do you want to give to pages ?"
+        msg_repaginate_scale2="Default: 100%"
+        msg_repaginate_frames_title="Frames preference"
+        msg_repaginate_frames="Do you want frames for every pages ?"
+        msg_repaginate_frames_no="Nein"
+        msg_repaginate_frames_yes="Ja"
+        msg_repaginate_flatten_forms="Repagination flattens forms!"$'\n'"Do you want to continue ?"
+        msg_repaginate_flatten_forms_title="Flattening forms"
+        msg_repaginate_prelandscape_one="Do you want the output document is placed in portrait or landscape. 
+        The most preferred mode is preselected."
+        msg_repaginate_prelandscape_many="Do you want the output documents are in portrait or landscape. Automatic mode will select the most advantageous for each file."
+        msg_repaginate_landscape="Landscape"
+        msg_repaginate_portrait="Portrait"
+        msg_repaginate_prelandscape_title="Landscape or portrait"
+        msg_repaginate_automatic="automatic"
+        msg_repaginate_multiply_pages="Do you want to multiply pages from input file
+        in order to fill the output document ?"
+        msg_repaginate_multiply_pages_title="Multiplication pages"
+        
+        #margin
+        msg_margin_a4="output documents will be A4 (21x29,7) !"
+        
+        #book
+        msg_book_missing_emptyfile="Can not find the file empty.pdf"
+        msg_book_missing_emptyfile_title="Missing File !"
+        msg_book_wherewhite_one(){
+            echo "Document \"$1\" contains $2 pages. 
+So, the book must contains $3 pages. 
+At which position do you want to place the white page?"
+        }
+        msg_book_wherewhite_many(){
+            echo "Document \"$1\" contains $2 pages. 
+So, the book must contains $4 pages. 
+At which position do you want to place the $3 white pages ?"
+        }
+        
+        #convert to html
+        msg_html_options_title="Eigenschaften"
+        msg_html_options="Optionen für die Umwandlung von auswählen"
+        msg_html_ReplaceLinks=".pdf Links mit .html vertauschen"
+        msg_html_NoImages="Bilder ignorieren"
+        msg_html_NoFrames="Keine Rahmen erstellen (Alles auf einer Seite)"
+        msg_html_ForceHiddenText="Versteckten Text mit herausziehen"
+        msg_html_NoMerge="Abschnitte nicht zusammensetzen"
+        msg_html_NoDRM="DRM-Einstellungen (Digital Restrictions Management) des Dokumentes überschreiben"
+        
+        #Convert to PostScript
+        msg_PS_options_title="Eigenschaften"
+        msg_PS_options="Select options for conversion to PostScript"
+        msg_PS_options_1="Type 1 Schriften nicht einbetten"
+        msg_PS_options_2="TrueType Schriften nicht einbetten"
+        msg_PS_options_3="CID PostScript Schriften nicht einbetten"
+        msg_PS_options_4="CID TrueType Schriften nicht einbetten"
+        msg_PS_options_5="Seiten ggf. auf Papiergröße vergrößern"
+        msg_PS_options_6="Seiten nicht verkleinern, die größer als das Papier sind"
+        msg_PS_options_7="Seiten nicht zentrieren, die kleiner als das Papier sind"
+        msg_PS_options_8="Duplex Druck ermöglichen"
+
+        msg_PS_level_options_title="Postscript Level"
+        msg_PS_level_options="PostScript Level auswählen, der erzeugt werden soll"
+        msg_PS_level_options_1="Level 1 PostScript"
+        msg_PS_level_options_2="Level 2 PostScript (standard)"
+        msg_PS_level_options_3="Level 3 PostScript"
+        msg_PS_level_options_1sep="Level 1 teilbares PostScript"
+        msg_PS_level_options_2sep="Level 2 teilbares PostScript"
+        msg_PS_level_options_3sep="Level 3 teilbares PostScript"
+        
+        #convert_image
+        msg_image_DPI_title="Auflösung, in DPI"
+        msg_image_DPI="Set resolution in DPI (default is 150):"
+        msg_image_DPI_custom="Custom resolution"
+        msg_image_DPI_echo_converting="converting to %s"
+        
+        #convert to PPM
+        msg_PPM_options_title="Eigenschaften"
+        msg_PPM_options="Select options for conversion to PPM"
+        msg_PPM_options_color="Eine farbige PPM-Datei erstellen"
+        msg_PPM_options_gray="Eine Graustufen-PGM-Datei erstellen"
+        msg_PPM_options_mono="Eine s/w PBM-Datei erstellen"
+        
+        #convert to PNG
+        msg_PNG_options_title="Colors & transparency"
+        msg_PNG_options="Choose Colors or transparency options for PNG format"
+        msg_PNG_16M="Full colors"
+        msg_PNG_256="256 colors"
+        msg_PNG_16="16 colors"
+        msg_PNG_Gray="Gray tones"
+        msg_PNG_Mono="mono (black and white)"
+        msg_PNG_alpha="With transparency"
+        
+        #convert to JPEG
+        msg_JPEG_options_title="Colors"
+        msg_JPEG_options="Choose Colors options for JPEG format"
+        
+        #convert to TIFF
+        msg_TIFF_options_title="TIFF Encoding Options"
+        msg_TIFF_options="Choose TIFF encoding: "
+        msg_TIFF_tiffg3="G3 Encoding"
+        msg_TIFF_tiffg32d="G32D Encoding"
+        msg_TIFF_tiffg4="G4 Encoding"
+        
+        #image_quality
+        msg_image_quality_colors_title="Colors"
+        msg_image_quality_colors="Keep colors or convert document to grayscale ?"
+        msg_image_quality_reduction="Image quality reduction"
+        
+        #convert to TEXT
+        msg_TEXT_options_title="Eigenschaften"
+        msg_TEXT_options="Select options for conversion to text"
+        msg_TEXT_layout="Urprüngliches Seitenlayout beibehalten"
+        msg_TEXT_html="Eine einfache HTML-Datei erzeugen"
+        msg_TEXT_NoBreaks="Keine Seitenumbrüche erstellen (Alles auf einer Seite)"
+        
+        #extract_images
+        msg_ext_images_no_images_title="Document without image"
+        msg_ext_images_no_images="There is no image in :"
+        
+        #metadata
+        msg_metadata_Asked="Which metadatas do you want to edit ? "
+        msg_metadata_Author="Author"
+        msg_metadata_Creator="Creator"
+        msg_metadata_Producer="Producer"
+        msg_metadata_Subject="Subject"
+        msg_metadata_Keywords="Keywords"
+        msg_metadata_Title="Title"
+        msg_file_metadata="metadatas"
+        msg_metadata_Ask_title="Title for \"%s\" :"
+  
+  ;;
+    ru )
+
+        #dependencies
+        msg_depend_pdftk_poppler="pdftk & poppler-utils are needed. Please install these 2 packages"
+        msg_depend_pdfjam="pdfjam is missing. Please install pdfjam !"
+        msg_depend_qpdf="qpdf is missing. Please install qpdf !"
+        msg_depend_pdf2djvu="pdf2djvu is missing. Please install pdf2djvu !"
+        msg_depend_gs="gs is missing. Please install ghostscript !"
+        
+        msg_dir_for_a_lot="PDFs"
+        msg_file_page="page"
+        msg_file_pages="pages"
+        msg_file_join="Соединение"
+        msg_file_odd="нечетные страницы"
+        msg_file_even="четные страницы"
+        msg_file_burst="burst"
+        msg_file_left="повернут влево"
+        msg_file_right="повернут право"
+        msg_file_overturn="перевернутый"
+        msg_file_restore="восстановленный"
+        msg_file_repair="отремонтированный"
+        msg_file_watermark="водяные знаки"
+        msg_file_stamp="штампованный"
+        msg_file_locked="заблокированный"
+        msg_file_unlocked="разблокированный"
+        msg_file_uncompressed="расжатый"
+        msg_file_compressed="сжатый"
+        msg_file_attach="с вложением"
+        msg_file_unattach="attachments"
+        msg_file_book="in book"
+        msg_file_optimized="оптимизированный"
+        
+        #Terminal Name and first echo
+        msg_term_title_PPM="Uncompressed image conversion"
+        msg_first_echo_PPM="Uncompressed image conversion of :"
+        msg_term_title_PNG="PNG image conversion" 
+        msg_first_echo_PNG="PNG image conversion of :"
+        msg_term_title_JPEG="JPEG image conversion" 
+        msg_first_echo_JPEG="JPEG image conversion of :"
+        msg_term_title_image_quality="Reduce PDF Image Quality"
+        msg_first_echo_image_quality="Reduce Image Quality on :"
+        msg_term_title_TIFF="TIFF fax conversion"
+        msg_first_echo_TIFF="TIFF fax conversion of :" 
+        msg_term_title_DjVu="DjVu Conversion"
+        msg_first_echo_DjVu="DjVu Conversion of :"
+        msg_term_title_OCR="Optical Character Recognition"
+        msg_first_echo_OCR="Optical Character Recognition on:"
+        
+        #Notification title in servicemenu_commons
+        
+        #Progress_Title
+        msg_progress_Add_title="Adding PDF"
+        msg_progress_extract_title="Extracting PDF"
+        msg_progress_rectoverso_title="Odd & Even PDF"
+        msg_progress_burst_title="Burst PDF"
+        msg_progress_rotate_title="Rotate PDF"
+        msg_progress_repair_title="Repair PDF"
+        msg_progress_unlock_title="Unlock PDF"
+        msg_progress_lock_title="Lock PDF"
+        msg_progress_compress_title="Compress PDF"
+        msg_progress_uncompress_title="Uncompress PDF"
+        msg_progress_watermark_title="Watermark PDF"
+        msg_progress_stamp_title="Stamp PDF"
+        msg_progress_attach_title="PDF Attach"
+        msg_progress_unattach_title="PDF Unattach"
+        msg_progress_repaginate_title="Repaginate PDF"
+        msg_progress_book_title="PDF book"
+        msg_progress_optimize_title="Optimize PDF"
+        msg_progress_Djvu_title="PDF > DjVu"
+        msg_progress_html_title="PDF > HTML"
+        msg_progress_ps_title="PDF > PS"
+        msg_progress_ppm_title="PDF > PPM"
+        msg_progress_pgm_title="PDF > PGM"
+        msg_progress_png_title="PDF > PNG"
+        msg_progress_jpeg_title="PDF > JPEG"
+        msg_progress_tiff_title="PDF > TIFF"
+        msg_progress_txt_title="PDF > TXT"
+        msg_progress_extract_images_title="PDF image extract"
+        msg_progress_metadata_title="PDF metadata"
+        msg_progress_OCR_title="OCR PDF"
+        
+        #unlock_it
+        msg_unlockit_enter_pw="Document %s is protected by a password."$'\n'"Enter the Administrator password or the user password:"
+        msg_unlockit_wrong_pw="Incorrect password!"
+        msg_unlockit_title="Crypted Document !"
+        msg_unlockit_badfile_title="PDF bad file"
+        msg_unlockit_badfile="\"%s\" seems to not be a valid PDF file !!!"
+        
+        #join
+        msg_join_other_files="Join an other file"
+        msg_join_order_title="Join Order"
+        msg_join_order="In which order do you want to join these documents?"
+        msg_join_toomuch_to_order1="Join maximum 3 files to choose join order !"
+        msg_join_toomuch_to_order2="Documents will be joined in that order :"
+        msg_join_oneFileOnly="Невозможно объединить только один файл. <br>Пожалуйста, выберите не менее двух файлов."
+        msg_join_oneFileOnly_title="Join an other file"
+        msg_join_shuffle="shuffle"
+        msg_join_shuffle_of="shuffle of"
+
+        #add
+        msg_add_openFile="Choose the document to add to selected document"
+        msg_add_openFile_forOne="Choose the document to add to \"%s\""
+        msg_Add_Before_After_forOne(){
+            echo "Do you want to add $1 <br>before or after $2 ?"
+        }
+        msg_Add_Before_After="Do you want to add %s <br>before or after selected documents ?"
+        msg_Add_Before_After_title="Before or after ?"
+        msg_Add_before="Before"
+        msg_Add_after="After"
+        
+        #extract
+        msg_extract_toomanypages="Document only contains %i pages, repeat !"
+        msg__extract_toomanypages_title="Page problem"
+        msg_extract_title="Диапазон извлечения"
+        msg_extract_info1="To specify a page range, enter the number of the first and the last page of this range separated by a \"-\"."
+        msg_extract_info2="to specify a single page, enter the number of this page separated by a space."
+        msg_extract_info3="To specify only one page, just enter its number."
+        msg_extract_info4="Keyword \"end\" can be use to specify last page."
+        msg_extract_examples="Examples :"
+        msg_extract_ex_from4tolast="from page 4 to last page"
+        msg_extract_ex_2afrom4to7="page 2, and from page 4 to page 7"
+        msg_extract_ex_page3="only page 3"
+        msg_extract_ex_reverse="all pages in reverse order"
+        msg_extract_top(){
+            echo "Document $1 contains $2 pages."
+        }
+        msg_extract_bottom="Enter the pages to extract from %s :"
+        
+        
+        #rotate
+        msg_rotate_choose_title="Rotate"
+        msg_rotate_choose="Which rotation do you want to do ?"
+        
+        #lock & unlock
+        msg_lock_or_unlock_title="Lock or unlock"
+        msg_lock_or_unlock="You selected encrypted documents and other unencrypted !"
+        msg_lock_files="Encrypt all documents"
+        msg_unlock_files="Decrypt all documents"
+        msg_lock_permissions_title="Выбрать права доступа"
+        msg_lock_permissions_text="Select permissions for selected documents"
+        msg_lock_permissions_printing_top="Высокое качество печати"
+        msg_lock_permissions_printing_degradedPrinting="Низкое качество печати"
+        msg_lock_permissions_printing_modifyContents="Изменить"
+        msg_lock_permissions_printing_CopyContents="Содержание копии"
+        msg_lock_permissions_printing_ModifyAnnotations="Аннотация изменений"
+        msg_lock_insertPasswd_title="Вставить пароль"
+        msg_lock_insertPassword_own="Master password is needed to set permissions." 
+        msg_lock_insertPassword_own2="Please define master password for selected files :"
+        msg_lock_insertPassword_usr1="Set user password if you want to allow only trusted people to read this file."
+        msg_lock_insertPassword_usr2="The master password and the user password must be different." 
+        msg_lock_insertPassword_usr3="If you don't want this feature, <br>leave text field empty."
+        
+        #attach & unattach
+        msg_attach_or_extract_title="Manage attachments"
+        msg_attach_or_extract="Some files contains attachments. <br>What do you want to do ?"
+        msg_attach_extract="Extract attachments"
+        msg_attach_add="Add attachments"
+        msg_attach_openFile_title="Select files to attach to selected documents"
+        
+        #info ; fonts
+        msg_infofonts="You are about to launch %i windows, are you sure ?"
+        msg_infofonts_title="Many Windows !"
+        msg_fonts_title="Fonts of the document"
+        msg_info_title="Информация о документе"
+        msg_fonts_no_fonts="\"%s\" doesn't contains any font !"
+        
+        #repaginate
+        msg_repaginate_choose1="How do you want to repaginate documents ?"
+        msg_repaginate_choose2="More options in <strong>custom</strong> :"
+        msg_repaginate_choose3="This tool brings together the pages of a document on a page, <br>for example to use less paper for printing."
+        msg_repaginate_option1="Number of columns and rows"
+        msg_repaginate_option2="Scale (size) of pages"
+        msg_repaginate_option3="frames between pages"
+        msg_repaginate_option4="Orientation Portrait/Landscape"
+        msg_repaginate_choose_title="Pagination"
+        msg_repaginate_2p="2 страниц на листе"
+        msg_repaginate_4p="4 страниц на листе"
+        msg_repaginate_8p="8 страниц на листе"
+        msg_repaginate_9p="9 страниц на листе"
+        msg_repaginate_custom="Своя разбивка на страницы"
+        msg_repaginate_customwin_title="Custom \"N-upped\""
+        msg_repaginate_customwin="Set new proportions (columns X row):"
+        msg_repaginate_scale_title="Scale"
+        msg_repaginate_scale1="Which scale do you want to give to pages ?"
+        msg_repaginate_scale2="Default: 100%"
+        msg_repaginate_frames_title="Frames preference"
+        msg_repaginate_frames="Do you want frames for every pages ?"
+        msg_repaginate_frames_no="Нет"
+        msg_repaginate_frames_yes="Да"
+        msg_repaginate_flatten_forms="Repagination flattens forms!"$'\n'"Do you want to continue ?"
+        msg_repaginate_flatten_forms_title="Flattening forms"
+        msg_repaginate_prelandscape_one="Do you want the output document is placed in portrait or landscape."$'\n'"The most preferred mode is preselected."
+        msg_repaginate_prelandscape_many="Do you want the output documents are in portrait or landscape. Automatic mode will select the most advantageous for each file."
+        msg_repaginate_landscape="Landscape"
+        msg_repaginate_portrait="Portrait"
+        msg_repaginate_prelandscape_title="Landscape or portrait"
+        msg_repaginate_automatic="automatic"
+        msg_repaginate_multiply_pages="Do you want to multiply pages from input file"$'\n'"in order to fill the output document ?"
+        msg_repaginate_multiply_pages_title="Multiplication pages"
+        
+        #book
+        msg_book_missing_emptyfile="Can not find the file empty.pdf"
+        msg_book_missing_emptyfile_title="Missing File !"
+        msg_book_wherewhite_one(){
+            echo "Document \"$1\" contains $2 pages. 
+So, the book must contains $3 pages. 
+At which position do you want to place the white page?"
+        }
+        msg_book_wherewhite_many(){
+            echo "Document \"$1\" contains $2 pages. 
+So, the book must contains $4 pages. 
+At which position do you want to place the $3 white pages ?"
+        }
+        
+        #margin
+        msg_margin_a4="output documents will be A4 (21x29,7) !"
+        
+        #convert to djvu
+        msg_djvu_dpi_title="Разрешение документа"
+        msg_djvu_dpi="Пожалуйста, напишите DPI разрешение для документа. Правильный диапазон значений от 75 до 6000. По умолчанию 300 DPI."
+        msg_djvu_options_title="Дополнительные настройки"
+        msg_djvu_options="Дополнительные настройки"
+        msg_djvu_Monochrome="Рендер как монохромные растровые изображения."
+        msg_djvu_noMetadata="Не извлекать метаданные."
+        msg_djvu_noHyperlinks="Не извлекать гиперссылки."
+        
+        #convert to html
+        msg_html_options_title="Параметры"
+        msg_html_options="Выбор параметров для конвертации"
+        msg_html_ReplaceLinks="Заменить ссылки с .pdf на .html"
+        msg_html_NoImages="Игнорировать изображения"
+        msg_html_NoFrames="Исключить создание кадров (все на одной странице)"
+        msg_html_ForceHiddenText="Принудительно извлекать скрытый текст"
+        msg_html_NoMerge="Не объединять абзацы"
+        msg_html_NoDRM="Переопределить настройки DRM документа (технические средства защиты авторских прав)"
+        
+        #Convert to PostScript
+        msg_PS_options_title="Параметры"
+        msg_PS_options="Select options for conversion to PostScript"
+        msg_PS_options_1="Не вставлять шрифты Type 1"
+        msg_PS_options_2="Не вставлять шрифты TrueType"
+        msg_PS_options_3="Не вставлять шрифты CID PostScript"
+        msg_PS_options_4="Не вставлять шрифты CID TrueType"
+        msg_PS_options_5="Расширить страницы размера меньше бумаги"
+        msg_PS_options_6="Не сжимать страницы размер которых превышает размер бумаги"
+        msg_PS_options_7="Не центрировать страницы размера меньше бумаги"
+        msg_PS_options_8="Включить двустороннюю печать"
+
+        msg_PS_level_options_title="Уровень Postscript"
+        msg_PS_level_options="Выбрать уровень для генерации PostScript"
+        msg_PS_level_options_1="Уровень 1 PostScript"
+        msg_PS_level_options_2="Уровень 2 PostScript (по умолчанию)"
+        msg_PS_level_options_3="Уровень 3 PostScript"
+        msg_PS_level_options_1sep="Уровень 1 PostScript сепарабельный"
+        msg_PS_level_options_2sep="Уровень 2 PostScript сепарабельный"
+        msg_PS_level_options_3sep="Уровень 3 PostScript сепарабельный"
+        
+        #convert_image
+        msg_image_DPI_title="Разрешение в DPI"
+        msg_image_DPI="Set resolution in DPI (default is 150):"
+        msg_image_DPI_custom="Custom resolution"
+        msg_image_DPI_echo_converting="converting to %s"
+        
+        #convert to PPM
+        msg_PPM_options_title="Параметры"
+        msg_PPM_options="Select options for conversion to PPM"
+        msg_PPM_options_color="Генерировать цветной файл PPM"
+        msg_PPM_options_gray="Генерировать файл серых оттенков PGM"
+        msg_PPM_options_mono="Генерировать монохромный файл PBM"
+        
+        #convert to PNG
+        msg_PNG_options_title="Colors & transparency"
+        msg_PNG_options="Choose Colors or transparency options for PNG format"
+        msg_PNG_16M="Full colors"
+        msg_PNG_256="256 colors"
+        msg_PNG_16="16 colors"
+        msg_PNG_Gray="Gray tones"
+        msg_PNG_Mono="mono (black and white)"
+        msg_PNG_alpha="With transparency"
+        
+        #convert to JPEG
+        msg_JPEG_options_title="Colors"
+        msg_JPEG_options="Choose Colors options for JPEG format"
+        
+        #convert to TIFF
+        msg_TIFF_options_title="TIFF Encoding Options"
+        msg_TIFF_options="Choose TIFF encoding: "
+        msg_TIFF_tiffg3="G3 Encoding"
+        msg_TIFF_tiffg32d="G32D Encoding"
+        msg_TIFF_tiffg4="G4 Encoding"
+        
+        #image_quality
+        msg_image_quality_colors_title="Colors"
+        msg_image_quality_colors="Keep colors or convert document to grayscale ?"
+        msg_image_quality_reduction="Image quality reduction"
+        
+        #convert to TEXT
+        msg_TEXT_options_title="Параметры"
+        msg_TEXT_options="Select options for conversion to text"
+        msg_TEXT_layout="Сохранять исходное расположение"
+        msg_TEXT_html="Создать простой HTML файл"
+        msg_TEXT_NoBreaks="Не вставлять разрывы страниц (все на одной странице)"
+        
+        #extract_images
+        msg_ext_images_no_images_title="Document without image"
+        msg_ext_images_no_images="There is no image in :"
+            
+        #metadata
+        msg_metadata_Asked="Which metadatas do you want to edit ? "
+        msg_metadata_Author="Author"
+        msg_metadata_Creator="Creator"
+        msg_metadata_Producer="Producer"
+        msg_metadata_Subject="Subject"
+        msg_metadata_Keywords="Keywords"
+        msg_metadata_Title="Title"
+        msg_file_metadata="metadatas"
+        msg_metadata_Ask_title="Title for \"%s\" :"
+        ;;
+esac
+}
+################################################
+
+####required functions########
+
+
+
+get_datadir(){
+    #$1:DataDir name
+    InstallPath=('/usr' '/usr/local' "$HOME/.local")
+
+    for InstallDir in "${InstallPath[@]}";do
+        [ -d "$InstallDir/share/$1" ] && DataDir="$InstallDir/share/$1"
+    done
+
+    if [ -z "$DataDir" ];then
+        kdial "Missing Files" --sorry "Missing Data Dir $1 in ${InstallPath[*]}"
+        exit 1
+    fi
+    
+    echo "$DataDir"
+}
+
+source_servicemenus_commons(){
+    houston_basedir="houston-servicemenu-commons"
+    localshare="$HOME/.local/share"
+    
+    houston_dir="$DataDir/$houston_basedir"
+    [ -d "$localshare/$houston_basedir" ] && houston_dir="$localshare/$houston_basedir"
+    
+    source_commmons_file="$houston_dir/servicemenu_commons.sh"
+    if [ -f "$source_commmons_file" ];then
+        source "$source_commmons_file"
+    else
+        echo "Unable to find $source_commmons_file , sorry !!!"
+        exit 1
+    fi
+        
+}
+
+get_konsole_title_and_first_echo(){
+    case "$1" in
+        convert_image )
+            case "$2" in
+                ppm ) 
+                    konsole_title="$msg_term_title_PPM" 
+                    echo "$msg_first_echo_PPM"
+                    ;;
+                png ) 
+                    konsole_title="$msg_term_title_PNG" 
+                    echo "$msg_first_echo_PNG"
+                    ;;
+                jpeg )
+                    konsole_title="$msg_term_title_JPEG" 
+                    echo "$msg_first_echo_JPEG" 
+                    ;;
+                tiff ) 
+                    konsole_title="$msg_term_title_TIFF" 
+                    echo "$msg_first_echo_TIFF" 
+                    ;;
+            esac
+            ;;
+        convert_djvu ) 
+            konsole_title="$msg_term_title_DjVu" 
+            echo "$msg_first_echo_DjVu"
+            ;;
+        image_quality )
+            konsole_title="$msg_term_title_image_quality"
+            echo "$msg_first_echo_image_quality"
+            ;;
+        OCR ) 
+            konsole_title="$msg_term_title_OCR" 
+            echo "$msg_first_echo_OCR"
+            ;;
+        book )
+            konsole_title="$msg_term_title_book"
+            echo "$msg_first_echo_book"
+    esac
+}
+################################
+
+Unlock_it(){
+#$1:file
+#$2: $# in previous function
+    
+    if ! pdftk "$1" dump_data &>/dev/null;then
+        if ! pdftk "$1" input_pw "${PassWord[$(($2+1))]}" dump_data &>/dev/null;then
+            if [[ "$(pdfinfo "$1" 2>&1)" =~ "May not be a PDF file" ]];then
+                kdial "$msg_unlockit_badfile_title" --error "`printf "$msg_unlockit_badfile" "${1##*/}"`"
+                return 1
+            fi
+
+            if ! pdftk "$1" dump_data &>/dev/null;then
+                PassWord[$2]=$(kdial "$msg_unlockit_title" \
+                             --password "`printf "$msg_unlockit_enter_pw" "<strong>$(meta_H "${1##*/}")</strong>"`") \
+                             || return 1
+                until pdftk "$1" input_pw "${PassWord[$2]}" dump_data &>/dev/null;do
+                    PassWord[$2]=$(kdial "$msg_unlockit_title" --password "$msg_unlockit_wrong_pw\
+                                `printf "$msg_unlockit_enter_pw" "$(meta_H "${1##*/}")"`") || return 1
+                done
+            fi
+        else
+            PassWord[$2]="${PassWord[$(($2+1))]}"
+        fi
+    fi
+
+    if [ -n "${PassWord[$2]}" ];then
+        Pw_arg[1]="input_pw"
+        Pw_arg[2]="${PassWord[$2]}"
+    else
+        unset Pw_arg
+    fi
+
+}
+
+Poppler_PW_it(){
+#$1:file
+#$2: $# in previous function
+    if [ -n "${PassWord[$2]}" ];then
+        pdfinfo -opw "${PassWord[$2]}" "$1" &>/dev/null && Poppler_PW[1]="-opw" || Poppler_PW[1]="-upw"
+        Poppler_PW[2]="${PassWord[$2]}"
+    else
+        unset Poppler_PW
+    fi
+}
+
+NumberOfPages(){
+    #$1:File
+    echo "$(pdftk "$1" "${Pw_arg[@]}" dump_data 2>/dev/null|grep ^NumberOfPages:|sed 's/^NumberOfPages:  *//')"
+}
+
+lock_commons(){
+    own_passwd=$(kdial "${msg_lock_insertPasswd_title}" --password "$msg_command_total<div align=\"justify\"><p>$msg_lock_insertPassword_own1</p><p>$msg_lock_insertPassword_own2</p><hr><p><i><div align=\"right\">$msg_lock_insertPassword_usr3</i></p>") || exit 0
+
+    usr_passwd="$own_passwd"
+
+    while [[ "$usr_passwd" == "$own_passwd" ]];do
+        usr_passwd=$(kdial "${msg_lock_insertPasswd_title}" --password "$msg_command_total<div align=\"justify\"><p>$msg_lock_insertPassword_usr1</p><p><u>$biggest$msg_lock_insertPassword_usr2</u></p><hr><p><i><div align=\"right\">$msg_lock_insertPassword_usr3</i></p></div>") || exit 0
+        biggest="<big><strong>"
+    done
+        
+    permissions=$(kdial "${msg_lock_permissions_title}" --checklist "$msg_command_total<p>${msg_lock_permissions_text}<br></p>" Printing "${msg_lock_permissions_printing_top}" off DegradedPrinting "${msg_lock_permissions_printing_degradedPrinting}" off ModifyContents "${msg_lock_permissions_printing_modifyContents}" off CopyContents "${msg_lock_permissions_printing_CopyContents}" off ModifyAnnotations "${msg_lock_permissions_printing_ModifyAnnotations}" off --separate-output) || exit 0
+}
+
+
+TmpFile_it(){
+#make a TmpFile if pdf is crypted
+#$1:Input File
+#$2: $# of previous function
+    if [ -n "${PassWord[$2]}" ];then
+        TmpFile="$(mktemp -u).pdf"
+        pdftk "$1" "${Pw_arg[@]}" output "$TmpFile"
+        unset Pw_arg Poppler_PW
+        RmTmpFile=true
+    else
+        TmpFile="$1"
+        RmTmpFile=false
+    fi
+}
+
+
+#################################################################################################################################################################################################################################################################################################################################
+
+add () {
+
+    msg_command_total_it pdftk
+    
+    $Onlyonefile && msg_add_openFile=$(printf "$msg_add_openFile_forOne" "${1##*/}")
+    
+    pdfToAdd=$(kdial "${msg_add_openFile}" --getopenfilename "." application/pdf) || exit 0
+    BaseAddedFile=$(basename "$pdfToAdd"|sed 's/\.pdf$//')
+    
+    PassWord_AddedFile=$(Unlock_it "$pdfToAdd") || exit 0
+    
+    if $Onlyonefile;then
+        msg_add_before_after_final="$msg_command_total<p>`msg_Add_Before_After_forOne "<strong>$(meta_H "${pdfToAdd##*/}")</strong>" "<strong>$(meta_H "${1##*/}")</strong>"`<br></p>"
+    else
+        msg_add_before_after_final="$msg_command_total<p>`printf "$msg_Add_Before_After" "<strong>$(meta_H "${pdfToAdd##*/}")</strong>"`<br></p>"
+    fi
+            
+    Add_Before_After=$(kdial "$msg_Add_Before_After_title" --radiolist "$msg_add_before_after_final" before "$msg_Add_before" off after "$msg_Add_after" on) || exit 0
+    
+    Progress_Title="$msg_progress_Add_title"
+    progress_dialog open
+    mkdir_for_a_lot "+$BaseAddedFile"
+    
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            outputFileName="$(outputFileNameIt "$1" "+$BaseAddedFile")"
+            case $Add_Before_After in
+                before )
+                    ErrorDetails=$(pdftk "${pdfToAdd}" "$1" input_pw "$PassWord_AddedFile" input_pw "${PassWord[$#]}" output "${outputFileName}" 2>&1)
+                    DialogNotIt $? "$outputFileName" "$1"
+                    ;;
+                after )
+                    ErrorDetails=$(pdftk "$1" "${pdfToAdd}" input_pw "${PassWord[$#]}" input_pw "$PassWord_AddedFile" output "${outputFileName}" 2>&1)
+                    DialogNotIt $? "$outputFileName" "$1"
+            esac
+        fi
+        progress_dialog end
+        shift
+    done
+    
+    progress_dialog close
+    notification_dialog pdf
+}
+
+join () {
+ 
+    got_pws(){
+        n=1
+        until [ $# = 0 ];do
+            Unlock_it "$1" $# || exit 0
+            Pw_m_arg[$n]="input_pw"
+            Pw_m_arg[$(($n+1))]="${PassWord[$#]}"
+            n=$(($n+2))
+            shift
+        done
+    }
+    
+    FormFilesVar(){
+        Ct=1
+        until [ $# = 0 ];do
+            FormFile[$Ct]=$(basename "$1")
+            FormFilesLines=$(echo "$FormFilesLines"|sed "$ s/$/<li>$(meta_zap_out "`meta_H "${FormFile[$Ct]}"`")<\/li>/")
+            Ct=$(($Ct+1))
+            shift
+        done
+    }
+    
+    cat_it() {
+            
+        mix=false
+        [ "$1" = //shuffle ] && mix=true shift
+        
+        insidepar=$(echo "${FormFile[@]}"|sed -e 's/\.pdf /,/ig' -e 's/\.pdf$//i')
+
+        #CommonRegex is first the short name of first file
+        CommonRegex="${1##*/}"
+        CommonRegex=${CommonRegex%.*}
+        
+        #if file ends with '(', remove last Character from CommonRegex
+        echo "$CommonRegex"|grep -q '([0-9][0-9]*)'$ && CommonRegex="${CommonRegex%?}"
+        
+        #remove last number from CommonRegex
+        while echo "$CommonRegex"|grep -q '[0-9]'$;do
+            CommonRegex="${CommonRegex%?}" #remove last Character
+        done
+        
+        #check if CommonRegex is in each file name, else remove CommonRegex
+        for filename in "${@:1:$(($#/3))}";do
+            filename="${filename##*/}"
+            filename="${filename%.*}"
+            if ! echo "$filename"|grep -q ^"$CommonRegex";then
+                unset CommonRegex
+                break
+            fi
+        done
+        
+        if [ -n "$CommonRegex" ];then
+            echo "$CommonRegex"|egrep -q '\-$|_$|\($' && CommonRegex="${CommonRegex%?}"
+            outputFileName="$outputDir/$CommonRegex.pdf"
+        else
+            $mix && msg_file_join="$msg_join_shuffle_of"
+            outputFileName="$outputDir/$msg_file_join ($insidepar).pdf"
+            $AlotOfFiles && outputFileName="$outputDir/$(basename "$outputDir").pdf"
+        fi
+        
+        Ct=1
+        TmpVar="$outputFileName"
+        
+        while [ -e "$TmpVar" ];do
+            TmpVar=$(echo "$outputFileName"|sed "s/\.pdf$/ ($Ct).pdf/")
+            ((Ct++))
+        done
+        
+        outputFileName="$TmpVar"
+        
+        
+        outputFileName=$(kdial "${msg_outFile_saveFile_title}" --getsavefilename "$outputFileName" application/pdf) || exit 0
+        
+        if $mix;then
+            ErrorDetails=$(pdftk "$@" shuffle output "$outputFileName" 2>&1)
+            DialogNotIt $? "$outputFileName" "$*"
+        else
+            ErrorDetails=$(pdftk "$@" cat output "$outputFileName" 2>&1)
+            DialogNotIt $? "$outputFileName" "$*"
+        fi
+        
+        kdialog --title "$msg_new_pdfdoc_one" --passivepopup "$NotiFiles" 3
+    }
+        
+    got_pws "$@"
+    FormFilesVar "$@"
+    msg_command_total_it pdftk
+    
+    if [ $# -lt 2 ]; then
+        kdial "$msg_join_oneFileOnly_title" --dontagain $ScriptConfigFile:Joinonlyonefile --continue-label "$msg_join_other_files" --warningcontinuecancel "$msg_command_total${msg_join_oneFileOnly}" || exit 0
+        add "$1"
+    elif [ $# = 2 ];then
+        echo tintin
+        FileOrder=$(kdial "$msg_join_order_title" --radiolist "$msg_command_total<p>$msg_join_order<br></p>" 1 "${FormFile[1]}  →  ${FormFile[2]}" on 2 "${FormFile[2]}  →  ${FormFile[1]}" off 3 "$msg_join_shuffle:  ${FormFile[1]}  →  ${FormFile[2]}" off 4 "$msg_join_shuffle:  ${FormFile[2]}  →  ${FormFile[1]}" off) || exit 0
+        echo FileOrder=$FileOrder
+      
+        case $FileOrder in
+            1)
+                FormFilesVar "$@"
+                cat_it "$@" "${Pw_m_arg[@]}"
+                ;;
+            2)
+                FormFilesVar "$2" "$1"
+                cat_it "$2" "$1" input_pw "${Pw_m_arg[4]}" input_pw "${Pw_m_arg[2]}"
+                ;;
+            3)
+                FormFilesVar "$@"
+                cat_it //shuffle "$@" "${Pw_m_arg[@]}"
+                ;;
+            4 )
+                FormFilesVar "$2" "$1"
+                cat_it //shuffle "$2" "$1" input_pw "${Pw_m_arg[4]}" input_pw "${Pw_m_arg[2]}"
+                ;;
+        esac
+        
+    elif [ $# = 3 ];then
+        FileOrder=$(kdial "$msg_join_order_title" --radiolist "$msg_command_total<p>$msg_join_order<br></p>" 1 "${FormFile[1]}  →  ${FormFile[2]}  →  ${FormFile[3]}" on 2 "${FormFile[1]}  →  ${FormFile[3]}  →  ${FormFile[2]}" off 3 "${FormFile[2]}  →  ${FormFile[1]}  →  ${FormFile[3]}" off 4 "${FormFile[2]}  →  ${FormFile[3]}  →  ${FormFile[1]}" off 5 "${FormFile[3]}  →  ${FormFile[1]}  →  ${FormFile[2]}" off 6 "${FormFile[3]}  →  ${FormFile[2]}  →  ${FormFile[1]}" off) || exit 0
+        
+        case $FileOrder in
+            1)
+                FormFilesVar "$@"
+                cat_it "$@" "${Pw_m_arg[@]}"
+                ;;
+            2)
+                FormFilesVar "$1" "$3" "$2"
+                cat_it "$1" "$3" "$2" input_pw "${Pw_m_arg[2]}" input_pw "${Pw_m_arg[6]}" input_pw "${Pw_m_arg[4]}"
+                ;;
+            3)
+                FormFilesVar "$2" "$1" "$3"
+                cat_it "$2" "$1" "$3" input_pw "${Pw_m_arg[4]}" input_pw "${Pw_m_arg[2]}" input_pw "${Pw_m_arg[6]}"
+                ;;
+            4)
+                FormFilesVar "$2" "$3" "$1"
+                cat_it "$2" "$3" "$1" input_pw "${Pw_m_arg[4]}" input_pw "${Pw_m_arg[6]}" input_pw "${Pw_m_arg[2]}"
+                ;;
+            5)
+                FormFilesVar "$3" "$1" "$2"
+                cat_it "$3" "$1" "$2" input_pw "${Pw_m_arg[6]}" input_pw "${Pw_m_arg[2]}" input_pw "${Pw_m_arg[4]}"
+                ;;
+            6)
+                FormFilesVar "$3" "$2" "$1"
+                cat_it "$3" "$2" "$1" input_pw "${Pw_m_arg[6]}" input_pw "${Pw_m_arg[4]}" input_pw "${Pw_m_arg[2]}"
+                ;;
+        esac
+    else
+        kdial "$msg_join_order_title" --dontagain $ScriptConfigFile:Jointmultiplefile --warningcontinuecancel "$msg_command_total<div align=\"justify\"><p><u>$msg_join_toomuch_to_order1</u></p><p>$msg_join_toomuch_to_order2</p></div><ul>$FormFilesLines</ul>" || exit 0
+        cat_it "$@" "${Pw_m_arg[@]}"
+    fi
+}
+
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+extract () {
+    msg_extract(){
+        echo "$msg_command_total<p>$(msg_extract_top "<strong>$(meta_H "$1")</strong>" "<strong>$2</strong>")</p><hr>
+        <p>$msg_extract_info1<br>
+        $msg_extract_info2<br>
+        $msg_extract_info3<br>
+        $msg_extract_info4</p>
+        <blockquote><u>$msg_extract_examples</u>
+        <blockquote><table border=\"0\" >
+        <tr>
+        <td>$msg_extract_ex_from4tolast</td>
+        <td> : </td>
+        <td>4-end</td>
+        </tr>
+        <tr>
+        <td>$msg_extract_ex_2afrom4to7</td>
+        <td> : </td>
+        <td>2 4-7</td>
+        </tr>
+        <tr>
+        <td>$msg_extract_ex_page3</td>
+        <td> : </td>
+        <td>3<td>
+        </tr>
+        <tr>
+        <td>$msg_extract_ex_reverse</td>
+        <td> : </td>
+        <td>end-1</td>
+        </tr></blockquote></blockquote>
+        <br><hr>
+        <p>$(printf "$msg_extract_bottom" "<strong>$(meta_H "$1")</strong>")<br></p>"
+    }
+
+    RangePageIt(){
+        #$1:Full File Name
+        #$2:PassWord
+        InputFile="$1"
+        shift
+        NumberOfPages=$(NumberOfPages "$InputFile")
+        
+        rangecorrect=false
+        
+        until $rangecorrect;do
+            range=$(kdial "${msg_extract_title}" --inputbox "`msg_extract "${InputFile##*/}" "$NumberOfPages"`" "1-$NumberOfPages") || return 1
+            #test if fields contains only [0-9] and "-"
+            if [ -n "$(echo "$range" |sed -e 's/[0-9]*//g' -e 's/-//g' -e 's/odd//g' -e 's/even//g' -e 's/end//g' -e 's/north//g' -e 's/south//g' -e 's/east//g' -e 's/west//g' -e 's/left//g' -e 's/right//g' -e 's/down//g' -e 's/ //g')" ];then
+                kdial "$msg_wrong_fields_title" --error "$msg_wrong_fields"
+                rangecorrect=false
+            else
+                checkrange=$(echo "$range"|sed -e 's/odd//g' -e 's/even//g' -e 's/end//g' -e 's/north//g' -e 's/south//g' -e 's/east//g' -e 's/west//g' -e 's/left//g' -e 's/right//g' -e 's/down//g' -e 's/ /;/g' -e 's/-/;/g')
+                
+                if echo "$checkrange"|grep -q ";";then
+                    Ct=1
+                    rangecorrect2=true
+                    
+                    until [ -z "$(echo "$checkrange"|cut -d';' -f${Ct})" ];do
+                        [ $(echo "$checkrange"|cut -d';' -f${Ct}) -gt $NumberOfPages ] && rangecorrect2=false
+                        ((Ct++))
+                    done
+                    
+                    $rangecorrect2 && rangecorrect=true
+                else
+                    [ $checkrange -gt $NumberOfPages ] || rangecorrect=true
+                fi
+                    
+                if ! $rangecorrect;then
+                    kdial "$msg_toomanypages_title" --error "`printf "$msg_extract_toomanypages" "$NumberOfPages"`"
+                fi
+            fi
+        done
+        
+        echo "$range"
+    }
+      
+    msg_command_total_it pdftk
+    Progress_Title="$msg_progress_extract_title"
+    progress_dialog open
+      
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            echo ouimais
+            range=$(RangePageIt "$1" "${Pw_arg[@]}") || exit 0
+            echo ouimais2
+            outputFileName=$(outputFileNameIt "$1" "$msg_file_pages $range") || exit 0
+            ErrorDetails=$(pdftk "$1" "${Pw_arg[@]}" cat $range output "$outputFileName" 2>&1)
+            echo ouimaisalors
+            DialogNotIt $? "$outputFileName" "$1"
+        fi  
+        
+        progress_dialog end
+        shift
+    done
+    
+    progress_dialog close
+    notification_dialog pdf
+}
+
+extract_recto_verso() {
+    Progress_Title="$msg_progress_rectoverso_title"
+    progress_dialog open
+      
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            NumberOfPages=$(NumberOfPages "$1")
+            Onlyonefile=false #because it makes 2 files
+            outputFileNameRecto=$(outputFileNameIt "$1" "$msg_file_odd")
+            outputFileNameVerso=$(outputFileNameIt "$1" "$msg_file_even")
+            ErrorDetails=$(pdftk "$1" "${Pw_arg[@]}" cat 1-endodd output "$outputFileNameRecto" 2>&1)
+            DialogNotIt $? "$outputFileNameRecto" "$1"
+            if [ "$NumberOfPages" -gt 1 ];then 
+                ErrorDetails=$(pdftk "$1" "${Pw_arg[@]}" cat 1-endeven output "$outputFileNameVerso" 2>&1)
+                DialogNotIt $? "$outputFileNameVerso" "$1"
+            fi
+        fi
+        
+        progress_dialog end
+        shift
+    done
+        
+    progress_dialog close
+    notification_dialog pdf
+}
+
+burst () {
+  
+    Progress_Title="$msg_progress_burst_title"
+    progress_dialog open
+
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            burstDir=$(burstDirIt "$outputDir" "$1" "$msg_file_burst")
+            mkdir "$burstDir"
+            NumberOfPages=$(NumberOfPages "$1")
+            Onlyonefile=false
+            if [ "$NumberOfPages" -ge 10000 ];then
+                ShortFileName=$(basename "$(outputFileNameIt "$1" "$msg_file_page %05d")")
+            elif [ "$NumberOfPages" -ge 1000 ];then
+                ShortFileName=$(basename "$(outputFileNameIt "$1" "$msg_file_page %04d")")
+            elif [ "$NumberOfPages" -ge 100 ];then
+                ShortFileName=$(basename "$(outputFileNameIt "$1" "$msg_file_page %03d")")
+            elif [ "$NumberOfPages" -ge 10 ];then
+                ShortFileName=$(basename "$(outputFileNameIt "$1" "$msg_file_page %02d")")
+            else
+                ShortFileName=$(basename "$(outputFileNameIt "$1" "$msg_file_page %01d")")
+            fi
+            ErrorDetails=$(pdftk "$1" "${Pw_arg[@]}" burst output "$burstDir/$ShortFileName" 2>&1)
+            DialogNotIt $? "$burstDir" "$1"
+            rm "$burstDir/doc_data.txt"
+        fi
+                    
+        progress_dialog end
+        shift
+    done
+        
+    progress_dialog close
+    
+    if type notify-send &>/dev/null;then
+        notify-send -t 0 --icon folder "$msg_new_burst<br >$NotiFiles"
+    else
+        kdialog --title "$msg_new_burst" --icon folder --passivepopup "$NotiFiles" 3
+    fi
+}
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+normal_pdftk(){
+
+    SubAction="$1"
+    shift
+
+    unset compcommand tkcommand
+
+    case "$SubAction" in
+        left )
+            msg_file_sub="$msg_file_left"
+            tkcommand="cat 1-endleft"
+            ;;
+        right )
+            msg_file_sub="$msg_file_right"
+            tkcommand="cat 1-endright"
+            ;;
+        overturn )
+            msg_file_sub="$msg_file_overturn"
+            tkcommand="cat 1-enddown"
+            ;;
+        restore )
+            msg_file_sub="$msg_file_restore"
+            tkcommand="cat 1-endnorth"
+            ;;
+        repair )
+            Progress_Title="$msg_progress_repair_title"
+            msg_file_sub="$msg_file_repair"
+            ;;
+        unlock )
+            msg_file_sub="$msg_file_unlocked"
+            ;;
+        compress )
+            Progress_Title="$msg_progress_compress_title"
+            msg_file_sub="$msg_file_compressed"
+            compcommand="compress"
+            ;;
+        uncompress )
+            Progress_Title="$msg_progress_uncompress_title"
+            msg_file_sub="$msg_file_uncompressed"
+            compcommand="uncompress"
+    esac
+        
+    progress_dialog open
+    mkdir_for_a_lot "$msg_file_sub"
+        
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            outputFileName=$(outputFileNameIt "$1" "$msg_file_sub") || exit 0
+            ErrorDetails=$(pdftk "$1" "${Pw_arg[@]}" $tkcommand output "$outputFileName" $compcommand 2>&1)
+            DialogNotIt $? "$outputFileName" "$1"
+        fi
+        
+        progress_dialog end
+        shift
+    done
+        
+    progress_dialog close
+    notification_dialog pdf
+}
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+rotate() {
+    msg_command_total_it pdftk
+
+    Rotation=$(kdial "$msg_rotate_choose_title" --radiolist "$msg_command_total<p>$msg_rotate_choose<br></p>" \
+               left  "$msg_file_left" off right "$msg_file_right" off overturn "$msg_file_overturn" off \
+               restore "$msg_file_restore" off) || exit 0
+
+    Progress_Title="$msg_progress_rotate_title"
+
+    normal_pdftk "$Rotation" "$@"
+}
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+watermark () {
+    
+    last_background_dir=$(krc watermark last_dir "$HOME")
+    background=$(kdial "${msg_watermark_openFile_title}" \
+               --getopenfilename "$last_background_dir" application/pdf) || exit 0
+               
+    kwc watermark last_dir "${background%/*}"
+    
+    Progress_Title="$msg_progress_watermark_title"
+    progress_dialog open
+    mkdir_for_a_lot "$msg_file_watermark"
+    
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            outputFileName=$(outputFileNameIt "$1" "$msg_file_watermark") || exit 0
+            ErrorDetails=$(pdftk "$1" "${Pw_arg[@]}" background "${background}" output "${outputFileName}" 2>&1)
+            DialogNotIt $? "$outputFileName" "$1"
+        fi
+        
+        progress_dialog end
+        shift
+    done
+        
+    progress_dialog close
+    notification_dialog pdf
+}
+
+stamp () {
+    
+    last_stamp_dir=$(krc stamp last_dir "$HOME")
+    stamp=$(kdial "${msg_stamp_openFile_title}" --getopenfilename "." application/pdf) || exit 0
+    
+    krc stamp last_dir "${stamp%*/}"
+    
+    Progress_Title="$msg_progress_stamp_title"
+    progress_dialog open
+    mkdir_for_a_lot "$msg_file_stamp"
+    
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            outputFileName=$(outputFileNameIt "$1" "$msg_file_stamp") || exit 0
+            ErrorDetails=$(pdftk "$1" "${Pw_arg[@]}" stamp "${stamp}" output "${outputFileName}" 2>&1)
+            DialogNotIt $? "$outputFileName" "$1"
+        fi
+        
+        progress_dialog end
+        shift
+    done
+        
+    progress_dialog close
+    notification_dialog pdf
+}
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+lock () {
+    msg_command_total_it pdftk
+    lock_commons
+    
+    #tool to enter (or not) Passwords in pdftk
+    Ct=1
+    [ -n "$own_passwd" ] && Pw_arg_out[1]="owner_pw" Pw_arg_out[2]="$own_passwd" Ct=3
+    [ -n "$usr_passwd" ] && Pw_arg_out[$Ct]="user_pw" Pw_arg_out[$(($Ct+1))]="$usr_passwd"
+    [ -z "${Pw_arg_out[1]}" ] && unset Pw_arg_out
+    
+    Progress_Title="$msg_progress_lock_title"
+    progress_dialog open
+    mkdir_for_a_lot "$msg_file_locked"
+    
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            outputFileName=$(outputFileNameIt "$1" "$msg_file_locked") || exit 0
+            ErrorDetails=$(pdftk "$1" "${Pw_arg[@]}" output "${outputFileName}" allow ${permissions} "${Pw_arg_out[@]}" 2>&1)
+            DialogNotIt $? "$outputFileName" "$1"
+        fi
+        
+        progress_dialog end
+        shift
+    done
+        
+    progress_dialog close
+    notification_dialog pdf
+}
+
+lockunlock(){
+    lockunlockfirst(){    
+        tolock=0
+        tounlock=0
+        
+        until [ $# = 0 ];do
+            if pdftk "$1" dump_data &>/dev/null;then
+                pdfinfo "$1"|grep ^Encrypted:|grep -q no$ && tolock=2 || tounlock=1
+            else
+                tounlock=1
+            fi
+            shift
+        done
+    }
+    
+    msg_command_total_it pdftk
+    lockunlockfirst "$@"
+    
+    case $(($tolock+$tounlock)) in
+        1 )
+            normal_pdftk unlock "$@"
+            ;;
+        2 )
+            lock "$@"
+            ;;
+        3 )
+            choose=$(kdial "$msg_lock_or_unlock_title" --radiolist "$msg_command_total$msg_lock_or_unlock" true "$msg_lock_files" off false "$msg_unlock_files" off) || exit 0
+            $choose && lock "$@" || normal_pdftk unlock "$@"
+    esac	  
+}
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+attach () {
+
+    lines2tab (){
+        #$1:multiline argument
+        Nlines=$(echo "$1"|wc -l)
+        Ct=1
+        while [ $Ct -le $Nlines ];do
+            Tabi[$Ct]=$(echo "$1"|sed -n ${Ct}p)
+            ((Ct++))
+        done
+    }
+    
+    filesToAttach=$(kdial "${msg_attach_openFile_title}" --multiple --separate-output --getopenfilename ".") || exit 0
+    lines2tab "$filesToAttach"
+    
+    Progress_Title="$msg_progress_attach_title"
+    progress_dialog open
+    mkdir_for_a_lot "$msg_file_attach"
+    
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            outputFileName=$(outputFileNameIt "$1" "$msg_file_attach") || exit 0
+            ErrorDetails=$(pdftk "$1" "${Pw_arg[@]}" attach_files "${Tabi[@]}" output "${outputFileName}" 2>&1)
+            DialogNotIt $? "$outputFileName" "$1"
+        fi
+        
+        progress_dialog end
+        shift
+    done
+        
+    progress_dialog close
+    notification_dialog pdf
+}
+
+unattach () {
+  
+    Progress_Title="$msg_progress_unattach_title"
+    progress_dialog open
+    
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            burstDir=$(burstDirIt "$outputDir" "$1" "$msg_file_unattach")
+            mkdir "$burstDir"
+            ErrorDetails=$(pdftk "$1" "${Pw_arg[@]}" unpack_files output "$burstDir" 2>&1)
+            OutCode=$?
+            [ $(ls "$burstDir"|wc -l) = 0 ] && rm -R "$burstDir" || DialogNotIt $OutCode "$burstDir" "$1"
+        fi
+        
+        progress_dialog end
+        shift
+    done
+    
+    progress_dialog close
+    notification_dialog unattach
+}
+
+manage_attach(){
+    manage_attach_first() {
+        
+        #Create a non existing dir name
+        NonDir="/x$RANDOM"
+        until [ ! -e "$NonDir" ];do
+            NonDir="$NonDir/x$RANDOM"
+        done
+                
+        Attach=false
+        until [ $# = 0 ];do
+            if Unlock_it "$1" "$#";then
+                pdftk "$1" "${Pw_arg[@]}" unpack_files output "$NonDir" 2>&1 | grep -q ^"Error: unable to create the file:"$ && Attach=true
+            fi
+            shift
+        done
+    }
+    
+    manage_attach_first "$@"
+    msg_command_total_it pdftk
+    
+    if $Attach;then
+        choose=$(kdial "$msg_attach_or_extract_title" --radiolist "$msg_command_total$msg_attach_or_extract<br>" 1 "$msg_attach_extract" on 2 "$msg_attach_add" off) || exit 0
+        
+        case $choose in
+            1)
+                unattach "$@"
+                ;;
+            2)
+                attach "$@"
+                ;;
+        esac
+    else
+        attach "$@"
+    fi
+}
+    
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+repaginate() {
+
+    dependencies "$msg_depend_pdfjam" pdfjam
+    msg_command_total_it pdfjam
+    
+    sw21=off sw22=off sw24=off sw33=off sw_custom=off
+    repaginate_last=$(krc repaginate repaginate_last)
+    
+    case "$repaginate_last" in
+        2x1 ) sw21=on ;;
+        2x2 ) sw22=on ;;
+        2x4 ) sw24=on ;;
+        3x3 ) sw33=on ;;
+        custom ) sw_custom=on
+    esac
+        
+    prenup=$(kdial "$msg_repaginate_choose_title" --radiolist "$msg_command_total<div align=\"left\"><p>$msg_repaginate_choose3</p><blockquote><p>$msg_repaginate_choose2<ul><li>$msg_repaginate_option1</li><li>$msg_repaginate_option2</li><li>$msg_repaginate_option3</li><li>$msg_repaginate_option4</li></ul><hr><center><p>$msg_repaginate_choose1<br></p>" 2x1 "$msg_repaginate_2p" $sw21 2x2 "$msg_repaginate_4p" $sw22 2x4 "$msg_repaginate_8p" $sw24 3x3 "$msg_repaginate_9p" $sw33 custom "$msg_repaginate_custom" $sw_custom) || exit 0
+        
+    kwc repaginate repaginate_last "$prenup"
+        
+    case "$prenup" in
+        custom)
+            goodnup=false
+            until $goodnup;do
+                nup=$(kdial "${msg_repaginate_customwin_title}" --inputbox "$msg_command_total${msg_repaginate_customwin}" "1x1") || exit 0
+                echo "$nup"|grep -x -q [0-9][0-9]*x[0-9][0-9]* && goodnup=true
+                $goodnup || kdial "$msg_wrong_fields_title" --error "$msg_command_total$msg_wrong_fields"
+            done
+    
+            goodscale=false
+            until $goodscale;do
+                scale=$(kdial "$msg_repaginate_scale_title" --inputbox "$msg_command_total${msg_repaginate_wrong_scale}<p>$msg_repaginate_scale1</p><p>$msg_repaginate_scale2</p>" "100%") || exit 0
+                scale=${scale%*%}
+                [ -z $(echo "$scale"|sed -e 's/[0-9]//g' -e 's/\.//g') ] && goodscale=true
+                msg_repaginate_wrong_scale="$msg_wrong_fields$\'n'"
+            done
+            
+            scale=$(echo "scale=2;$scale/100"|bc)
+            frame=$(kdial "${msg_repaginate_frames_title}" --radiolist "$msg_command_total${msg_repaginate_frames}<br>" false "${msg_repaginate_frames_no}" on true "${msg_repaginate_frames_yes}" off) || exit 0
+            ;;
+        * )
+            scale=1
+            frame=false
+    esac
+        
+    Progress_Title="$msg_progress_repaginate_title"
+    progress_dialog open
+    mkdir_for_a_lot "$(echo "$prenup"|sed "s/custom/$nup/")"
+    
+    fieldswarning=true
+        
+    until [ $# = 0 ];do
+
+        if Unlock_it "$1" "$#";then
+            Poppler_PW_it "$1" "$#"
+            msg=$(pdfinfo "${Poppler_PW[@]}" "$1")
+            
+            #make fields flat because repaginate dont works with fields
+            if [ -n "$(pdftk "$1" "${PassWord[@]}" dump_data_fields)" ];then
+                if $fieldswarning;then
+                    progress_dialog checkcancel pdf
+                    kdial "$msg_repaginate_flatten_forms_title" --dontagain $ScriptConfigFile:repaginate_fields --warningcontinuecancel "$msg_command_total$msg_repaginate_flatten_forms" && fieldswarning=false || exit_function_many pdf
+                fi
+                TmpFile="$(mktemp -u).pdf"
+                pdftk "$1" "${PassWord[@]}" output "$TmpFile" flatten
+                RmTmpFile=true
+                unset Pw_arg Poppler_PW
+            else
+                TmpFile="$1"
+                RmTmpFile=false
+            fi
+            
+            Dimensions=$(echo "$msg"|grep "^Page size:"|sed 's/Page size: *//'|sed 's/ pts.*//'|sed 's/ x /x/')
+            width=$(echo ${Dimensions}|cut -d'x' -f1|cut -d'.' -f1)
+            height=$(echo ${Dimensions}|cut -d'x' -f2|cut -d'.' -f1)
+
+            case "$prenup" in
+                2x1)
+                    [ ${width} -ge ${height} ] && nup=1x2 || nup=2x1
+                    ;;
+                2x4)
+                    [ ${height} -ge ${width} ] && nup=4x2 || nup=2x4
+                    ;;
+                custom )
+                    true ;;
+                * )
+                    nup="$prenup"
+            esac
+            
+            #Landscape or Portrait
+            columns=$(echo "$nup"|cut -d'x' -f1)
+            lines=$(echo "$nup"|cut -d'x' -f2)
+
+            if [ -z "$preLandscape" ] || [[ "$preLandscape" == auto ]];then 
+                [ "$((${width}*${columns}))" -ge "$((${height}*${lines}))" ] && Landscape="--landscape" || Landscape="--no-landscape"
+            fi
+            
+            if [ -z "$preLandscape" ] && [[ "$prenup" == custom ]];then
+                echo "Landscape=$Landscape"
+                
+                if $Onlyonefile;then
+                
+                    case "$Landscape" in
+                        "--landscape" )
+                            LandSwitch=on
+                            PortraitSwitch=off
+                            ;;
+                        "--no-landscape" )
+                            LandSwitch=off
+                            PortraitSwitch=on
+                    esac
+                    
+                    progress_dialog checkcancel pdf
+                    preLandscape=$(kdial "$msg_repaginate_prelandscape_title" --radiolist "$msg_command_total$msg_repaginate_prelandscape_one<br>" landscape "$msg_repaginate_landscape" $LandSwitch no-landscape "$msg_repaginate_portrait" $PortraitSwitch) || exit 0
+                else
+                    progress_dialog checkcancel pdf
+                    preLandscape=$(kdial "$msg_repaginate_prelandscape_title" --radiolist "$msg_command_total$msg_prelandscape_many<br>" landscape "$msg_repaginate_landscape" off no-landscape "$msg_repaginate_portrait" off auto "$msg_repaginate_automatic" on) || exit_function_many pdf
+                fi
+                
+                [[ ! "$preLandscape" == auto ]] && Landscape="--$preLandscape"
+            fi
+            
+            
+            #Choose multiplicate or not original document in order to take all output pages.
+            NumberOfPages=$(NumberOfPages "$TmpFile")
+            PagesPerSheet=$(($columns*$lines))
+            Verif=$(($NumberOfPages/$PagesPerSheet))
+            
+            #multiplicate pages to complete output file
+            #if NumberOfPages isn't a multiple of Number of pages per sheet
+            if [ ! $(($NumberOfPages%$PagesPerSheet)) = 0 ];then
+                progress_dialog checkcancel pdf
+                [ -z "$DoMultiplicate" ] && DoMultiplicate=$(kdial "$msg_repaginate_multiply_pages_title" --yesnocancel "$msg_command_total$msg_repaginate_multiply_pages" ; echo $?)
+                
+                case $DoMultiplicate in
+                    0 )
+                        tkdoc="1-end"
+                        FinalNOP="$NumberOfPages"
+                        TotPagesInSheet="$PagesPerSheet"
+
+                        until [ "$FinalNOP" = "$TotPagesInSheet" ];do
+                            if [ "$FinalNOP" -lt "$TotPagesInSheet" ];then
+                                until [ "$FinalNOP" -ge "$TotPagesInSheet" ];do
+                                    FinalNOP=$(($FinalNOP+$NumberOfPages))
+                                    tkdoc="$tkdoc 1-end"
+                                done
+                            else
+                                until [ "$TotPagesInSheet" -ge "$FinalNOP" ];do
+                                    TotPagesInSheet=$(($TotPagesInSheet+$PagesPerSheet))
+                                done
+                            fi
+                        done
+                        
+                        TmpFile2="$(mktemp -u).pdf"
+                        pdftk "$TmpFile" "${Pw_arg[@]}" cat $tkdoc output "$TmpFile2"
+                        $RmTmpFile && rm "$TmpFile"
+                        TmpFile="$TmpFile2"
+                        unset Pw_arg Poppler_PW
+                        RmTmpFile=true
+                        ;;
+                    2 )
+                        exit 0
+                esac
+            fi
+            
+            outputFileName=$(outputFileNameIt "$1" "$nup") || exit 0
+            
+            $RmTmpFile || TmpFile_it "$1" "$#"
+            
+            ErrorDetails=$(pdfjam "$TmpFile" --nup $nup $Landscape --frame $frame --scale $scale --outfile "$outputFileName" 2>&1)
+            DialogNotIt $? "$outputFileName" "$1" "$TmpFile"
+            $RmTmpFile && rm "$TmpFile"
+        fi
+                
+        progress_dialog end
+        shift
+            
+    done
+    
+    progress_dialog close
+    notification_dialog pdf
+}
+
+margin() {
+
+    dependencies "$msg_depend_pdfjam" pdfjam
+    msg_command_total_it pdfjam
+    
+    goodscale=false
+    
+    until $goodscale;do
+        big_scale=$(kdial "$msg_repaginate_scale_title" --inputbox "$msg_command_total${msg_repaginate_wrong_scale}\
+                <p><center>$msg_margin_a4</center></p><br ><p>$msg_repaginate_scale1</p><p>$msg_repaginate_scale2</p>" "100%") || exit 0
+        big_scale=${big_scale%*%}
+        [ -z $(echo "$big_scale"|sed -e 's/[0-9]//g' -e 's/\.//g') ] && goodscale=true
+        msg_repaginate_wrong_scale="$msg_wrong_fields$'\n'"
+    done
+    
+    scale=$(echo "scale=2;$big_scale/100"|bc)
+    Progress_Title="$msg_progress_repaginate_title"
+    progress_dialog open
+    mkdir_for_a_lot "${big_scale}%"
+    
+    fieldswarning=true
+      
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            Poppler_PW_it "$1" "$#"
+            msg=$(pdfinfo "${Poppler_PW[@]}" "$1")
+    
+            #make fields flat because repaginate doesn't works with fields
+            if [ -n "$(pdftk "$1" "${PassWord[@]}" dump_data_fields)" ];then
+                if $fieldswarning;then
+                    progress_dialog checkcancel pdf
+                    kdial "$msg_repaginate_flatten_forms_title" --dontagain $ScriptConfigFile:repaginate_fields --warningcontinuecancel "$msg_command_total$msg_repaginate_flatten_forms" && fieldswarning=false || exit_function_many pdf
+                fi
+                TmpFile="$(mktemp -u).pdf"
+                pdftk "$1" "${PassWord[@]}" output "$TmpFile" flatten
+                RmTmpFile=true
+                unset Pw_arg Poppler_PW
+            else
+                TmpFile="$1"
+                RmTmpFile=false
+            fi
+            
+            Dimensions=$(echo "$msg"|grep "^Page size:"|sed 's/Page size: *//'|sed 's/ pts.*//'|sed 's/ x /x/')
+            width=$(echo ${Dimensions}|cut -d'x' -f1|cut -d'.' -f1)
+            height=$(echo ${Dimensions}|cut -d'x' -f2|cut -d'.' -f1)
+            [ $width -ge $height ] && Landscape="--landscape" || Landscape="--no-landscape"
+
+            outputFileName=$(outputFileNameIt "$1" "${big_scale}%") || exit 0
+            
+            $RmTmpFile || TmpFile_it "$1" "$#"
+            
+            ErrorDetails=$(pdfjam "$TmpFile" $Landscape --scale $scale --outfile "$outputFileName" 2>&1)
+            DialogNotIt $? "$outputFileName" "$1" "$TmpFile"
+            $RmTmpFile && rm "$TmpFile"
+        fi
+                
+        progress_dialog end
+        shift
+            
+    done
+  
+  progress_dialog close
+  notification_dialog pdf
+}
+
+book(){
+    dependencies "$msg_depend_pdfjam" pdfjam
+    msg_command_total_it pdftk pdfjam
+    
+    BookDataDir="$DataDir/book"
+    book_helper="$BookDataDir/book_helper.py"
+    book_order_it="$BookDataDir/bookorder.py"
+    book_UI="$BookDataDir/UI/doallwithpdf_servicemenu"
+    
+    
+    emptyfilefound=false
+    fieldswarning=true
+    
+    DefaultFolding=`krc book folding left`
+    
+    if [ -z "$win_result" ];then
+        win_result=`"$book_UI" $DefaultFolding --title "$msg_book_window_title"\
+                    --attach "$Winid" \
+                    --text "$msg_command_total<center>$msg_book_window_text</center>"\
+                    --numberofpages_text "$msg_book_number_of_pages_combo"\
+                    --folding_texts "${msg_book_folding_combo_list[@]}"\
+                    --papersize_texts "${msg_book_papersize_combo_list[@]}"\
+                    --gutter_texts "$msg_book_gutter" "$msg_book_gutter_tooltip"\
+                    --reverseodd_text "$msg_book_reverse_odd"` || exit 0
+        inkonsoleit win_result -- "$@"
+    fi
+    
+    c=0
+    for win_arg in $win_result;do
+        case $c in
+            0) PagesPerSheet=$win_arg ;;
+            1) Folding=$win_arg ;;
+            2) PaperSize="$win_arg" ;;
+            3) TurnOdd=$win_arg ;;
+            4) Gutter=$win_arg ;;
+        esac
+        ((c++))
+    done
+    
+    case $Folding in
+        left|right)
+            #remember folding if left or right is choosed
+            kwc book folding $Folding
+            columnbool=false
+        ;;
+        top)
+            #ask the Orientation of the last page if folding is top
+            Folding=$(kdial "$msg_book_top_last_title" --radiolist "$msg_book_top_last_text" \
+            top "$msg_book_top_last_logic" on top_reverse_last "$msg_book_top_last_aesthetic" off) || exit 0
+            
+            columnbool=true
+    esac
+    
+    Progress_Title="$msg_progress_book_title"
+    progress_dialog open
+    mkdir_for_a_lot "$msg_file_book"
+    
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            
+            #check if pdf file contains fields in order to say to user that they will be flatten
+            if $fieldswarning && [ -n "$(pdftk "$1" "${Pw_arg[@]}" dump_data_fields)" ];then
+                progress_dialog checkcancel pdf
+                kdial "$msg_repaginate_flatten_forms _title" --dontagain $ScriptConfigFile:repaginate_fields \
+                      --warningcontinuecancel "$msg_command_total$msg_repaginate_flatten_forms" \
+                      && fieldswarning=false || exit_function_many pdf
+            fi
+            
+            Poppler_PW_it "$1" "$#"
+            msg=$(pdfinfo "${Poppler_PW[@]}" "$1")
+            Dimensions=$(echo "$msg"|grep "^Page size:"|sed 's/Page size: *//'|sed 's/ pts.*//'|sed 's/ x /x/')
+            
+            nup=$("$book_helper" --get_nup --folding $Folding --pagespersheet $PagesPerSheet --inputdimensions $Dimensions)
+            echo nup: $nup
+            
+            InitialNumberOfPages=$(NumberOfPages "$1")
+            BookPagesNumber=$InitialNumberOfPages
+            until [ $(($BookPagesNumber % $PagesPerSheet)) = 0 ];do
+                ((BookPagesNumber++))
+            done
+                
+            HowWhites=$(($BookPagesNumber - $InitialNumberOfPages))
+            
+            #add empty pages to document to get a n multiple
+            if [ ! $HowWhites = 0 ];then
+            
+                #check if script can find empty.pdf to complete the book
+                if ! $emptyfilefound;then
+                    emptyfile="$HOME/.local/share/apps/DoAllWithPDF/empty.pdf"
+                        
+                    if [ ! -f "$emptyfile" ];then
+                        if type gs &>/dev/null;then
+                            mkdir -p "$HOME/.local/share/apps/DoAllWithPDF"
+                            gs -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile="$emptyfile" -dBATCH
+                        else
+                            progress_dialog close
+                            notification_dialog pdf
+                            kdial "$msg_book_missing_emptyfile_title" --sorry "$msg_book_missing_emptyfile"
+                            exit 164
+                        fi
+                    else
+                        emptyfilefound=true
+                    fi
+                fi
+                
+                case $HowWhites in  
+                    1 )
+                        WhereWhiteF="2"  ;;
+                    * ) 
+                        WhereWhiteF=""
+                        for ((i=1;i<HowWhites;i++)); do
+                            WhereWhiteF="$(($BookPagesNumber-$i)) $WhereWhiteF"
+                        done
+                        WhereWhiteF="2 $WhereWhiteF"
+                esac
+                [ $InitialNumberOfPages = 1 ] && [ $PagesPerSheet = 4 ] && WhereWhiteF="2 3 4"
+                
+                #Ask where blank pages should be placed
+                while true;do
+                    progress_dialog checkcancel pdf
+                        
+                    case "$HowWhites" in
+                        1 )
+                            msg_wherewhite=`msg_book_wherewhite_one "<strong>$(meta_H "${1##*/}")</strong>" $InitialNumberOfPages \
+                                            $BookPagesNumber`
+                        ;;
+                        * )
+                            msg_wherewhite=`msg_book_wherewhite_many "<strong>$(meta_H "${1##*/}")</strong>" $InitialNumberOfPages \
+                                            $HowWhites $BookPagesNumber`
+                    esac
+                    
+                    WhereWhite=$(kdial "$msg_book_wherewhite_title" \
+                                 --inputbox "$msg_command_total$msg_wherewhite<br>" "$WhereWhiteF") || exit_function_many pdf
+                    
+                    CatPDFW=`"$book_helper" --place_blanks --initial_numberofpages "$InitialNumberOfPages" \
+                            --numberofpages "$BookPagesNumber" --blanklist $WhereWhite` && break
+                    
+                    kdial "$msg_wrong_fields_title" --sorry "$msg_wrong_fields"
+                done
+                
+            fi
+            
+            outputFileName=$(outputFileNameIt "$1" "$msg_file_book") || exit 0
+            bookorder=`"$book_order_it" $Folding $BookPagesNumber $nup`
+            echo bookorder=$bookorder
+            
+            reversed_odd_string=`"$book_helper" --get_reversed_odd_tk --nup $nup --numberofpages $BookPagesNumber`
+            $TurnOdd || reversed_odd_string='1-end'
+            
+            [ -z "$CatPDFW" ] && CatPDFW="A1-end"
+            [ -z "$emptyfile" ] && emptyfile="$1" #just to make pdftk find B file but doesn't use it
+            
+            keep_terminal=false
+            JamOutputDimensions=$("$book_helper" --get_jam_dimensions --outputformat $PaperSize --inputdimensions $Dimensions --nup $nup)
+            
+            
+            if [[ $Gutter == '0.00' ]];then
+                #I tryed to use pipes, but pdftk can't find stdin really often (bug)
+                TmpF1=$(mktemp -u)
+                TmpF2=$(mktemp -u)
+                
+                pagetemplate=$("$book_helper" --get_pagetemplate --blanklist $WhereWhite)
+                pdftk A="$1" B="$emptyfile" "${Pw_arg[@]}" cat $CatPDFW output "$TmpF1" flatten
+                pdftk "$TmpF1" cat $bookorder output - |\
+                pdfjam --quiet --nup $nup --column $columnbool --pagetemplate $pagetemplate \
+                       --papersize "$JamOutputDimensions" --outfile "$TmpF2"
+                pdftk "$TmpF2" cat $reversed_odd_string output "$outputFileName" || keep_terminal=true
+
+                rm "$TmpF1"
+                rm "$TmpF2"
+            else
+                #I tryed to use pipes, but pdftk can't find stdin really often (bug)
+                RmTmps=true #set it to false to don't remove tmpfiles
+                
+                TmpF1=$(mktemp --suffix=.pdf)
+                TmpF2=$(mktemp --suffix=.pdf)
+                TmpF3=$(mktemp --suffix=.pdf)
+                TmpF4=$(mktemp --suffix=.pdf)
+                TmpOdd=$(mktemp --suffix=.pdf)
+                TmpEven=$(mktemp --suffix=.pdf)
+                TmpDir1=$(mktemp -d)
+                TmpDir2=$(mktemp -d)
+                
+                Merge_data=`"$book_helper" --add_margin --folding $Folding --numberofpages $BookPagesNumber --nup $nup \
+                            --gutter $Gutter --outputformat $PaperSize --inputdimensions $Dimensions`
+                TmpDimensions=$(echo "$Merge_data"|sed -n 1p)
+                offset_odd=$(echo "$Merge_data"|sed -n 2p)
+                offset_even=$(echo "$Merge_data"|sed -n 3p)
+                
+                JamInputDimensions=$("$book_helper" --get_jam_dimensions --outputformat input \
+                                     --inputdimensions $Dimensions --nup $nup)
+                
+                echo "$msg_book_placing_blank"
+                pdftk A="$1" B="$emptyfile" "${Pw_arg[@]}" cat $CatPDFW output "$TmpF1" flatten
+                
+                pagetemplate_odd=$("$book_helper" --get_pagetemplate --numberofpages $BookPagesNumber --blanklist odd $WhereWhite)
+                pagetemplate_even=$("$book_helper" --get_pagetemplate --numberofpages $BookPagesNumber --blanklist even $WhereWhite)
+                
+                echo "$msg_book_add_margin_odd"
+                pdftk "$TmpF1" cat odd output - |\
+                pdfjam --quiet --pagetemplate $pagetemplate_odd --papersize "$TmpDimensions" --noautoscale true\
+                    --offset "$offset_odd" --outfile /dev/stdout |
+                pdfjam --papersize "$JamInputDimensions" --quiet --outfile "$TmpOdd"
+                
+                if [[ "$Folding" == top_reverse_last ]];then
+                    TmpLast=$(mktemp --suffix=.pdf)
+                    TmpF5=$(mktemp --suffix=.pdf)
+                
+                    echo "$msg_book_add_margin_last"
+                    pdftk "$TmpF1" cat $BookPagesNumber output - |\
+                    pdfjam --quiet --papersize "$TmpDimensions" --noautoscale true\
+                        --offset "$offset_odd" --outfile /dev/stdout |
+                    pdfjam --papersize "$JamInputDimensions" --quiet --outfile "$TmpLast"
+                    
+                    echo "$msg_book_add_margin_even"
+                    pdftk "$TmpF1" cat 1-$(($BookPagesNumber-1))even output - |\
+                    pdfjam --quiet --pagetemplate $pagetemplate_even --papersize "$TmpDimensions" --noautoscale true\
+                        --offset "$offset_even" --outfile /dev/stdout |
+                    pdfjam --papersize "$JamInputDimensions" --quiet --outfile "$TmpEven"
+                    
+                    $RmTmps && rm "$TmpF1"
+                    
+                    echo "$msg_book_rebuild_document"
+                    pdftk "$TmpOdd" "$TmpEven" shuffle output "$TmpF5"
+                    pdftk "$TmpF5" "$TmpLast" output "$TmpF2"
+                    
+                    $RmTmps && rm "$TmpLast"
+                    $RmTmps && rm "$TmpF5"
+                    
+                else
+                    echo "$msg_book_add_margin_even"
+                    pdftk "$TmpF1" cat even output - |\
+                    pdfjam --quiet --pagetemplate $pagetemplate_even --papersize "$TmpDimensions" --noautoscale true\
+                        --offset "$offset_even" --outfile /dev/stdout |
+                    pdfjam --papersize "$JamInputDimensions" --quiet --outfile "$TmpEven"
+                    
+                    $RmTmps && rm "$TmpF1"
+                    
+                    echo "$msg_book_rebuild_document"
+                    pdftk "$TmpOdd" "$TmpEven" shuffle output "$TmpF2"
+                
+                fi
+                
+                $RmTmps && rm "$TmpOdd"
+                $RmTmps && rm "$TmpEven"
+                
+                echo "$msg_book_burst_document"
+                pdftk "$TmpF2" burst output "$TmpDir1/%05d.pdf"
+                rm "$TmpDir1/doc_data.txt"
+                $RmTmps && rm "$TmpF2"
+                
+                echo "$msg_book_manage_gutters"
+                
+                c=1
+                for pdf_page in $TmpDir1/*;do
+                    pdf_page_name=${pdf_page##*/}
+                    page_gutter=`"$book_helper" --get_page_gutter --folding $Folding --numberofpages $BookPagesNumber --nup $nup \
+                    --pagenumber $c --gutter $Gutter --outputformat $PaperSize --inputdimensions $Dimensions --blanklist $WhereWhite`
+                    
+                    echo "   page $c/$BookPagesNumber : $page_gutter"
+                    
+                    if [[ "$page_gutter" == "0.00" ]];then
+                        mv "$pdf_page" "$TmpDir2/$pdf_page_name"
+                    else
+                        [[ "$Folding" =~ ^top ]] && offset="0mm ${page_gutter}mm" || offset="${page_gutter}mm 0mm"
+                        pdfjam $pdf_page --quiet --papersize "$JamInputDimensions" --offset "$offset" --outfile $TmpDir2/$pdf_page_name
+                    fi
+                    
+                    ((c++))
+                done
+                
+                $RmTmps && rm -R "$TmpDir1"
+                
+                echo "$msg_book_rebuild_document"
+                pdftk $TmpDir2/* output $TmpF3
+                
+                $RmTmps && rm -R "$TmpDir2"
+                
+                echo "$msg_book_make_final_doc"
+                pdftk "$TmpF3" cat $bookorder output - |\
+                pdfjam --nup $nup --papersize "$JamOutputDimensions" --column $columnbool --quiet --outfile "$TmpF4"
+                
+                $RmTmps && rm "$TmpF3"
+                
+                echo "$msg_book_reverse_odd_term"
+                pdftk "$TmpF4" cat $reversed_odd_string output "$outputFileName" || keep_terminal=true
+                
+                $RmTmps && rm "$TmpF4"
+                
+            fi
+            
+            unset CatPDFW
+            
+            if $keep_terminal;then
+                echo -n "$msg_terminal_error"
+                read anything
+            else
+                DialogNotIt 0 "$outputFileName" "$1"
+            fi
+            
+            
+        fi
+        
+        progress_dialog end
+        shift
+    done
+    
+    progress_dialog close
+    notification_dialog pdf
+
+}
+
+#---------------------------------------------------------------------------------------------------------------------------------------------
+fonts (){
+
+    msg_command_total_it pdffonts
+    
+    if [ $# -gt 7 ];then
+        kdial "$msg_warning_many_win_title" --warningcontinuecancel "$msg_command_total`printf "$msg_infofonts" $#`<br>" || exit 0
+    fi
+        
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            Poppler_PW_it "$1" "$#"
+            msg=$(pdffonts "${Poppler_PW[@]}" "$1")
+            msg=$(echo "$msg"|sed 1d|sed 1d|sed 's/Type /Type_/g'|sed 's/  */ /g')
+            [ -z "$msg" ] && NoFonts=true || NoFonts=false
+            
+            until [ -z "$msg" ];do
+                FL=$(echo "$msg"|sed -n 1p)
+                FontsMsg="${FontsMsg}Name: $(echo "$FL"|cut -d' ' -f1)
+                Type: $(echo "$FL"|cut -d' ' -f2|sed 's/_/ /')
+                encoding: $(echo "$FL"|cut -d' ' -f3)
+                emb: $(echo "$FL"|cut -d' ' -f4)
+                sub: $(echo "$FL"|cut -d' ' -f5)
+                uni: $(echo "$FL"|cut -d' ' -f6)
+                object: $(echo "$FL"|cut -d' ' -f7)
+                ID: $(echo "$FL"|cut -d' ' -f8)
+
+                "
+                msg=$(echo "$msg"|sed 1d)
+            done
+                
+            if $NoFonts;then
+                kdial "${msg_fonts_title}" --sorry "`printf "$msg_fonts_no_fonts" "<strong>$(meta_H "${1##*/}")</strong>"`" &
+            else
+                kdial "${msg_fonts_title}" --textinputbox "<strong>$(meta_H "${1##*/}")</strong>" "$FontsMsg" 360 480 &
+            fi
+        fi
+        
+        shift
+    done	
+}
+
+info () {
+
+    msg_command_total_it pdfinfo pdftk
+      
+    if [ $# -gt 7 ];then
+      kdial "$msg_warning_many_win_title" --warningcontinuecancel "$msg_command_total`printf "$msg_infofonts" $#`<br>" || exit 0
+    fi
+    
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            Poppler_PW_it "$1" "$#"
+            msg=$(pdfinfo "${Poppler_PW[@]}" "$1")  
+            msg="${msg}$(pdftk "$1" "${Pw_arg[@]}" dump_data| sed -e 's/^InfoBegin$//' -e 's/^PageMediaBegin$//' -e 's/^BookmarkBegin$//')"
+            kdial "${msg_info_title}" --textinputbox "$msg_command_total$(meta_H "${1##*/}")" "${msg}" 360 480 &
+        fi
+        
+        shift
+    done	
+  
+}
+
+#-------------------------------
+optimize () {
+      
+    dependencies "$msg_depend_qpdf" qpdf
+    
+    Progress_Title="$msg_progress_optimize_title"
+    progress_dialog open
+    
+    crypt=false
+    
+    case "$1" in
+        //crypt )
+            crypt=true
+            shift
+            msg_file_optimized="$msg_file_optimized $msg_file_locked"
+            lock_commons
+                
+            if [[ "$permissions" =~ Printing ]];then
+                Print_opt="full"
+            elif [[ "$permissions" =~ DegradedPrinting ]];then
+                Print_opt="low"
+            else
+                Print_opt="none"
+            fi
+                
+                
+            if [[ "$permissions" =~ ModifyAnnotations ]];then
+                modify_opt="annotate"
+            elif [[ "$permissions" =~ ModifyContents ]];then
+                modify_opt="assembly"
+            else
+                modify_opt="none"
+            fi
+               
+               
+            if [[ "$permissions" =~ CopyContents ]];then
+                extract_opt="y"
+            else
+                extract_opt="n"
+            fi
+    esac
+      
+    mkdir_for_a_lot "$msg_file_optimized"
+      
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            [ -n "${PassWord[$#]}" ] && QpdfPassword[1]="--password=${PassWord[$#]}" || unset QpdfPassword
+            outputFileName=$(outputFileNameIt "$1" "$msg_file_optimized") || exit 0
+            
+            if $crypt;then
+                ErrorDetails=$(qpdf "${QpdfPassword[@]}" --linearize --encrypt "$usr_passwd" "$own_passwd" 128 --print="$Print_opt" --modify="$modify_opt" --accessibility=$extract_opt --extract=$extract_opt -- "$1" "$outputFileName" 2>&1)
+                DialogNotIt $? "$outputFileName" "$1"
+            else
+                ErrorDetails=$(qpdf "${QpdfPassword[@]}" --linearize "$1" "$outputFileName" 2>&1)
+                DialogNotIt $? "$outputFileName" "$1"
+            fi
+        fi
+        
+        progress_dialog end
+        shift
+    done
+    
+    progress_dialog close
+    notification_dialog pdf
+}
+
+convert_djvu () {
+
+    dependencies "$msg_depend_pdf2djvu" pdf2djvu
+    msg_command_total_it pdf2djvu
+    
+    #resolution choose dialog
+    dpi=$(kdial "${msg_djvu_dpi_title}" --inputbox "$msg_command_total${msg_djvu_dpi}" "300") || exit 0
+  
+    if [ -n "$(echo "$dpi"|sed 's/[0-9]//g')" ];then
+        dpi="300"
+    elif [ $dpi -ge 6000 ];then
+        dpi="6000"
+    elif [ $dpi -le 75 ];then
+        dpi=75
+    fi
+      
+      echo "dpi:$dpi"
+
+    #Options Dialog
+    options=$(kdial "${msg_djvu_options_title}" --checklist "$msg_command_total${msg_djvu_options}<br>" __monochrome "${msg_djvu_Monochrome}" off __no-metadata "${msg_djvu_noMetadata}" off __no-hyperlinks "${msg_djvu_noHyperlinks}" off) || exit 0
+    options=$(echo "${options}" | sed -e 's/"//g' -e 's/_/-/g')
+
+    Progress_Title="$msg_progress_Djvu_title"
+    progress_dialog open
+  
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            TmpFile_it "$1" "$#"
+            outputFileName=$(outputFileNameIt_convert "$1" djvu image/vnd.djvu) || exit 0
+            ErrorDetails=$(pdf2djvu -v -o "$outputFileName" --dpi=$dpi $options "$TmpFile")
+            DialogNotIt $? "$outputFileName"
+            $RmTmpFile && kbc "rm \"$TmpFile\""
+        fi
+        
+        progress_dialog end
+        shift
+    done
+
+    progress_dialog close
+    notification_dialog djvu
+}
+
+convert_html () {
+
+    msg_command_total_it pdftohtml
+    
+    options=$(kdial "${msg_html_options_title}" --checklist "$msg_command_total${msg_html_options_title}<br>" _p "${msg_html_ReplaceLinks}" on _i "${msg_html_NoImages}" off _noframes "${msg_html_NoFrames}" on _hidden "${msg_html_ForceHiddenText}" off _nomerge "${msg_html_NoMerge}" off --separate-output) || exit 0
+    
+    echo $options |grep -q _i && Is_NoImages_html=true || Is_NoImages_html=false
+    options=$(echo ${options} |sed 's/_/-/g')
+    
+    Progress_Title="$msg_progress_html_title"
+    progress_dialog open
+
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            Poppler_PW_it "$1" "$#"
+            HTMLBase_Name=$(basename "$1"|sed -e 's/ /_/g' -e 's/"//g' -e "s/'//g"|sed 's/\.pdf$//i')  
+            
+            if $Is_NoImages_html;then
+                outputFileName=$(outputFileNameIt_convert "$outputDir/$HTMLBase_Name.pdf" html text/html) || exit 0
+            else
+                #Just for html conversion, move files to another folder if images are unpacked
+                burstDir="$outputDir/${HTMLBase_Name}_HTML"
+                TmpVar="$burstDir"
+                Ct=1
+                
+                while [ -e "$TmpVar" ];do
+                    TmpVar="${burstDir}_($Ct)"
+                    ((Ct++))
+                done
+                
+                burstDir="$TmpVar"
+                mkdir "$burstDir"
+                outputFileName="$burstDir/${HTMLBase_Name}.html"
+            fi
+
+            ErrorDetails=$(pdftohtml -nodrm "${Poppler_PW[@]}" ${options} "$1" "${outputFileName}" 2>&1)
+            DialogNotIt $? "$outputFileName" "$1"
+        fi
+        
+        progress_dialog end
+        shift
+    done
+    
+    progress_dialog close
+    notification_dialog html
+}
+
+convert_ps(){
+
+    msg_command_total_it pdftops
+    
+    PS_options=$(kdial "${msg_PS_options_title}" --checklist "$msg_command_total${msg_PS_options}<br>" _noembt1 "${msg_PS_options_1}" off _noembtt "${msg_PS_options_2}" off _noembcidps "${msg_PS_options_3}" off _noembcidtt "${msg_PS_options_4}" off _expand "${msg_PS_options_5}" on _noshrink "${msg_PS_options_6}" off _nocenter "${msg_PS_options_7}" off _duplex "${msg_PS_options_8}" off --separate-output) || exit 0
+    PS_options=$(echo $PS_options | sed 's/_/-/g')
+    
+    level_options=$(kdial "${msg_PS_level_options_title}" --radiolist "$msg_command_total${msg_PS_level_options}<br>" _level1 "${msg_PS_level_options_1}" off _level2 "${msg_PS_level_options_2}" on _level3 "${msg_PS_level_options_3}" off _level1sep "${msg_PS_level_options_1sep}" off _level2sep "${msg_PS_level_options_2sep}" off _level3sep "${msg_PS_level_options_3sep}" off --separate-output) || exit 0
+    level_options=$(echo ${level_options} | sed 's/_/-/g')
+    
+    Progress_Title="$msg_progress_ps_title"
+    progress_dialog open
+    
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            Poppler_PW_it "$1" "$#"
+            outputFileName=$(outputFileNameIt_convert "$1" "ps" application/postscript) || exit 0
+            pdftops "${Poppler_PW[@]}" $level_options $PS_options "$1" "$outputFileName"
+            DialogNotIt $? "$outputFileName" "$1"
+        fi
+        
+        progress_dialog end
+        shift
+    done
+        
+    progress_dialog close
+    notification_dialog postscript
+}
+
+convert_image(){
+
+    #recognize a PostScript file
+    mimePS(){
+        if type kmimetypefinder5 &>/dev/null;then
+            [[ $(kmimetypefinder5 "$1") == application/postscript ]] && true || false
+        elif type kmimetypefinder &>/dev/null;then
+            [[ $(kmimetypefinder "$1"|sed -n 1p) == application/postscript ]] && true || false
+        else
+            false
+        fi
+    }
+  
+  
+    dependencies "$msg_depend_gs" gs
+    msg_command_total_it gs
+    
+    Format_choice="$1"
+    shift
+    dpi="150x150"
+
+    case "$Format_choice" in
+        ppm )
+            Image_Format=$(kdial "$msg_PPM_options_title" \
+                           --radiolist "$msg_command_total$msg_PPM_options<br>" ppm "$msg_PPM_options_color" on \
+                           pgm "$msg_PPM_options_gray" off) || exit 0
+            
+            extensionImage="$Image_Format"
+            Progress_Title="$msg_progress_ppm_title"
+            ;;
+        png )
+            Image_Format=$(kdial "$msg_PNG_options_title" \
+                           --radiolist "$msg_command_total$msg_PNG_options<br>" png16m "$msg_PNG_16M" on \
+                           png256 "$msg_PNG_256" off png16 "$msg_PNG_16" off pnggray "$msg_PNG_Gray" off \
+                           pngmono "$msg_PNG_Mono" off pngalpha "$msg_PNG_alpha" off) || exit 0
+            
+            extensionImage="png"
+            Progress_Title="$msg_progress_png_title"
+            ;;
+        jpeg )
+            Image_Format=$(kdial "$msg_JPEG_options_title" \
+                           --radiolist "$msg_command_total$msg_JPEG_options<br>" jpeg "$msg_PNG_16M" on \
+                           jpeggray "$msg_PNG_Gray" off) || exit 0
+            
+            extensionImage="jpeg"
+            GS_MaxStrip_Option="-dMaxStripSize=8192"
+            Progress_Title="$msg_progress_jpeg_title"
+            ;;
+        tiff )
+            Image_Format=$(kdial "${msg_TIFF_options_title}" \
+                           --radiolist "$msg_command_total${msg_TIFF_options}<br>" tiffg3 "$msg_TIFF_tiffg3" on \
+                           tiffg32d "$msg_TIFF_tiffg32d" off tiffg4 "$msg_TIFF_tiffg4" off) || exit 0
+            
+            extensionImage="tiff"
+            GS_MaxStrip_Option="-dMaxStripSize=8192"
+            Progress_Title="$msg_progress_tiff_title"
+            ;;
+    esac
+
+    echo ""
+    echo "Image_Format:$Image_Format"
+    dpi=$(kdial "${msg_image_DPI_title}" --radiolist "$msg_command_total$msg_image_DPI<br>" 600 "600 dpi" off 300 "300 dpi" off 200 "200 dpi" off 150 "150 dpi" on 72 "  72 dpi" off custom "$msg_image_DPI_custom" off) || exit 0
+
+    case "$dpi" in
+        custom )
+            dpi=$(kdial "${msg_image_DPI_title}" --inputbox "$msg_command_total${msg_image_DPI}<br>" "150x150") || exit 0
+            until echo "$dpi"|grep -q -x [0-9][0-9]*x*[0-9][0-9]*;do
+                kdial "$msg_wrong_fields_title" --error "$msg_command_total$msg_wrong_fields<br>"
+                dpi=$(kdial "${msg_image_DPI_title}" --inputbox "$msg_command_total${msg_image_DPI}<br>" "150x150")\
+                    || exit 0
+            done
+    esac
+      
+    echo "dpi:$dpi"
+    echo ""
+
+    progress_dialog open
+    
+    until [ $# = 0 ];do
+        if mimePS "$1" || Unlock_it "$1" "$#";then
+            NumberOfPages=$(NumberOfPages "$1")
+            
+            case "$NumberOfPages" in
+                1 )
+                    outputFileName=$(outputFileNameIt_convert "$1" $extensionImage image) || exit 0
+                    ForNotify="$outputFileName"
+                    ;;
+                * )
+                    burstDir=$(burstDirIt "$outputDir" "$1" "$Image_Format $dpi")
+                    mkdir "$burstDir"
+                    outputFileName="$burstDir/$(basename "$1"|sed -e 's/\.pdf$//i' -e 's/\.ps$//i'|sed "s/$/-%0d.$extensionImage/")"
+                    ForNotify="$burstDir"
+                    msg_new_Images_many="$msg_new_Images_InDir"
+                    msg_new_Images_one="$msg_new_Images_InDir"
+            esac
+                
+            TmpFile_it "$1" "$#"
+            printf "$msg_image_DPI_echo_converting\n" $Image_Format
+            echo "$msg_term_from $1"
+            echo "$msg_term_to__ $outputFileName"
+            gs -dSAFER -dBATCH -dNOPAUSE -dTextAlphaBits=4 -dGraphicsAlphaBits=4 $GS_MaxStrip_Option -sDEVICE=$Image_Format -r$dpi "-sOutputFile=$outputFileName" "$TmpFile"
+            DialogNotIt $? "$ForNotify" "$1" "$TmpFile"
+            echo ""
+            $RmTmpFile && rm "$TmpFile"
+        fi
+        
+        progress_dialog end ppm
+        shift
+    done
+        
+    progress_dialog close
+    notification_dialog ppm
+}
+
+image_quality(){
+
+    dependencies "$msg_depend_gs" gs
+    msg_command_total_it gs
+    
+    dpi="150x150"
+    dpi=$(kdial "${msg_image_DPI_title}" --radiolist "$msg_command_total$msg_image_DPI<br>" 600 "600 dpi" off 300 "300 dpi" off 200 "200 dpi" off 150 "150 dpi" on 72 "  72 dpi" off custom "$msg_image_DPI_custom" off) || exit 0
+
+    case "$dpi" in
+        custom )
+            dpi=$(kdial "${msg_image_DPI_title}" --inputbox "$msg_command_total${msg_image_DPI}<br>" "150x150") || exit 0
+            
+            until echo "$dpi"|grep -q -x [0-9][0-9]*x*[0-9][0-9]*;do
+                kdial "$msg_wrong_fields_title" --error "$msg_wrong_fields"
+                dpi=$(kdial "${msg_image_DPI_title}" --inputbox "$msg_command_total${msg_image_DPI}<br>" "150x150")\
+                    || exit 0
+            done
+    esac
+    
+    echo "dpi:$dpi"
+    echo ""
+    PDFtoGray=$(kdial "$msg_image_quality_colors_title" --radiolist "$msg_image_quality_colors" false "$msg_PNG_16M" on true "$msg_PNG_Gray" off) || exit 0
+    
+    Progress_Title="$msg_progress_image_quality_title"
+    progress_dialog open
+    mkdir_for_a_lot "dpi $dpi"
+    
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            TmpFile_it "$1" "$#"
+            outputFileName=$(outputFileNameIt "$1" "dpi $dpi") || exit 0
+            echo "$msg_image_quality_reduction"
+            echo "$msg_term_from $1"
+            echo "$msg_term_to__ $outputFileName"
+            echo ""
+            
+            if $PDFtoGray;then
+                gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -sProcessColorModel=DeviceGray -sColorConversionStrategy=Gray -dDownsampleColorImages=true -dColorImageResolution=$dpi -dDownsampleGrayImages=true -dGrayImageResolution=$dpi -dNOPAUSE -dBATCH -sOutputFile="$outputFileName" "$TmpFile"
+            else
+                gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dDownsampleColorImages=true -dColorImageResolution=$dpi -dDownsampleGrayImages=true -dGrayImageResolution=$dpi -dNOPAUSE -dBATCH -sOutputFile="$outputFileName" "$TmpFile"
+            fi
+            
+            DialogNotIt $? "$outputFileName" "$1" "$TmpFile"
+            $RmTmpFile && rm "$TmpFile" 
+        fi
+        
+        progress_dialog end pdf
+        shift
+    done
+    
+    progress_dialog close
+    notification_dialog pdf
+    
+}
+
+convert_pdf(){
+    #for Postscript files only
+    dependencies "$msg_depend_gs" gs
+    
+    Progress_Title="$msg_progress_image_quality_title"
+    progress_dialog open
+    mkdir_for_a_lot "dpi $dpi"
+    
+    until [ $# = 0 ];do
+        outputFileName=$(outputFileNameIt_convert "$1" pdf application/pdf) || exit 0
+        gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dDownsampleColorImages=true -dNOPAUSE -dBATCH -sOutputFile="$outputFileName" "$1"
+        DialogNotIt $? "$outputFileName" "$1"
+        progress_dialog end pdf
+        shift
+    done
+    
+    progress_dialog close
+    notification_dialog pdf
+}
+  
+
+convert_text(){
+
+    msg_command_total_it pdftotext
+    
+    options=$(kdial "${msg_TEXT_options_title}" --checklist "$msg_command_total${msg_TEXT_options}<br>" _layout "${msg_TEXT_layout}" on _htmlmeta "${msg_TEXT_html}" off _nopgbrk "${msg_TEXT_NoBreaks}" off --separate-output) || exit 0
+    options=$(echo ${options} | sed 's/_/-/g')
+    echo $options|grep -q htmlmeta && HtmlText=true || HtmlText=false
+    
+    Progress_Title="$msg_progress_txt_title"
+    progress_dialog open
+        
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            Poppler_PW_it "$1" "$#"
+            if $HtmlText;then
+                outputFileName=$(outputFileNameIt_convert "$1" html text/html) || exit 0
+            else
+                outputFileName=$(outputFileNameIt_convert "$1" txt text/plain) || exit 0
+            fi
+            
+            ErrorDetails=$(pdftotext "${Poppler_PW[@]}" ${options} "$1" "$outputFileName" 2>&1)
+            DialogNotIt $? "$outputFileName" "$1"
+        fi
+        
+        progress_dialog end
+        shift
+    done
+    
+    progress_dialog close
+    
+    $HtmlText && notification_dialog html || notification_dialog txt
+}
+
+extract_images(){
+  
+    Progress_Title="$msg_progress_extract_images_title"
+    progress_dialog open
+        
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            Poppler_PW_it "$1" "$#"
+            burstDir=$(burstDirIt "$outputDir" "$1" "images")
+            mkdir "$burstDir"
+            baseFile="${1##*/}"
+            outputFileName="$burstDir/${baseFile%.*}.html"
+#             outputFileName="$burstDir/$(basename "$1"|sed 's/\.pdf$//i'|sed 's/$/.html/')"
+            ErrorDetails=$(pdftohtml "${Poppler_PW[@]}" "$1" "$outputFileName" 2>&1)
+            OutCode=$?
+            
+            #remove html files in burstDir
+            for file in "$burstDir"/*.html;do rm "$file";done
+            
+            #remove burstDir if no files inside 
+            if [ $(ls "$burstDir"|wc -l) = 0 ];then
+                rm -R "$burstDir"
+                No_Image_In_File="$No_Image_In_File"$'\n'"$baseFile"
+            else
+                DialogNotIt $OutCode "$burstDir" "$1"
+            fi
+        fi
+        
+        progress_dialog end
+        shift
+    done
+    
+    progress_dialog close
+    notification_dialog extract_images
+    [ -n "$No_Image_In_File" ] && kdial "$msg_ext_images_no_images_title" \
+                                        --error "$msg_ext_images_no_images "$'\n'"$No_Image_In_File"
+}
+
+print () {
+
+    printers_dialog(){
+        cp=1
+        until [ $# = 0 ];do
+            Printer_Dialog[$cp]="$1"
+            Printer_Dialog[$(($cp+1))]=$(echo "$1"|sed 's/_/ /g')
+            Printer_Dialog[$(($cp+2))]="off"
+            [[ "$1" == "$printer_default" ]] && Printer_Dialog[$(($cp+2))]="on"
+            cp=$(($cp+3))
+            shift
+        done
+    }
+    
+    msg_command_total_it lpr
+        
+    # build printer list
+    printer_default=$(lpstat -p -d | grep default | cut -f2 -d':'|sed 's/^ //')
+    printers=$(lpstat -a | cut -f1 -d' ')
+    printers_dialog $printers
+
+    printer=$(kdial "$msg_print_choose_printer_title" --radiolist "$msg_command_total${msg_print_choose_printer}<br>" "${Printer_Dialog[@]}") || exit 0
+
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            TmpFile_it "$1" "$#"
+            ErrorDetails=$(lpr -P ${printer} "$TmpFile" 2>&1)
+            DialogNotIt $? "$1" printer
+            $RmTmpFile && rm "$TmpFile"
+        fi
+        
+        shift
+    done
+        
+    notification_dialog print
+}
+
+OCR(){
+
+    dependencies "$msg_depend_tesseract" tesseract
+    msg_command_total_it tesseract pdftohtml
+
+    OCR_dialog_it(){
+        OCR_Lang=$(krc OCR OCR_Lang eng)
+        co=1
+        until [ $# = 0 ];do
+            OCR_Dial[$co]="$1"
+            OCR_Dial[$(($co+1))]=$(echo "$1"|sed -e "s/eng/$L_english/" \
+                                                 -e "s/fra/$L_french/"  \
+                                                 -e "s/deu/$L_german/"  \
+                                                 -e "s/ita/$L_italian/" \
+                                                 -e "s/rus/$L_russian/" \
+                                                 -e "s/epo/$L_esperanto/" )
+            OCR_Dial[$(($co+2))]="off"
+            [[ "$OCR_Lang" == "$1" ]] && OCR_Dial[$(($co+2))]="on"
+            co=$(($co+3))
+            shift
+        done
+    }
+  
+    available_languages=$(ls /usr/share/tesseract-ocr/tessdata/ |grep \.cube\.params$|cut -d'.' -f1)
+    OCR_dialog_it $available_languages
+
+    OCR_Lang=$(kdial "$msg_OCR_choose_language_title" --radiolist "$msg_command_total<div align=\"left\" width=\"100\"><p>$msg_OCR_choose_language1</p><p>$msg_OCR_choose_language2</p><p>$msg_OCR_choose_language3<br></p>" "${OCR_Dial[@]}") || exit 0
+    kwc OCR OCR_Lang "$OCR_Lang"
+
+    Progress_Title="$msg_progress_OCR_title"
+    progress_dialog open
+    NoImagesInOneFile=false
+
+    until [ $# = 0 ];do
+        if Unlock_it "$1" "$#";then
+            Poppler_PW_it "$1" "$#"
+            outputFileName=$(outputFileNameIt_convert "$1" txt text/plain) || exit 0
+            
+            TmpDirImages[$#]=$(mktemp -d)
+            echo ""
+            echo "$msg_OCR_extracting_images ${1##*/}"
+            
+            case "${Poppler_PW[1]}" in
+                -upw )
+                    pdftohtml -upw "${Poppler_PW[2]}" "$1" ${TmpDirImages[$#]}/image.html ;;
+                -opw )
+                    pdftohtml -opw "${Poppler_PW[2]}" "$1" ${TmpDirImages[$#]}/image.html ;;
+                "" )
+                    pdftohtml "$1" ${TmpDirImages[$#]}/image.html
+            esac
+            
+            for file in ${TmpDirImages[$#]}/*;do 
+                echo $file|grep -q \.html$ && rm $file 
+            done
+            
+            Nbr_Imgs=$(ls ${TmpDirImages[$#]}|wc -l)
+            
+            if [ $Nbr_Imgs = 0 ];then
+                NoImagesInOneFile=true
+                No_Image_In_File=$(echo "$No_Image_In_File"|sed "$ s/$/\n$(meta_zap_out "${1##*/}")/")
+                echo "$No_Image_In_File"
+                echo -e "\033[1m$msg_ext_images_no_images ${1##*/}\033[0m"
+                echo ""
+            else
+                echo ""
+                echo "$msg_OCR_OCR"
+                echo "$msg_term_from ${1##*/}" 
+                echo "$msg_term_to__ ${outputFileName##*/}"
+                TmpDirTexts[$#]=$(mktemp -d)
+                
+                ct=1
+                for image in ${TmpDirImages[$#]}/*;do
+                    echo -n "	$msg_OCR_image $ct/$Nbr_Imgs"
+                    progress_dialog checkcancel txt ${TmpDirImages[$#]}
+                    ErrorDetails=$(tesseract -l $OCR_Lang -psm 1 $image ${TmpDirTexts[$#]}/text$ct 2>&1)
+                    echo ""
+                    ((ct++))
+                done
+                
+                DialogNotIt $? "$outputFileName"
+                
+                for text in ${TmpDirTexts[$#]}/*;do 
+                    cat $text >> "$outputFileName"
+                done
+            
+                echo ""
+                rm -R "${TmpDirTexts[$#]}"
+            fi
+                
+            rm -R ${TmpDirImages[$#]}
+        fi
+        
+        progress_dialog end
+        shift
+    done
+        
+    progress_dialog close
+    notification_dialog txt
+    $NoImagesInOneFile && kdial "$msg_ext_images_no_images_title" --error "$msg_ext_images_no_images
+    $No_Image_In_File"
+    
+}
+
+metadata(){
+    
+    getmetadata(){
+        until [ $# = 0 ];do
+            if Unlock_it "$1" "$#";then
+                Poppler_PW_it "$1" "$#"
+                msg=$(pdfinfo "${Poppler_PW[@]}" "$1")
+                
+                TmpAuthor="$Author"
+                Author=$(echo "$msg"|grep ^Author: |sed 's/^Author: *//')
+                
+                if [ -n "$TmpAuthor" ] && [ -n "$Author" ];then
+                    [[ "$Author" == "$TmpAuthor" ]] || unset Author
+                elif [ -n "$TmpAuthor" ];then
+                    Author="$TmpAuthor"
+                fi
+                
+                
+                TmpCreator="$Creator"
+                Creator=$(echo "$msg"|grep ^Creator: |sed 's/^Creator: *//')
+                
+                if [ -n "$TmpCreator" ] && [ -n "$Creator" ];then
+                    [[ "$Creator" == "$TmpCreator" ]] || unset Creator
+                elif [ -n "$TmpCreator" ];then
+                    Creator="$TmpCreator"
+                fi
+                
+                
+                TmpProducer="$Producer"
+                Producer=$(echo "$msg"|grep ^Producer: |sed 's/^Producer: *//')
+                
+                if [ -n "$TmpProducer" ] && [ -n "$Producer" ];then
+                    [[ "$Producer" == "$TmpProducer" ]] || unset Producer
+                elif [ -n "$TmpProducer" ];then
+                    Producer="$TmpProducer"
+                fi
+                
+                
+                TmpSubject="$Subject"
+                Subject=$(echo "$msg"|grep ^Subject: |sed 's/^Subject: *//')
+                
+                if [ -n "$TmpSubject" ] && [ -n "$Subject" ];then
+                    [[ "$Subject" == "$TmpSubject" ]] || unset Subject
+                elif [ -n "$TmpSubject" ];then
+                    Subject="$TmpSubject"
+                fi
+                
+                
+                TmpKeywords="$Keywords"
+                Keywords=$(echo "$msg"|grep ^Keywords: |sed 's/^Keywords: *//')
+                
+                if [ -n "$TmpKeywords" ] && [ -n "$Keywords" ];then
+                    [[ "$Keywords" == "$TmpKeywords" ]] || unset Keywords
+                elif [ -n "$TmpKeywords" ];then
+                    Keywords="$TmpKeywords"
+                fi
+                
+                
+                Title[$#]=$(echo "$msg"|grep ^Title: |sed 's/^Title: *//')
+                
+                Unlocked[$#]=true
+            else
+                Unlocked[$#]=false
+            fi
+            
+            shift
+        done
+    }
+
+    Ask_Titles(){
+        until [ $# = 0 ];do 
+            [ -z "${Title[$#]}" ] && Title[$#]=$(basename "$1"|sed 's/\.pdf$//i')
+#             msg_metadata_Ask_title_func "${1##*/}"
+            Title=$(kdial "$msg_metadata_Title" --inputbox "$msg_metadata_Ask_title" "${Title[$#]}") || exit 0
+            TitleCommand[$#]="-Title=$Title"  
+            shift
+        done
+    }
+
+
+    msg_command_total_it pdftk
+    RmTmpInfoTitle=false
+    getmetadata "$@"
+
+    Asked_metadata=$(kdial "$msg_metadata_Asked_title" --separate-output --checklist "$msg_command_total$msg_metadata_Asked<br>" Author "$msg_metadata_Author" on Creator "$msg_metadata_Creator" on Producer "$msg_metadata_Producer" on Subject "$msg_metadata_Subject" on  Keywords "$msg_metadata_Keywords" on Title "$msg_metadata_Title" on)
+    [ -z "$Asked_metadata" ] && exit 0
+
+    TmpInfoGen=$(mktemp)
+
+    if [[ "$Asked_metadata" =~ Author ]];then
+        [ -z "$Author" ] && Author=$(krc metadata Author)
+        Author=$(kdial "$msg_metadata_Author" --inputbox "$msg_command_total$msg_metadata_Author :" "$Author") || exit 0
+        kwc Metadata Author "$Author"
+        echo "InfoBegin" >> $TmpInfoGen
+        echo "InfoKey: Author" >> $TmpInfoGen
+        echo "InfoValue: $Author" >> $TmpInfoGen
+    fi
+    
+    if [[ "$Asked_metadata" =~ Creator ]];then
+        [ -z "$Creator" ] && Creator=$(krc metadata Creator)
+        Creator=$(kdial "$msg_metadata_Creator" --inputbox "$msg_command_total$msg_metadata_Creator :" "$Creator") || exit 0
+        kwc Metadata Creator "$Creator"
+        echo "InfoBegin" >> $TmpInfoGen
+        echo "InfoKey: Creator" >> $TmpInfoGen
+        echo "InfoValue: $Creator" >> $TmpInfoGen
+    fi
+    
+    if [[ "$Asked_metadata" =~ Producer ]];then
+        [ -z "$Producer" ] && Producer=$(krc metadata Producer)
+        Producer=$(kdial "$msg_metadata_Producer" --inputbox "$msg_command_total$msg_metadata_Producer :" "$Producer") || exit 0
+        kwc Metadata Producer "$Producer"
+        echo "InfoBegin" >> $TmpInfoGen
+        echo "InfoKey: Producer" >> $TmpInfoGen
+        echo "InfoValue: $Producer" >> $TmpInfoGen
+    fi
+    
+    if [[ "$Asked_metadata" =~ Subject ]];then
+        [ -z "$Subject" ] && Subject=$(krc metadata Subject)
+        Subject=$(kdial "$msg_metadata_Subject" --inputbox "$msg_command_total$msg_metadata_Subject :" "$Subject") || exit 0
+        kwc Metadata Subject "$Subject"
+        echo "InfoBegin" >> $TmpInfoGen
+        echo "InfoKey: Subject" >> $TmpInfoGen
+        echo "InfoValue: $Subject" >> $TmpInfoGen
+    fi
+    
+    if [[ "$Asked_metadata" =~ Keywords ]];then
+        [ -z "$Keywords" ] && Keywords=$(krc metadata Keywords)
+        Keywords=$(kdial "$msg_metadata_Keywords" --inputbox "$msg_command_total$msg_metadata_Keywords :" "$Keywords") || exit 0
+        kwc Metadata Keywords "$Keywords"
+        echo "InfoBegin" >> $TmpInfoGen
+        echo "InfoKey: Keywords" >> $TmpInfoGen
+        echo "InfoValue: $Keywords" >> $TmpInfoGen
+    fi
+    
+    mkdir_for_a_lot "+$msg_file_metadata"
+
+    Progress_Title="$msg_progress_metadata_title"
+    progress_dialog open
+    
+    until [ $# = 0 ];do
+        if ${Unlocked[$#]};then
+            if [ -n "${PassWord[$#]}" ];then
+                Pw_arg[1]='input_pw'
+                Pw_arg[2]="${PassWord[$#]}"
+            else
+                unset Pw_arg
+            fi
+            
+            if [[ $Asked_metadata =~ Title ]];then
+                [ -z "${Title[$#]}" ] && Title[$#]=$(basename "$1"|sed 's/\.pdf$//i')
+                progress_dialog checkcancel pdf
+                
+                Title=$(kdial "$msg_metadata_Title" --inputbox "$msg_command_total`printf "$msg_metadata_Ask_title" "<strong>$(meta_H "${1##*/}")</strong>"`" "${Title[$#]}") || exit 0
+                TmpInfoTitle=$(mktemp -u)
+                RmTmpInfoTitle=true
+                cp $TmpInfoGen $TmpInfoTitle
+                echo "InfoBegin" >> $TmpInfoTitle
+                echo "InfoKey: Title" >> $TmpInfoTitle
+                echo "InfoValue: $Title" >> $TmpInfoTitle
+            else
+                TmpInfoTitle="$TmpInfoGen"
+                RmTmpInfoTitle=false
+            fi
+            
+            outputFileName=$(outputFileNameIt "$1" "+$msg_file_metadata") || exit 0
+            ErrorDetails=$(pdftk "$1" "${Pw_arg[@]}" update_info_utf8 "$TmpInfoTitle" output "$outputFileName" 2>&1)
+            DialogNotIt $? "$outputFileName" "$1" "$TmpInfoTitle"
+            $RmTmpInfoTitle && rm $TmpInfoTitle
+        fi
+        
+        progress_dialog end
+        shift
+    done
+    
+    rm $TmpInfoGen
+    progress_dialog close
+    notification_dialog pdf
+}
+
+####Script start
+DataDir=$(get_datadir DoAllWithPDF)
+
+###Join function is not here yet !
+if [[ "$1" == join ]];then
+    shift
+    exec "$DataDir/src/doallwithpdf_servicemenu.py" "$@"
+    exit
+fi
+
+
+source_servicemenus_commons
+
+ScriptConfigFile="DoAllWithPDFrc"
+
+dependencies "$msg_depend_pdftk_poppler" pdftk pdfinfo
+
+
+#list of actions to run in konsole
+InKonsoleFunctions="convert_image convert_djvu convert_pdf extract_images image_quality OCR"
+
+#list of actions that do not create any file
+NoOutFileFunctions="info fonts print"
+
+#list of actions that need next argument as option
+NeedFirstArgFunctions="convert_image"
+
+#list of actions that are in fact subactions (first of list is the action)
+AreSubActionsFunctions="normal_pdftk left right overturn restore repair unlock compress uncompress"
+
+RmTmpFile=false
+
+case "$1" in
+    //fast_main )
+        shift
+        fast_main "$@"
+        ;;
+    * )
+        main "$@"
+esac
+
+exit 0

@@ -1,0 +1,245 @@
+#!/usr/bin/python3
+
+#from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QDateTimeEdit, QDialogButtonBox, QMessageBox, QComboBox , QLabel, QIcon
+#from PyQt5.QtCore import QDateTime, Qt
+from PyQt4.QtGui import QApplication, QDialog, QBoxLayout, QCheckBox, QDialogButtonBox, QComboBox , QLabel, QIcon, QLineEdit , QFontMetrics, QFont, QDoubleSpinBox
+from PyQt4.QtCore import  QDateTime, Qt, QTranslator, QLibraryInfo, QLocale
+#import PyQt4.QtCore
+
+try:
+    from PyKDE4.kdeui import KWindowSystem
+    attach_win = True
+except:
+    attach_win = False
+    
+import sys
+
+class BookOptionsDialog(QDialog):
+    def __init__(self, parent = None):
+        super(BookOptionsDialog, self).__init__(parent)
+        
+        self.setWindowIcon(QIcon.fromTheme('page-2sides'))
+        self.setWindowTitle(msg_window_title)
+        
+        #attach window if possible
+        if attach_win:
+            KWindowSystem.setMainWindow(self, win_attached_id)
+        
+        
+        layout = QBoxLayout(QBoxLayout.TopToBottom, self)
+        
+        layout.addWidget(QLabel(msg_window_text))
+        minsize = QFontMetrics(QFont()).width('    à droite (arabe, perse...)') + 50
+        
+        #spacing
+        layout.addSpacing(14)
+        layout.addStretch()
+        
+        sublayout_pps = QBoxLayout(QBoxLayout.LeftToRight, None)
+        
+        #pages per sheet label
+        #pages_per_sheet_text = QLabel('Combien de pages par feuille ?')
+        sublayout_pps.addWidget(QLabel('<div align=\'right\'>' + msg_number_of_pages_combo + ' :</div>'))
+        
+        #pages per sheet combobox
+        self.pages_per_sheet = QComboBox()
+        self.pages_per_sheet.addItems(['4', '8', '16'])
+        self.pages_per_sheet.setItemIcon(0, QIcon.fromTheme('page-2sides'))
+        self.pages_per_sheet.setItemIcon(1, QIcon.fromTheme('page-4sides'))
+        self.pages_per_sheet.setItemIcon(2, QIcon.fromTheme('page-8sides'))
+        self.pages_per_sheet.setMinimumWidth(minsize)
+        sublayout_pps.addWidget(self.pages_per_sheet)
+        
+        layout.addLayout(sublayout_pps)
+        
+        #spacing
+        layout.addSpacing(14)
+        layout.addStretch()
+        
+        sublayout_bb = QBoxLayout(QBoxLayout.LeftToRight, None)
+        
+        #book border label
+        sublayout_bb.addWidget(QLabel('<div align=\'right\'>' + msg_folding_combo_list[0] + ' :</div>'))
+        
+        #book border combobox
+        self.bookborder = QComboBox()
+        self.bookborder.addItems(msg_folding_combo_list[1:])
+        self.bookborder.setItemIcon(0, QIcon.fromTheme('arrow-left-double'))
+        self.bookborder.setItemIcon(1, QIcon.fromTheme('arrow-right-double'))
+        self.bookborder.setItemIcon(2, QIcon.fromTheme('arrow-up-double'))
+        
+        if default_border == 'right':
+            self.bookborder.setCurrentIndex(1)
+        else:
+            self.bookborder.setCurrentIndex(0)
+            
+        self.bookborder.setMinimumWidth(minsize)
+        sublayout_bb.addWidget(self.bookborder)
+                
+        layout.addLayout(sublayout_bb)
+
+        #spacing
+        layout.addSpacing(14)
+        layout.addStretch()
+        
+        sublayout_ps = QBoxLayout(QBoxLayout.LeftToRight, None)
+        
+        #paper size label
+        paper_size_label = QLabel('<div align=\'right\'>' + msg_papersize_combo_list[0] + ' :</div>')
+        sublayout_ps.addWidget(paper_size_label)
+        
+        #paper size combobox
+        self.output_size = QComboBox()
+        self.output_size.addItems(['A4', 'A3', 'A2', 'US letter'] + msg_papersize_combo_list[1:])
+        self.output_size.insertSeparator(4)
+        self.output_size.setMinimumWidth(minsize)
+        #self.output_size.setMaximumWidth(maxsize)
+        sublayout_ps.addWidget(self.output_size)
+        
+        layout.addLayout(sublayout_ps)
+        #spacing
+        layout.addSpacing(14)
+        layout.addStretch()
+        
+        sublayout_gouttiere = QBoxLayout(QBoxLayout.LeftToRight, None)
+        gutter_text=QLabel("<div align='right'>" + msg_gutter_texts[0] + "</div>")
+        gutter_text.setToolTip(msg_gutter_texts[1])
+        sublayout_gouttiere.addWidget(gutter_text)
+        self.gouttiere = QDoubleSpinBox()
+        self.gouttiere.setMinimumWidth(minsize)
+        self.gouttiere.setToolTip(msg_gutter_texts[1])
+        self.gouttiere.setSingleStep(0.10)
+        self.gouttiere.setSuffix(' mm')
+        sublayout_gouttiere.addWidget(self.gouttiere)
+        layout.addLayout(sublayout_gouttiere)
+        
+        #spacing
+        layout.addSpacing(14)
+        layout.addStretch()
+        
+        layout.addWidget(QLabel('<hr>'))
+        
+        self.check_reverse = QCheckBox()
+        self.check_reverse.setText(msg_reverse_odd)
+        self.check_reverse.setChecked(True)
+        layout.addWidget(self.check_reverse)
+        
+        #spacing
+        layout.addSpacing(14)
+        layout.addStretch()
+        
+        # OK and Cancel buttons
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, Qt.Horizontal, self)
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        layout.addWidget(buttons)
+    
+    def getPagesPerSheet(self):
+        return self.pages_per_sheet.currentText()
+    
+    def getBookBorder(self):
+        if self.bookborder.currentIndex() == 0:
+            return 'left'
+        elif self.bookborder.currentIndex() == 1:
+            return 'right'
+        else:
+            return 'top'
+    
+    def getOutputSize(self):
+        index = self.output_size.currentIndex()
+        if index == 0:
+            return 'a4paper'
+        elif index == 1:
+            return 'a3paper'
+        elif index == 2:
+            return 'a2paper'
+        elif index == 3:
+            return 'letterpaper'
+        #index 4 is separator
+        elif index == 5:
+            return 'multiply_input'
+        elif index == 6:
+            return 'input'
+    
+    def getOddTurn(self):
+        return str(str(self.check_reverse.isChecked()).casefold())
+    
+    def getGouttiere(self):
+        return str('%.2f' % self.gouttiere.value())
+    
+    @staticmethod
+    def getChoice(parent = None):
+        dialog = BookOptionsDialog(parent)
+        result = dialog.exec_()
+        
+        if result == QDialog.Accepted:
+            bookborder = dialog.getBookBorder()
+            pages_per_sheet = dialog.getPagesPerSheet()
+            output_size = dialog.getOutputSize()
+            odd_turn = dialog.getOddTurn()
+            gouttiere = dialog.getGouttiere()
+            fullstring = str(pages_per_sheet) + ' ' + bookborder + ' ' + output_size + ' ' + odd_turn + ' ' + gouttiere
+            return(fullstring)
+        
+        else:
+            return False
+            
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    
+    #translate buttons
+    locale = QLocale.system().name()
+    translator = QTranslator()
+    translator.load("qt_" + locale, QLibraryInfo.location(QLibraryInfo.TranslationsPath))
+    app.installTranslator(translator)
+    
+    #translate via arguments
+    msg_window_title = 'book PDF'
+    msg_window_text  = ''
+    msg_number_of_pages_combo = 'Number of pages per sheet<br>(2sides)'
+    msg_folding_combo_list = ['Folding', 'On the left', 'On the right', 'At The top' ]
+    msg_papersize_combo_list = [ 'PaperSize', 'Multiply', 'Same as document' ]
+    msg_gutter_texts = ['Gutter :', 'blablatooltip']
+    msg_reverse_odd = 'Put down odd pages of the book'
+    win_attached_id = 0
+    
+    default_border = sys.argv[1]
+    arg_list = sys.argv[2:]
+    Option=None
+    
+    for arg in arg_list:            
+        if arg in ('--title', '--text', '--numberofpages_text', '--folding_texts', '--papersize_texts', 
+                   '--gutter_texts', '--reverseodd_text', '--attach'):
+            Option = arg
+            
+            if arg == '--folding_texts':
+                msg_folding_combo_list.clear()
+            elif arg == '--papersize_texts':
+                msg_papersize_combo_list.clear()
+            elif arg == '--gutter_texts':
+                msg_gutter_texts.clear()
+        else:
+            if Option == '--title':
+                msg_window_title = str(arg)
+            elif Option == '--text':
+                msg_window_text = str(arg)
+            elif Option == '--numberofpages_text':
+                msg_number_of_pages_combo = str(arg)
+            elif Option == '--folding_texts':
+                msg_folding_combo_list.append(str(arg))
+            elif Option == '--papersize_texts':
+                msg_papersize_combo_list.append(str(arg))
+            elif Option == '--gutter_texts':
+                msg_gutter_texts.append(arg)
+            elif Option == '--reverseodd_text':
+                msg_reverse_odd = str(arg)
+            elif Option == '--attach':
+                if arg.isdigit():
+                    win_attached_id = int(arg)
+                
+    choice = BookOptionsDialog().getChoice()
+    if choice:
+        print(choice)
+    else:
+        sys.exit(1)

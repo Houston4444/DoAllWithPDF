@@ -1,0 +1,239 @@
+#
+# 	Part of kde-service-menu-pdf Version 0.6
+# 	Copyright (C) 2014 Giuseppe Benigno <giuseppe.benigno(at)gmail.com>
+#
+# 	This program is free software: you can redistribute it and/or modify
+# 	it under the terms of the GNU General Public License as published by
+# 	the Free Software Foundation, either version 3 of the License, or
+# 	(at your option) any later version.
+#
+# 	This program is distributed in the hope that it will be useful,
+# 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+# 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# 	GNU General Public License for more details.
+#
+# 	You should have received a copy of the GNU General Public License
+# 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+[Desktop Entry]
+Type=Service
+ServiceTypes=KonqPopupMenu/Plugin
+MimeType=application/pdf;
+Icon=preferences-system
+Actions=join;add;_SEPARATOR_;extract;extract_recto_verso;burst;_SEPARATOR_;rotate;_SEPARATOR_;margin;repaginate;book;_SEPARATOR_;extract_images;image_quality;_SEPARATOR_;print;
+Name=DoAllWithPDF ServiceMenu
+X-KDE-Submenu=PDF tools
+X-KDE-Submenu[ru]=Изменить через PDF
+X-KDE-Submenu[fr]=Outils PDF
+X-KDE-Submenu[it]=Strumenti PDF
+
+[Desktop Action join]
+Icon=list-add
+Name=Join selected documents
+Name[de]=Ausgewählte Dokumente vereinigen
+Name[es]=Unir los documentos seleccionados
+Name[gl]=Unir documentos selecionados
+Name[it]=Unisci i documenti selezionati
+Name[ru]=Присоединить выбранные документы
+Name[fr]=Joindre les documents sélectionnés
+Exec=doallwithpdf_servicemenu join %F
+
+[Desktop Action add]
+Icon=document-new
+Name=Add another document
+Name[de]=Ein weiteres Dokument hinzufügen
+Name[es]=Añadir otro documento
+Name[gl]=Engadir outro documento
+Name[it]=Aggiungi un altro documento
+Name[ru]=Добавить другой документ
+Name[fr]=Ajouter un autre document
+Exec=doallwithpdf_servicemenu -la en add %F
+Exec[de]=doallwithpdf_servicemenu -la de add %F
+Exec[it]=doallwithpdf_servicemenu -la it add %F
+Exec[ru]=doallwithpdf_servicemenu -la ru add %F
+Exec[fr]=doallwithpdf_servicemenu -la fr add %F
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Desktop Action extract]
+Icon=document-export
+Name=Extract pages
+Name[de]=Seiten herausziehen
+Name[es]=Extraer páginas
+Name[gl]=Extrair páginas
+Name[it]=Estrai pagine
+Name[ru]=Извлечь страницы
+Name[fr]=Extraire une sélection de pages
+Exec=doallwithpdf_servicemenu -la en extract %F
+Exec[de]=doallwithpdf_servicemenu -la de extract %F
+Exec[it]=doallwithpdf_servicemenu -la it extract %F
+Exec[ru]=doallwithpdf_servicemenu -la ru extract %F
+Exec[fr]=doallwithpdf_servicemenu -la fr extract %F
+
+[Desktop Action extract_recto_verso]
+Icon=document-export
+Name=Extract in 2 files even/odd
+Name[de]=Alle geraden Seiten herausziehen
+Name[es]=Extraer todas las páginas pares
+Name[gl]=Extrair todas as páginas pares
+Name[it]=Estrai in 2 files le pagine pari/dispari
+Name[ru]=Извлечь все четные страницы
+Name[fr]=Extraire en 2 fichiers recto/verso
+Exec=doallwithpdf_servicemenu -la en extract_recto_verso %F
+Exec[de]=doallwithpdf_servicemenu -la de extract_recto_verso %F
+Exec[it]=doallwithpdf_servicemenu -la it extract_recto_verso %F
+Exec[ru]=doallwithpdf_servicemenu -la ru extract_recto_verso %F
+Exec[fr]=doallwithpdf_servicemenu -la fr extract_recto_verso %F
+
+[Desktop Action burst]
+Icon=document-export
+Name=Burst
+Name[de]=Alle Seiten einzeln herausziehen
+Name[es]=Dividir
+Name[gl]=Dividir
+Name[it]=Dividi completamente
+Name[ru]=Разорвать на страницы
+Name[fr]=Éclater (un fichier par page)
+Exec=doallwithpdf_servicemenu -la en burst %F
+Exec[de]=doallwithpdf_servicemenu -la de burst %F
+Exec[it]=doallwithpdf_servicemenu -la it burst %F
+Exec[ru]=doallwithpdf_servicemenu -la ru burst %F
+Exec[fr]=doallwithpdf_servicemenu -la fr burst %F
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Desktop Action rotate]
+Icon=object-rotate-left
+Name=Rotate
+Name[de]=drehen
+Name[es]=Rotar
+Name[gl]=Rotar
+Name[it]=Ruota
+Name[ru]=Повернуть влево
+Name[fr]=Rotation
+Exec=doallwithpdf_servicemenu -la en rotate %F
+Exec[de]=doallwithpdf_servicemenu -la de rotate %F
+Exec[it]=doallwithpdf_servicemenu -la it rotate %F
+Exec[ru]=doallwithpdf_servicemenu -la ru rotate %F
+Exec[fr]=doallwithpdf_servicemenu -la fr rotate %F
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+[Desktop Action margin]
+Icon=edit-table-cell-merge
+Name=margin
+Name[fr]=marges
+Name[it]=margini
+Exec=doallwithpdf_servicemenu -la en margin %F
+Exec[fr]=doallwithpdf_servicemenu -la fr margin %F
+Exec[it]=doallwithpdf_servicemenu -la it margin %F
+
+
+[Desktop Action repaginate]
+Icon=page-4sides
+Name=Repaginate
+Name[de]=Seiten pro Blatt
+Name[es]=Repaginar
+Name[fr]=Repaginer
+Name[gl]=Repaginar
+Name[it]=Reimpagina
+Name[pt]=Repaginate
+Name[sr]=Repaginate
+Name[sr@Latn]=Repaginate
+Name[ru]=Разбивка на страницы
+Exec=doallwithpdf_servicemenu -la en repaginate %F
+Exec[de]=doallwithpdf_servicemenu -la de repaginate %F
+Exec[it]=doallwithpdf_servicemenu -la it repaginate %F
+Exec[ru]=doallwithpdf_servicemenu -la ru repaginate %F
+Exec[fr]=doallwithpdf_servicemenu -la fr repaginate %F
+
+[Desktop Action book]
+Icon=page-2sides
+Name=Create a book
+Name[fr]=Fabriquer un livret
+Name[it]=Crea un libro
+Exec=doallwithpdf_servicemenu -la en book %F
+Exec[de]=doallwithpdf_servicemenu -la de book %F
+Exec[it]=doallwithpdf_servicemenu -la it book %F
+Exec[ru]=doallwithpdf_servicemenu -la ru book %F
+Exec[fr]=doallwithpdf_servicemenu -la fr book %F
+
+[Desktop Action optimize]
+Icon=image-loading
+Name=Optimize for web
+Name[de]=Dokument optimieren
+Name[es]=Optimizar documento
+Name[gl]=Optimizar documento
+Name[it]=Ottimizza per il web
+Name[ru]=Оптимизация документа
+Name[fr]=Optimiser pour le web
+Exec=doallwithpdf_servicemenu -la en optimize %F
+Exec[de]=doallwithpdf_servicemenu -la de optimize %F
+Exec[it]=doallwithpdf_servicemenu -la it optimize %F
+Exec[ru]=doallwithpdf_servicemenu -la ru optimize %F
+Exec[fr]=doallwithpdf_servicemenu -la fr optimize %F
+
+
+[Desktop Action optimize_crypt]
+Icon=dialog-password
+Name=Optimize & Encrypt
+Name[fr]=Optimiser & Chiffrer
+Name[it]=Ottimizza & Cifra
+Exec=doallwithpdf_servicemenu -la en optimize_crypt %F
+Exec[de]=doallwithpdf_servicemenu -la de optimize_crypt %F
+Exec[it]=doallwithpdf_servicemenu -la it optimize_crypt %F
+Exec[ru]=doallwithpdf_servicemenu -la ru optimize_crypt %F
+Exec[fr]=doallwithpdf_servicemenu -la fr optimize_crypt %F
+#-----------------------------
+
+[Desktop Action info]
+Icon=help-about
+Name=Document information
+Name[de]=Dokument Informationen
+Name[es]=Información del documento
+Name[gl]=Informações do documento
+Name[it]=Informazioni sul documento
+Name[ru]=Информация о документе
+Name[fr]=Informations sur le document
+Exec=doallwithpdf_servicemenu -la en info %F
+Exec[de]=doallwithpdf_servicemenu -la de info %F
+Exec[it]=doallwithpdf_servicemenu -la it info %F
+Exec[ru]=doallwithpdf_servicemenu -la ru info %F
+Exec[fr]=doallwithpdf_servicemenu -la fr info %F
+
+[Desktop Action extract_images]
+Icon=image
+Name=Extract images
+Name[de]=Bilder herausziehen
+Name[es]=Extraer imágenes
+Name[gl]=Extrair images
+Name[it]=Estrai immagini
+Name[ru]=Извлечь изобвражения
+Name[fr]=Extraire les images
+Exec=doallwithpdf_servicemenu -la en extract_images %F
+Exec[de]=doallwithpdf_servicemenu -la de extract_images %F
+Exec[it]=doallwithpdf_servicemenu -la it extract_images %F
+Exec[ru]=doallwithpdf_servicemenu -la ru extract_images %F
+Exec[fr]=doallwithpdf_servicemenu -la fr extract_images %F
+
+[Desktop Action image_quality]
+Icon=image
+Name=Reduce images quality
+Name[fr]=Réduire la qualité des images
+Name[it]=Riduci la qualità delle immagini
+Exec=doallwithpdf_servicemenu -la en image_quality %F
+Exec[de]=doallwithpdf_servicemenu -la de image_quality %F
+Exec[it]=doallwithpdf_servicemenu -la it image_quality %F
+Exec[ru]=doallwithpdf_servicemenu -la ru image_quality %F
+Exec[fr]=doallwithpdf_servicemenu -la fr image_quality %F
+
+[Desktop Action print]
+Icon=printer
+Name=Print
+Name[fr]=Imprimer
+Name[it]=Stampa
+Exec=doallwithpdf_servicemenu -la en print %F
+Exec[de]=doallwithpdf_servicemenu -la de print %F
+Exec[it]=doallwithpdf_servicemenu -la it print %F
+Exec[ru]=doallwithpdf_servicemenu -la ru print %F
+Exec[fr]=doallwithpdf_servicemenu -la fr print %F

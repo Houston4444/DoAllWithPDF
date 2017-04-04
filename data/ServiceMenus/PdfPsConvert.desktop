@@ -1,0 +1,63 @@
+[Desktop Entry]
+Actions=_SEPARATOR_;PPM;PGM;PNG;jpeg;jpeggray;tiff;_SEPARATOR_;
+Icon=convertimages
+
+Name[fr]=Service-Menu PDF convert
+Name[it]=Service-Menu converti PDF
+Name=convert PDF service menu
+MimeType=application/pdf;application/postscript;
+ServiceTypes=KonqPopupMenu/Plugin
+Type=Service
+X-KDE-Submenu=Convert to
+X-KDE-Submenu[fr]=Convertir en
+X-KDE-Submenu[es]=Convertir a
+X-KDE-Submenu[it]=Converti in
+X-KDE-Submenu[ru]=&Преобразовать в
+
+
+[Desktop Action PNG]
+Exec=doallwithpdf_servicemenu -la en convert_image png %F
+Exec[fr]=doallwithpdf_servicemenu -la fr convert_image png %F
+Exec[it]=doallwithpdf_servicemenu -la it convert_image png %F
+Exec[de]=doallwithpdf_servicemenu -la de convert_image png %F
+Exec[ru]=doallwithpdf_servicemenu -la ru convert_image png %F
+Icon=image-png
+Name=Images PNG
+Name[fr]=Images PNG
+Name[it]=Immagini PNG
+
+[Desktop Action PPM]
+Exec=doallwithpdf_servicemenu -la en convert_image ppm %F
+Exec[fr]=doallwithpdf_servicemenu -la fr convert_image ppm %F
+Exec[it]=doallwithpdf_servicemenu -la it convert_image ppm %F
+Exec[de]=doallwithpdf_servicemenu -la de convert_image ppm %F
+Exec[ru]=doallwithpdf_servicemenu -la ru convert_image ppm %F
+Icon=image
+Name=Images (uncompressed)
+Name[fr]=Images non compressées
+Name[it]=Immmagini (non compresse)
+
+[Desktop Action jpeg]
+Exec=doallwithpdf_servicemenu -la en convert_image jpeg %F
+Exec[fr]=doallwithpdf_servicemenu -la fr convert_image jpeg %F
+Exec[it]=doallwithpdf_servicemenu -la it convert_image jpeg %F
+Exec[de]=doallwithpdf_servicemenu -la de convert_image jpeg %F
+Exec[ru]=doallwithpdf_servicemenu -la ru convert_image jpeg %F
+Icon=image-jpeg
+Name=Images JPEG
+Name[fr]=Images JPEG
+Name[it]=Immagini JPEG
+
+[Desktop Action tiff]
+Exec=doallwithpdf_servicemenu -la en convert_image tiff %F
+Exec[fr]=doallwithpdf_servicemenu -la fr convert_image tiff %F
+Exec[it]=doallwithpdf_servicemenu -la it convert_image tiff %F
+Exec[de]=doallwithpdf_servicemenu -la de convert_image tiff %F
+Exec[ru]=doallwithpdf_servicemenu -la ru convert_image tiff %F
+Icon=application-postscript
+Name=fax TIFF
+Name[fr]=fax TIFF
+Name[it]=fax TIFF
+
+
+

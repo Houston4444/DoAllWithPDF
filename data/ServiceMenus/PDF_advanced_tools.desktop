@@ -1,0 +1,271 @@
+#
+# 	Part of kde-service-menu-pdf Version 0.6
+# 	Copyright (C) 2014 Giuseppe Benigno <giuseppe.benigno(at)gmail.com>
+#
+# 	This program is free software: you can redistribute it and/or modify
+# 	it under the terms of the GNU General Public License as published by
+# 	the Free Software Foundation, either version 3 of the License, or
+# 	(at your option) any later version.
+#
+# 	This program is distributed in the hope that it will be useful,
+# 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+# 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# 	GNU General Public License for more details.
+#
+# 	You should have received a copy of the GNU General Public License
+# 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+[Desktop Entry]
+Type=Service
+ServiceTypes=KonqPopupMenu/Plugin
+MimeType=application/pdf;
+Icon=preferences-system
+Actions=repair;watermark;stamp;_SEPARATOR_;lock;unlock;lockunlock;attach_files;unattach_files;manage_attach;_SEPARATOR_;uncompress;compress;_SEPARATOR_;optimize;optimize_crypt;_SEPARATOR_;metadata;fonts;info;
+Name=doallwithpdf_servicemenu advanced
+X-KDE-Submenu=PDF advanced tools
+X-KDE-Submenu[fr]=Outils PDF avancés
+X-KDE-Submenu[it]=Strumenti avanzati PDF
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+# 
+# [Desktop Action repair]
+# Icon=dialog-ok
+# Name=Repair
+# Name[de]=Reparieren
+# Name[es]=Reparar
+# Name[it]=Ripara
+# Name[gl]=Reparar
+# Name[ru]=Исправление
+# Name[fr]=Réparer
+# Exec=doallwithpdf_servicemenu -la en repair %F
+# Exec[de]=doallwithpdf_servicemenu -la de repair %F
+# Exec[it]=doallwithpdf_servicemenu -la it repair %F
+# Exec[ru]=doallwithpdf_servicemenu -la ru repair %F
+# Exec[fr]=doallwithpdf_servicemenu -la fr repair %F
+
+[Desktop Action watermark]
+Icon=feed-subscribe
+Name=Watermark pages
+Name[de]=Seiten mit Wasserzeichen versehen
+Name[es]=Poner filigrana a las páginas
+Name[gl]=Filigranar páginas
+Name[it]=Filigrana le pagine
+Name[ru]=Водяной знак на страницы
+Name[fr]=Ajouter un filigrane
+Exec=doallwithpdf_servicemenu -la en watermark %F
+Exec[de]=doallwithpdf_servicemenu -la de watermark %F
+Exec[it]=doallwithpdf_servicemenu -la it watermark %F
+Exec[ru]=doallwithpdf_servicemenu -la ru watermark %F
+Exec[fr]=doallwithpdf_servicemenu -la fr watermark %F
+
+[Desktop Action stamp]
+Icon=feed-subscribe
+Name=Stamp pages
+Name[de]=Seiten stempeln
+Name[es]=Sellar las páginas
+Name[gl]=Cobrir páginas
+Name[it]=Timbra le pagine
+Name[ru]=Штамп на страницы
+Name[fr]=Timbrer les pages
+Exec=doallwithpdf_servicemenu -la en stamp %F
+Exec[de]=doallwithpdf_servicemenu -la de stamp %F
+Exec[it]=doallwithpdf_servicemenu -la it stamp %F
+Exec[ru]=doallwithpdf_servicemenu -la ru stamp %F
+Exec[fr]=doallwithpdf_servicemenu -la fr stamp %F
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+# [Desktop Action lock]
+# Icon=object-locked
+# Name=Lock
+# Name[de]=Mit Passwort sperren
+# Name[es]=Bloquear
+# Name[gl]=Trancar
+# Name[it]=Blocca
+# Name[ru]=Заблокировать
+# Name[fr]=Verrouiller
+# Exec=doallwithpdf_servicemenu -la en lock %F
+# Exec[de]=doallwithpdf_servicemenu -la de lock %F
+# Exec[it]=doallwithpdf_servicemenu -la it lock %F
+# Exec[ru]=doallwithpdf_servicemenu -la ru lock %F
+# Exec[fr]=doallwithpdf_servicemenu -la fr lock %F
+# 
+# [Desktop Action unlock]
+# Icon=object-unlocked
+# Name=Unlock
+# Name[de]=Entsperren
+# Name[es]=Desbloquear
+# Name[gl]=Destrancar
+# Name[it]=Sblocca
+# Name[ru]=Разблокировать
+# Name[fr]=Déverrouiller
+# Exec=doallwithpdf_servicemenu -la en unlock %F
+# Exec[de]=doallwithpdf_servicemenu -la de unlock %F
+# Exec[it]=doallwithpdf_servicemenu -la it unlock %F
+# Exec[ru]=doallwithpdf_servicemenu -la ru unlock %F
+# Exec[fr]=doallwithpdf_servicemenu -la fr unlock %F
+
+[Desktop Action lockunlock]
+Icon=object-locked
+Name=Lock / Unlock
+Name[de]=Mit Passwort sperren / Entsperren
+Name[es]=Bloquear / Desbloquear
+Name[gl]=Trancar / Destrancar
+Name[it]=Blocca / Sblocca
+Name[ru]=Заблокировать / Разблокировать
+Name[fr]=Chiffrer / Déchiffrer
+Exec=doallwithpdf_servicemenu -la en lockunlock %F
+Exec[de]=doallwithpdf_servicemenu -la de lockunlock %F
+Exec[it]=doallwithpdf_servicemenu -la it lockunlock %F
+Exec[ru]=doallwithpdf_servicemenu -la ru lockunlock %F
+Exec[fr]=doallwithpdf_servicemenu -la fr lockunlock %F
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+# [Desktop Action attach_files]
+# Icon=archive-insert
+# Name=Attach arbitrary file
+# Name[de]=Datei anhängen
+# Name[es]=Adjuntar un fichero
+# Name[gl]=Anexar ficheiro
+# Name[it]=Aggiungi un allegato
+# Name[ru]=Прикрепить произвольный файл
+# Name[fr]=Ajouter une pièce-jointe
+# Exec=doallwithpdf_servicemenu -la en attach %F
+# Exec[de]=doallwithpdf_servicemenu -la de attach %F
+# Exec[it]=doallwithpdf_servicemenu -la it attach %F
+# Exec[ru]=doallwithpdf_servicemenu -la ru attach %F
+# Exec[fr]=doallwithpdf_servicemenu -la fr attach %F
+# 
+# [Desktop Action unattach_files]
+# Icon=archive-remove
+# Name=Extract all attached files
+# Name[de]=Alle angehängten Dateien entpacken
+# Name[es]=Extraer todos los ficheros adjuntados
+# Name[gl]=Extrair todos os ficheiros anexados
+# Name[it]=Estrai gli allegati
+# Name[ru]=Извлечь все вложенные файлы
+# Name[fr]=Extraire toutes les pièces jointes
+# Exec=doallwithpdf_servicemenu -la en unattach %F
+# Exec[de]=doallwithpdf_servicemenu -la de unattach %F
+# Exec[it]=doallwithpdf_servicemenu -la it unattach %F
+# Exec[ru]=doallwithpdf_servicemenu -la ru unattach %F
+# Exec[fr]=doallwithpdf_servicemenu -la fr unattach %F
+
+[Desktop Action manage_attach]
+Icon=archive-insert
+Name=Add / Extract attached files
+Name[de]=Alle angehängten Dateien entpacken
+Name[es]=Extraer todos los ficheros adjuntados
+Name[gl]=Extrair todos os ficheiros anexados
+Name[it]=Aggiungi/estrai gli allegati
+Name[ru]=Извлечь все вложенные файлы
+Name[fr]=Ajouter / Extraire des fichiers intégrés
+Exec=doallwithpdf_servicemenu -la en manage_attach %F
+Exec[de]=doallwithpdf_servicemenu -la de manage_attach %F
+Exec[it]=doallwithpdf_servicemenu -la it manage_attach %F
+Exec[ru]=doallwithpdf_servicemenu -la ru manage_attach %F
+Exec[fr]=doallwithpdf_servicemenu -la fr manage_attach %F
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Desktop Action uncompress]
+Icon=arrow-up
+Name=Uncompress
+Name[de]=Dekomprimieren
+Name[es]=Descomprimir
+Name[gl]=Descomprimir
+Name[it]=Decomprimi
+Name[ru]=Распаковать
+Name[fr]=Décompresser
+Exec=doallwithpdf_servicemenu -la en uncompress %F
+Exec[de]=doallwithpdf_servicemenu -la de uncompress %F
+Exec[it]=doallwithpdf_servicemenu -la it uncompress %F
+Exec[ru]=doallwithpdf_servicemenu -la ru uncompress %F
+Exec[fr]=doallwithpdf_servicemenu -la fr uncompress %F
+
+[Desktop Action compress]
+Icon=arrow-down
+Name=Compress
+Name[de]=Komprimieren
+Name[es]=Comprimir
+Name[gl]=Comprimir
+Name[it]=Comprimi
+Name[ru]=Сжать
+Name[fr]=Compresser
+Exec=doallwithpdf_servicemenu -la en compress %F
+Exec[de]=doallwithpdf_servicemenu -la de compress %F
+Exec[it]=doallwithpdf_servicemenu -la it compress %F
+Exec[ru]=doallwithpdf_servicemenu -la ru compress %F
+Exec[fr]=doallwithpdf_servicemenu -la fr compress %F
+
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Desktop Action optimize]
+Icon=image-loading
+Name=Optimize for web
+Name[de]=Dokument optimieren
+Name[es]=Optimizar documento
+Name[gl]=Optimizar documento
+Name[it]=Ottimizza per il web
+Name[ru]=Оптимизация документа
+Name[fr]=Optimiser pour le web
+Exec=doallwithpdf_servicemenu -la en optimize %F
+Exec[de]=doallwithpdf_servicemenu -la de optimize %F
+Exec[it]=doallwithpdf_servicemenu -la it optimize %F
+Exec[ru]=doallwithpdf_servicemenu -la ru optimize %F
+Exec[fr]=doallwithpdf_servicemenu -la fr optimize %F
+
+
+# [Desktop Action optimize_crypt]
+# Icon=dialog-password
+# Name=Optimize & Encrypt
+# Name[fr]=Optimiser & Chiffrer
+# Exec=doallwithpdf_servicemenu -la en optimize_crypt %F
+# Exec[de]=doallwithpdf_servicemenu -la de optimize_crypt %F
+# Exec[it]=doallwithpdf_servicemenu -la it optimize_crypt %F
+# Exec[ru]=doallwithpdf_servicemenu -la ru optimize_crypt %F
+# Exec[fr]=doallwithpdf_servicemenu -la fr optimize_crypt %F
+#-----------------------------
+
+[Desktop Action metadata]
+Icon=document-open-data
+Name=Edit Metadatas
+Name[fr]=Éditer les métadonnées
+Name[it]=Modifica i metadati
+Exec=doallwithpdf_servicemenu -la en metadata %F
+Exec[de]=doallwithpdf_servicemenu -la de metadata %F
+Exec[it]=doallwithpdf_servicemenu -la it metadata %F
+Exec[ru]=doallwithpdf_servicemenu -la ru metadata %F
+Exec[fr]=doallwithpdf_servicemenu -la fr metadata %F
+
+[Desktop Action fonts]
+Icon=preferences-desktop-font
+Name=Get fonts properties
+Name[fr]=Polices de caractères
+Name[it]=Proprietà dei caratteri
+Exec=doallwithpdf_servicemenu -la en fonts %F
+Exec[de]=doallwithpdf_servicemenu -la de fonts %F
+Exec[it]=doallwithpdf_servicemenu -la it fonts %F
+Exec[ru]=doallwithpdf_servicemenu -la ru fonts %F
+Exec[fr]=doallwithpdf_servicemenu -la fr fonts %F
+
+
+
+[Desktop Action info]
+Icon=help-about
+Name=Document information
+Name[de]=Dokument Informationen
+Name[es]=Información del documento
+Name[gl]=Informações do documento
+Name[it]=Informazioni sul documento
+Name[ru]=Информация о документе
+Name[fr]=Informations sur le document
+Exec=doallwithpdf_servicemenu -la en info %F
+Exec[de]=doallwithpdf_servicemenu -la de info %F
+Exec[it]=doallwithpdf_servicemenu -la it info %F
+Exec[ru]=doallwithpdf_servicemenu -la ru info %F
+Exec[fr]=doallwithpdf_servicemenu -la fr info %F
+
+ 

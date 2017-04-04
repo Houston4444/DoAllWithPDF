@@ -1,0 +1,29 @@
+You wan't to translate DoAllWithPDF Service Menu into your language ?
+You're welcome !
+
+That will be quite long, but partial translations are welcome too. Especially the .desktop files (translate them is quick).
+
+
+So in priority order, translate:
+    the servicemenu files (.desktop): data/ServiceMenus/*.desktop
+    the Qt translation files*       : locale/
+    the servicemenu_commons file    : data/houston-servicemenu-commons/servicemenu_commons.sh
+    the global script               : data/dallwithpdf_servicemenu
+    
+
+    
+* TO TRANSLATE THE QT TRANSLATION FILES (in locale/):
+        
+        First create the file:
+            Go to locale: `cd locale/`
+            generate your language file: `pylupdate5 doallwithpdf.pro`
+            
+        Translate:
+            - open the new file with QT5 Linguist
+            - translate
+            - save
+            
+when Done send me your files (on git hub, or at picotmathieu@gmail.com).
+        
+        
+            

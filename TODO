@@ -1,0 +1,6 @@
+# Do All With PDF Service Menu TODO
+
+-------------------
+# make all python3-pyqt5 only (calling executables only for pdf modifications), this way, it won't depends anymore of kdialog, konsole or others kde executables.
+
+  
