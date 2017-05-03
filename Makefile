@@ -10,7 +10,7 @@ DESTDIR =
 LINK      = ln -s
 PYUIC    ?= pyuic5
 PYRCC    ?= pyrcc5
-LRELEASE ?= lrelease
+LRELEASE ?= lrelease-qt4
 
 # -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ all: UI LOCALE
 
 UI: doallwithpdf
 
-doallwithpdf: src/ui_order_dialog.py src/ui_terminalDialog.py
+doallwithpdf: src/ui_order_dialog.py src/ui_terminalDialog.py src/ui_password.py src/ui_extract.py
 
 src/ui_%.py: resources/ui/%.ui
 	$(PYUIC) $< -o $@
