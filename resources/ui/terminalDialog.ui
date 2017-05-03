@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>529</width>
+    <width>443</width>
     <height>435</height>
    </rect>
   </property>
@@ -16,13 +16,36 @@
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="progressLabel">
+       <property name="text">
+        <string>File n/n</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="progressBar">
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QPlainTextEdit" name="terminalDisplay">
        <property name="styleSheet">
-        <string notr="true">QPlainTextEdit{ background-color: black ; text-color: white; text}</string>
+        <string notr="true">QPlainTextEdit{ background-color: #000000 ; color: #FFFFFF; text}</string>
        </property>
        <property name="readOnly">
         <bool>true</bool>
+       </property>
+       <property name="plainText">
+        <string/>
        </property>
       </widget>
      </item>
