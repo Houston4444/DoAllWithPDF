@@ -65,11 +65,7 @@ Name[gl]=Extrair páginas
 Name[it]=Estrai pagine
 Name[ru]=Извлечь страницы
 Name[fr]=Extraire une sélection de pages
-Exec=doallwithpdf_servicemenu -la en extract %F
-Exec[de]=doallwithpdf_servicemenu -la de extract %F
-Exec[it]=doallwithpdf_servicemenu -la it extract %F
-Exec[ru]=doallwithpdf_servicemenu -la ru extract %F
-Exec[fr]=doallwithpdf_servicemenu -la fr extract %F
+Exec=doallwithpdf_servicemenu extract %F
 
 [Desktop Action extract_recto_verso]
 Icon=document-export
@@ -80,11 +76,7 @@ Name[gl]=Extrair todas as páginas pares
 Name[it]=Estrai in 2 files le pagine pari/dispari
 Name[ru]=Извлечь все четные страницы
 Name[fr]=Extraire en 2 fichiers recto/verso
-Exec=doallwithpdf_servicemenu -la en extract_recto_verso %F
-Exec[de]=doallwithpdf_servicemenu -la de extract_recto_verso %F
-Exec[it]=doallwithpdf_servicemenu -la it extract_recto_verso %F
-Exec[ru]=doallwithpdf_servicemenu -la ru extract_recto_verso %F
-Exec[fr]=doallwithpdf_servicemenu -la fr extract_recto_verso %F
+Exec=doallwithpdf_servicemenu extract_odd_even %F
 
 [Desktop Action burst]
 Icon=document-export
@@ -95,11 +87,7 @@ Name[gl]=Dividir
 Name[it]=Dividi completamente
 Name[ru]=Разорвать на страницы
 Name[fr]=Éclater (un fichier par page)
-Exec=doallwithpdf_servicemenu -la en burst %F
-Exec[de]=doallwithpdf_servicemenu -la de burst %F
-Exec[it]=doallwithpdf_servicemenu -la it burst %F
-Exec[ru]=doallwithpdf_servicemenu -la ru burst %F
-Exec[fr]=doallwithpdf_servicemenu -la fr burst %F
+Exec=doallwithpdf_servicemenu burst %F
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 

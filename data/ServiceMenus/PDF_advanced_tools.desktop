@@ -53,11 +53,7 @@ Name[gl]=Filigranar páginas
 Name[it]=Filigrana le pagine
 Name[ru]=Водяной знак на страницы
 Name[fr]=Ajouter un filigrane
-Exec=doallwithpdf_servicemenu -la en watermark %F
-Exec[de]=doallwithpdf_servicemenu -la de watermark %F
-Exec[it]=doallwithpdf_servicemenu -la it watermark %F
-Exec[ru]=doallwithpdf_servicemenu -la ru watermark %F
-Exec[fr]=doallwithpdf_servicemenu -la fr watermark %F
+Exec=doallwithpdf_servicemenu watermark %F
 
 [Desktop Action stamp]
 Icon=feed-subscribe
@@ -68,11 +64,7 @@ Name[gl]=Cobrir páginas
 Name[it]=Timbra le pagine
 Name[ru]=Штамп на страницы
 Name[fr]=Timbrer les pages
-Exec=doallwithpdf_servicemenu -la en stamp %F
-Exec[de]=doallwithpdf_servicemenu -la de stamp %F
-Exec[it]=doallwithpdf_servicemenu -la it stamp %F
-Exec[ru]=doallwithpdf_servicemenu -la ru stamp %F
-Exec[fr]=doallwithpdf_servicemenu -la fr stamp %F
+Exec=doallwithpdf_servicemenu stamp %F
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -178,11 +170,7 @@ Name[gl]=Descomprimir
 Name[it]=Decomprimi
 Name[ru]=Распаковать
 Name[fr]=Décompresser
-Exec=doallwithpdf_servicemenu -la en uncompress %F
-Exec[de]=doallwithpdf_servicemenu -la de uncompress %F
-Exec[it]=doallwithpdf_servicemenu -la it uncompress %F
-Exec[ru]=doallwithpdf_servicemenu -la ru uncompress %F
-Exec[fr]=doallwithpdf_servicemenu -la fr uncompress %F
+Exec=doallwithpdf_servicemenu uncompress %F
 
 [Desktop Action compress]
 Icon=arrow-down
@@ -193,11 +181,7 @@ Name[gl]=Comprimir
 Name[it]=Comprimi
 Name[ru]=Сжать
 Name[fr]=Compresser
-Exec=doallwithpdf_servicemenu -la en compress %F
-Exec[de]=doallwithpdf_servicemenu -la de compress %F
-Exec[it]=doallwithpdf_servicemenu -la it compress %F
-Exec[ru]=doallwithpdf_servicemenu -la ru compress %F
-Exec[fr]=doallwithpdf_servicemenu -la fr compress %F
+Exec=doallwithpdf_servicemenu compress %F
 
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------

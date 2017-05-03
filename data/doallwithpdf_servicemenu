@@ -3903,8 +3903,8 @@ metadata(){
 ####Script start
 DataDir=$(get_datadir DoAllWithPDF)
 
-###Join function is not here yet !
-if [[ "$1" == join ]];then
+###These functions aren't here anymore
+if [[ " join extract extract_odd_even watermark stamp compress uncompress burst " =~ " $1 " ]];then
     shift
     exec "$DataDir/src/doallwithpdf_servicemenu.py" "$@"
     exit
