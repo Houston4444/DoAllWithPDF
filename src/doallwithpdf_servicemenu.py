@@ -890,7 +890,7 @@ class StampDialog(QDialog):
         self.stamp = settings.value('StampPath', os.getenv('HOME'))
         
     def start(self):
-        self.ŝtamp, ok = QFileDialog.getOpenFileName(None, 
+        self.stamp, ok = QFileDialog.getOpenFileName(None, 
                                                     _translate('Dialog', 'Choose file to use as stamp'), 
                                                     self.stamp, 
                                                     _translate('Dialog', 'PDF Files (*.pdf)'))
