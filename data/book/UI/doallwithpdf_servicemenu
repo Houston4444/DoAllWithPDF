@@ -2,15 +2,13 @@
 
 #from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QDateTimeEdit, QDialogButtonBox, QMessageBox, QComboBox , QLabel, QIcon
 #from PyQt5.QtCore import QDateTime, Qt
-from PyQt4.QtGui import QApplication, QDialog, QBoxLayout, QCheckBox, QDialogButtonBox, QComboBox , QLabel, QIcon, QLineEdit , QFontMetrics, QFont, QDoubleSpinBox
-from PyQt4.QtCore import  QDateTime, Qt, QTranslator, QLibraryInfo, QLocale
+from PyQt5.QtWidgets import QApplication, QDialog, QBoxLayout, QCheckBox, QDialogButtonBox, QComboBox, QLabel, QLineEdit, QDoubleSpinBox
+from PyQt5.QtGui import QIcon, QFontMetrics, QFont
+from PyQt5.QtCore import  Qt, QTranslator, QLibraryInfo, QLocale
 #import PyQt4.QtCore
 
-try:
-    from PyKDE4.kdeui import KWindowSystem
-    attach_win = True
-except:
-    attach_win = False
+
+attach_win = False
     
 import sys
 
@@ -20,11 +18,6 @@ class BookOptionsDialog(QDialog):
         
         self.setWindowIcon(QIcon.fromTheme('page-2sides'))
         self.setWindowTitle(msg_window_title)
-        
-        #attach window if possible
-        if attach_win:
-            KWindowSystem.setMainWindow(self, win_attached_id)
-        
         
         layout = QBoxLayout(QBoxLayout.TopToBottom, self)
         
