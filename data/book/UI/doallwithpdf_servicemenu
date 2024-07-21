@@ -1,16 +1,10 @@
 #!/usr/bin/python3
+import sys
 
-#from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QDateTimeEdit, QDialogButtonBox, QMessageBox, QComboBox , QLabel, QIcon
-#from PyQt5.QtCore import QDateTime, Qt
 from PyQt5.QtWidgets import QApplication, QDialog, QBoxLayout, QCheckBox, QDialogButtonBox, QComboBox, QLabel, QLineEdit, QDoubleSpinBox
 from PyQt5.QtGui import QIcon, QFontMetrics, QFont
 from PyQt5.QtCore import  Qt, QTranslator, QLibraryInfo, QLocale
-#import PyQt4.QtCore
-
-
-attach_win = False
     
-import sys
 
 class BookOptionsDialog(QDialog):
     def __init__(self, parent = None):
