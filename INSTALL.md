@@ -29,5 +29,8 @@ To run it, you'll additionally need:
  - pdftk
  - poppler-utils
  - qpdf
- - pdfjam
+ - pdfjam (texlive-extra-utils)
  - #TODO
+
+for a full dependencies install on Debian bookworm: <br/>
+`$ apt install python3-pyqt5 pyqt5-dev-tools qtchooser python3-pypdf2 pdftk poppler-utils qpdf texlive-extra-utils tesseract-ocr`
