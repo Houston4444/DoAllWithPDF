@@ -1,79 +1,99 @@
 #!/usr/bin/python3
 
-import PyPDF2, os, sys, dbus
-from PyQt5.QtWidgets import QApplication, QFileDialog, QDialog, QListWidgetItem, QInputDialog, QLineEdit, QMessageBox
-from PyQt5.QtCore import QProcess, QTimer, QLocale, QTranslator, QSettings, QThread, QObject, pyqtSignal
+import os
+import sys
+from typing import Optional
+
+import dbus
+import PyPDF2
+from PyQt5.QtCore import (
+    QProcess, QTimer, QLocale, QTranslator, QSettings,
+    QThread, QObject, pyqtSignal)
 from PyQt5.QtGui import QTextCursor, QIcon
+from PyQt5.QtWidgets import (
+    QApplication, QFileDialog, QDialog, QListWidgetItem,
+    QLineEdit, QMessageBox)
+
 import ui_terminalDialog, ui_order_dialog, ui_password, ui_extract
 
 VERSION = '1.4.0'
 
 MIN_FOR_MKDIR = 5
 
-ERR_OK      = 0
+ERR_OK = 0
 ERR_NOT_PDF = 1
-ERR_NO_PW   = 2
+ERR_NO_PW = 2
 
-def prettyFileName(filename):
+
+def prettyFileName(filename: str):
     home = os.getenv('HOME')
     if filename.startswith(home + '/'):
         return filename.replace(home + '/', '~/', 1)
     return filename
 
-class AbstractAction(object):
+
+class AbstractAction:
     def __init__(self):
-        self.actions = {'extract_odd_even': self.extractOddEven,
-                        'extract'         : self.extract,
-                        'compress'        : self.compress,
-                        'uncompress'      : self.uncompress,
-                        'watermark'       : self.watermark,
-                        'stamp'           : self.stamp,
-                        'burst'           : self.burst,
-                        'join'            : self.join }
+        self.actions = {
+            'extract_odd_even': self.extractOddEven,
+            'extract': self.extract,
+            'compress': self.compress,
+            'uncompress': self.uncompress,
+            'watermark': self.watermark,
+            'stamp': self.stamp,
+            'burst': self.burst,
+            'join': self.join
+        }
     
     def extractOddEven(self):
-        return
+        ...
     def extract(self):
-        return
+        ...
     def compress(self):
-        return
+        ...
     def uncompress(self):
-        return
+        ...
     def watermark(self):
-        return
+        ...
     def stamp(self):
-        return
+        ...
     def burst(self):
-        return
+        ...
     def join(self):
-        return
+        ...
+
 
 class Action(AbstractAction):
-    def __init__(self, name):
+    def __init__(self, name: str):
         AbstractAction.__init__(self)
-        self.main_win   = None
         
-        self.name           = name
-        self.file_label     = ''
+        print(f'initing action "{name}"')
+        self.main_win = None
+        
+        self.name = name
+        self.file_label = ''
         self.terminal_title = ''
-        self.show_progress  = True
+        self.show_progress = True
         
-        self.makes_new_dir  = False
+        self.makes_new_dir = False
         self.makes_out_file = True
-        self.makes_burst    = False
+        self.makes_burst = False
         
         self.output_dir = None
         
         self.save_dialog = True
         
-        self.notif_title_1  = _translate('Notification', 'new PDF Document :')
-        self.notif_title_2  = _translate('Notification', 'new PDF Documents :')
-        self.notif_title_3  = _translate('Notification', '%i new PDF Documents in :')
-        self.notif_icon     = 'application-pdf'
+        self.notif_title_1 = _translate(
+            'Notification', 'new PDF Document :')
+        self.notif_title_2 = _translate(
+            'Notification', 'new PDF Documents :')
+        self.notif_title_3 = _translate(
+            'Notification', '%i new PDF Documents in :')
+        self.notif_icon = 'application-pdf'
         
         self.last_pdf_password = None
         
-        if not name in self.actions:
+        if name not in self.actions.keys():
             print('Unknown action : %s' % name, file=sys.stderr)
             sys.exit(1)
         
@@ -903,7 +923,7 @@ class StampDialog(QDialog):
 
     
 class Process(QProcess):
-    def __init__(self, command, arguments, notify=None):
+    def __init__(self, command: str, arguments: list[str], notify: Optional[str]=None):
         QProcess.__init__(self)
         self.readyReadStandardError.connect(self.updateStderr)
         self.readyReadStandardOutput.connect(self.updateStdout)
@@ -917,17 +937,19 @@ class Process(QProcess):
         
     def updateStdout(self):
         main_script.sig.update_stdout.emit(self.readAllStandardOutput().data().decode('utf-8'))
-  
+
+
 class Signaler(QObject):
-    init_terminal  = pyqtSignal()
-    change_file    = pyqtSignal(File)
-    update_stdout  = pyqtSignal(str)
-    update_stderr  = pyqtSignal(str)
-    new_info       = pyqtSignal(str)
-    finished       = pyqtSignal()
-    up_progress    = pyqtSignal(float)
-    dont_close     = pyqtSignal()
+    init_terminal = pyqtSignal()
+    change_file = pyqtSignal(File)
+    update_stdout = pyqtSignal(str)
+    update_stderr = pyqtSignal(str)
+    new_info = pyqtSignal(str)
+    finished = pyqtSignal()
+    up_progress = pyqtSignal(float)
+    dont_close = pyqtSignal()
     close_terminal = pyqtSignal()
+
     
 class MainScript(AbstractAction):    
     def __init__(self):
@@ -941,7 +963,7 @@ class MainScript(AbstractAction):
             self.actions[action.name]()
         self.sig.finished.emit()
     
-    def execute(self, command, arguments, notify):
+    def execute(self, command: str, arguments: str, notify: Optional[str]):
         del self.current_process
         self.current_process = Process(command, arguments, notify)
         self.current_process.start()
@@ -1092,19 +1114,25 @@ def startScript():
             exit_loop = False
             
             while not exit_loop:
-                out_path, ok = QFileDialog.getSaveFileName(None, None, file.out_path, 'PDF Files (*.pdf)')
+                out_path, ok = QFileDialog.getSaveFileName(
+                    None, None, file.out_path, 'PDF Files (*.pdf)')
+
                 if not ok:
                     sys.exit(0)
                 
                 if out_path == file.path:
-                    QMessageBox.critical(None, _translate('Dialog', 'Permissions Error'), _translate('Dialog', "You can't overwrite an input file !"))
+                    QMessageBox.critical(
+                        None,
+                        _translate('Dialog', 'Permissions Error'),
+                        _translate('Dialog', "You can't overwrite an input file !"))
                 elif not os.access(os.path.dirname(out_path), os.W_OK):
-                    QMessageBox.critical(None, _translate('Dialog', 'Permissions Error'), _translate('Dialog', 'You have no permission to write %s') % out_path)
+                    QMessageBox.critical(
+                        None, _translate('Dialog', 'Permissions Error'),
+                        _translate('Dialog', 'You have no permission to write %s') % out_path)
                 else:
                     exit_loop = True
             
             file.setOutPath(out_path)
-    
     
     script_thread.start()
 
@@ -1127,12 +1155,12 @@ def sendNotify():
         bus = dbus.SessionBus()
         
         #Notify
-        notif = bus.get_object("org.freedesktop.Notifications", "/org/freedesktop/Notifications")
+        notif = bus.get_object(
+            "org.freedesktop.Notifications", "/org/freedesktop/Notifications")
         notify = dbus.Interface(notif, "org.freedesktop.Notifications")
-        anything = notify.Notify('doallwithpdf_%s' % action.name, 0, notif_icon, 
-                            notif_title, 
-                            notif_text, '', '', 0)
-        
+        anything = notify.Notify(
+            'doallwithpdf_%s' % action.name, 0, notif_icon, 
+            notif_title, notif_text, '', '', 0)
         
         #Refresh all Dolphin Windows
         dolphin_dbus_objects = []
@@ -1145,13 +1173,10 @@ def sendNotify():
             dbus_itface = dbus.Interface(dbus_object, 'org.qtproject.Qt.QAction')
             dbus_reload = dbus_itface.trigger()
 
-def closeTerminalWindow(window):
-    for win in window.childs():
-        win.shutOff()
-
 #####MAIN######
 
 if __name__ == '__main__':
+    print('maraoko', sys.argv)
     pdf_icon = QIcon.fromTheme('application-pdf')
     
     app = QApplication(sys.argv)
@@ -1163,23 +1188,25 @@ if __name__ == '__main__':
     ## Translation process
     locale = QLocale.system().name()
     appTranslator = QTranslator()
-    if appTranslator.load("%s/locale/doallwithpdf_%s" % (os.path.dirname(os.path.dirname(sys.argv[0])), locale)):
+    if appTranslator.load(
+            "%s/locale/doallwithpdf_%s" %
+                (os.path.dirname(os.path.dirname(sys.argv[0])), locale)):
         app.installTranslator(appTranslator)
     _translate = app.translate
     
     settings = QSettings()
     
-    
     if len(sys.argv) <= 2:
         print('Not enought arguments, nothing to do.', file=sys.stderr)
         sys.exit()
     
+    
     action = Action(sys.argv[1])
     
     #store files
-    files       = []
-    bad_files   = []
-    bad_indexes = []
+    files = list[File]()
+    bad_files = list[File]()
+    bad_indexes = list[int]()
     notification_files = []
     
     for path in sys.argv[2:]:

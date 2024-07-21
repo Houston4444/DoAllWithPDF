@@ -401,13 +401,13 @@ tabstolines(){
 
 #kreadconfig
 krc(){
-    Parameter=$(kreadconfig --file "$ScriptConfigFile" --group "$1" --key "$2")
+    Parameter=$(kreadconfig5 --file "$ScriptConfigFile" --group "$1" --key "$2")
     [ -n "$ConfRead" ] && echo "$Parameter" || echo "$3"
 }
 
 #kwriteconfig
 kwc(){
-    kwriteconfig --file "$ScriptConfigFile" --group "$1" --key "$2" "$3"
+    kwriteconfig5 --file "$ScriptConfigFile" --group "$1" --key "$2" "$3"
 }
 
 #kdialog, for less text and always attach to terminal

@@ -3641,7 +3641,7 @@ OCR(){
         done
     }
   
-    available_languages=$(ls /usr/share/tesseract-ocr/tessdata/ |grep \.cube\.params$|cut -d'.' -f1)
+    available_languages=$(tesseract --list-langs|tail -n +2)
     OCR_dialog_it $available_languages
 
     OCR_Lang=$(kdial "$msg_OCR_choose_language_title" --radiolist "$msg_command_total<div align=\"left\" width=\"100\"><p>$msg_OCR_choose_language1</p><p>$msg_OCR_choose_language2</p><p>$msg_OCR_choose_language3<br></p>" "${OCR_Dial[@]}") || exit 0
@@ -3655,7 +3655,7 @@ OCR(){
         if Unlock_it "$1" "$#";then
             Poppler_PW_it "$1" "$#"
             outputFileName=$(outputFileNameIt_convert "$1" txt text/plain) || exit 0
-            
+
             TmpDirImages[$#]=$(mktemp -d)
             echo ""
             echo "$msg_OCR_extracting_images ${1##*/}"
@@ -3692,7 +3692,7 @@ OCR(){
                 for image in ${TmpDirImages[$#]}/*;do
                     echo -n "	$msg_OCR_image $ct/$Nbr_Imgs"
                     progress_dialog checkcancel txt ${TmpDirImages[$#]}
-                    ErrorDetails=$(tesseract -l $OCR_Lang -psm 1 $image ${TmpDirTexts[$#]}/text$ct 2>&1)
+                    ErrorDetails=$(tesseract -l $OCR_Lang --psm 1 $image ${TmpDirTexts[$#]}/text$ct 2>&1)
                     echo ""
                     ((ct++))
                 done
@@ -3905,11 +3905,10 @@ DataDir=$(get_datadir DoAllWithPDF)
 
 ###These functions aren't here anymore
 if [[ " join extract extract_odd_even watermark stamp compress uncompress burst " =~ " $1 " ]];then
-    shift
+    # shift
     exec "$DataDir/src/doallwithpdf_servicemenu.py" "$@"
     exit
 fi
-
 
 source_servicemenus_commons
 
